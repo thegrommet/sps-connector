@@ -1,5 +1,5 @@
 {
-    "name": "thegrommet/sps-sftp",
+    "name": "thegrommet/sps-connector",
     "description": "A PHP library for integrating with SPS Commerce via SFTP",
     "license": "MIT",
     "authors": [
@@ -17,9 +17,9 @@
         "squizlabs/php_codesniffer": "^3.3"
     },
     "autoload": {
-        "psr-4": {"SpsSftp\\": "src/SpsSftp"}
+        "psr-4": {"SpsConnector\\": "src/SpsConnector"}
     },
     "autoload-dev": {
-        "psr-4": {"SpsSftp\\": "tests/SpsSftp"}
+        "psr-4": {"Tests\\": "tests/"}
     }
 }
