@@ -5,6 +5,7 @@ namespace Tests\Sftp;
 
 use phpseclib\Net\SFTP;
 use PHPUnit\Framework\TestCase;
+use Psr\Log\AbstractLogger;
 use SpsConnector\Sftp\Client;
 use SpsConnector\Sftp\Exception\ServerError;
 
@@ -132,6 +133,19 @@ class ClientTest extends TestCase
         $client->ls();
     }
 
+    public function testLogger()
+    {
+        $client = $this->client();
+        $logger = new ClientLogger();
+        $client->setLogger($logger);
+        $client->login('test', 'secret');
+        $client->log('debug message', 'debug');
+        $this->assertEquals([
+            ['info' => 'CMD login test ***'],
+            ['debug' => 'debug message']
+        ], $logger->logs);
+    }
+
     private function client(): Client
     {
         $mockSftp = $this->getMockBuilder(SFTP::class)
@@ -147,5 +161,15 @@ class ClientTest extends TestCase
         $client = new Client('test.com', 'a', 'b');
         $client->setClient($mockSftp);
         return $client;
+    }
+}
+
+class ClientLogger extends AbstractLogger
+{
+    public $logs = [];
+
+    public function log($level, $message, array $context = [])
+    {
+        $this->logs[] = [$level => $message];
     }
 }
