@@ -10,7 +10,7 @@ use SpsConnector\Sftp\Client;
 use SpsConnector\Sftp\Exception\ServerError;
 
 /**
- * ClientTest
+ * SFTP Client Test Suite
  */
 class ClientTest extends TestCase
 {
@@ -133,6 +133,28 @@ class ClientTest extends TestCase
         $client->ls();
     }
 
+    public function testChdirSuccess()
+    {
+        $client = $this->client();
+        $mockSftp = $client->getClient();
+        $mockSftp
+            ->method('chdir')
+            ->willReturn(true);
+
+        $this->assertTrue($client->chdir('test'));
+    }
+
+    public function testChdirFailure()
+    {
+        $client = $this->client();
+        $mockSftp = $client->getClient();
+        $mockSftp
+            ->method('chdir')
+            ->willReturn(false);
+
+        $this->assertFalse($client->chdir('test'));
+    }
+
     public function testLogger()
     {
         $client = $this->client();
@@ -149,7 +171,7 @@ class ClientTest extends TestCase
     private function client(): Client
     {
         $mockSftp = $this->getMockBuilder(SFTP::class)
-            ->setMethods(['login', 'get', 'put', 'delete', 'nlist'])
+            ->setMethods(['login', 'get', 'put', 'delete', 'chdir', 'nlist'])
             ->setConstructorArgs(['test.com'])
             ->getMock();
 

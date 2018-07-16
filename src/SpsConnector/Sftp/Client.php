@@ -40,6 +40,13 @@ class Client
         $this->timeout = $timeout;
     }
 
+    public function __destruct()
+    {
+        if ($this->isLoggedIn) {
+            @$this->getClient()->disconnect();
+        }
+    }
+
     /**
      * @param string $username
      * @param string $password
