@@ -10,14 +10,9 @@ use SpsConnector\Sftp\Client;
 /**
  * Purchase Order EDI document
  */
-class PurchaseOrder implements DocumentInterface
+class PurchaseOrder extends AbstractDocument
 {
     const EDI_TYPE = 850;
-
-    /**
-     * @var Client
-     */
-    protected $sftp;
 
     public function __construct(Client $client = null)
     {
@@ -31,6 +26,13 @@ class PurchaseOrder implements DocumentInterface
         return self::EDI_TYPE;
     }
 
+    /**
+     * Fetches and returns an array of documents from the FTP.
+     *
+     * @param string $remoteDirectory
+     * @param bool $deleteAfterFetch
+     * @return PurchaseOrder[]
+     */
     public function fetchNewDocuments(string $remoteDirectory = 'in', bool $deleteAfterFetch = true): array
     {
         if (!$this->sftp) {
@@ -49,7 +51,9 @@ class PurchaseOrder implements DocumentInterface
         }
         $documents = [];
         foreach ($orders as $order) {
-            $documents[$order] = $this->sftp->get($order);
+            $document = new self();
+            $document->setXml($this->sftp->get($order));
+            $documents[$order] = $document;
         }
         if ($deleteAfterFetch) {
             foreach ($orders as $order) {
@@ -57,16 +61,5 @@ class PurchaseOrder implements DocumentInterface
             }
         }
         return $documents;
-    }
-
-    public function setSftpClient(Client $client): self
-    {
-        $this->sftp = $client;
-        return $this;
-    }
-
-    public function getSftpClient(): Client
-    {
-        return $this->sftp;
     }
 }

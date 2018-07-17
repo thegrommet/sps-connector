@@ -180,8 +180,7 @@ class Client
         if ($this->logger) {
             if ($level) {
                 $this->logger->log($level, $message);
-            }
-            else {
+            } else {
                 $this->logger->info($message);
             }
         }

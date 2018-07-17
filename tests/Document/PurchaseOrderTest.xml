@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Orders xmlns="http://www.spscommerce.com/RSX">
+    <Order>
+        <Header>
+            <OrderHeader>
+                <TradingPartnerId>525</TradingPartnerId>
+                <PurchaseOrderNumber>PO584615-1</PurchaseOrderNumber>
+                <TsetPurposeCode>00</TsetPurposeCode>
+                <PrimaryPOTypeCode>BL</PrimaryPOTypeCode>
+                <PrimaryPOTypeDescription>Stand-alone Order</PrimaryPOTypeDescription>
+                <PurchaseOrderDate>2017-03-12</PurchaseOrderDate>
+                <ShipCompleteCode>Y</ShipCompleteCode>
+                <BuyersCurrency>USD</BuyersCurrency>
+                <Department>SPS</Department>
+                <Vendor>VEND6174</Vendor>
+                <Division>019</Division>
+            </OrderHeader>
+            <PaymentTerms>
+                <TermsType>01</TermsType>
+                <TermsBasisDateCode>3</TermsBasisDateCode>
+                <TermsDiscountPercentage>2</TermsDiscountPercentage>
+                <TermsDiscountDate>2017-03-12</TermsDiscountDate>
+                <TermsDiscountDueDays>30</TermsDiscountDueDays>
+                <TermsNetDueDate>2016-04-12</TermsNetDueDate>
+                <TermsNetDueDays>31</TermsNetDueDays>
+                <TermsDiscountAmount>23.36</TermsDiscountAmount>
+                <TermsDescription>2% 30 Net 31</TermsDescription>
+            </PaymentTerms>
+            <Dates>
+                <DateTimeQualifier>002</DateTimeQualifier>
+                <Date>2017-03-15</Date>
+                <Time>14:22:14</Time>
+            </Dates>
+            <Contacts>
+                <ContactTypeCode>IC</ContactTypeCode>
+                <ContactName>SPS Commerce Buyer</ContactName>
+                <PrimaryPhone>612-435-9400</PrimaryPhone>
+                <PrimaryFax>612-435-9468</PrimaryFax>
+                <PrimaryEmail>buyer@spscommerce.com</PrimaryEmail>
+            </Contacts>
+            <Address>
+                <AddressTypeCode>BT</AddressTypeCode>
+                <LocationCodeQualifier>92</LocationCodeQualifier>
+                <AddressLocationNumber>091532452</AddressLocationNumber>
+                <AddressName>Corporate Headquarters</AddressName>
+                <AddressAlternateName>Attn: Headquarters</AddressAlternateName>
+                <Address1>1450 Energy Park Drive</Address1>
+                <Address2>Dock E</Address2>
+                <City>Saint Paul</City>
+                <State>MN</State>
+                <PostalCode>55108</PostalCode>
+                <Country>USA</Country>
+            </Address>
+            <Address>
+                <AddressTypeCode>ST</AddressTypeCode>
+                <LocationCodeQualifier>92</LocationCodeQualifier>
+                <AddressLocationNumber>123</AddressLocationNumber>
+                <AddressName>SPS Commerce Distribution Center</AddressName>
+                <AddressAlternateName>DC 123</AddressAlternateName>
+                <Address1>333 S 7th Street</Address1>
+                <Address2>Suite 1000</Address2>
+                <City>Minneapolis</City>
+                <State>MN</State>
+                <PostalCode>55402</PostalCode>
+                <Country>USA</Country>
+            </Address>
+            <FOBRelatedInstruction>
+                <FOBPayCode>CC</FOBPayCode>
+                <FOBLocationQualifier>DE</FOBLocationQualifier>
+                <FOBLocationDescription>FOB Destination</FOBLocationDescription>
+            </FOBRelatedInstruction>
+            <CarrierInformation>
+                <CarrierTransMethodCode>M</CarrierTransMethodCode>
+                <CarrierAlphaCode>JBHT</CarrierAlphaCode>
+                <CarrierRouting>J. B. Hunt</CarrierRouting>
+                <ServiceLevelCodes>
+                    <ServiceLevelCode>SE</ServiceLevelCode>
+                </ServiceLevelCodes>
+            </CarrierInformation>
+            <References>
+                <ReferenceQual>CT</ReferenceQual>
+                <ReferenceID>5987-1</ReferenceID>
+                <Description>Customer Contract Number</Description>
+            </References>
+            <Notes>
+                <NoteCode>GEN</NoteCode>
+                <Note>FOR QUESTIONS PLEASE CONTACT YOUR BUYER AT 612-435-9400</Note>
+            </Notes>
+            <ChargesAllowances>
+                <AllowChrgIndicator>A</AllowChrgIndicator>
+                <AllowChrgCode>C310</AllowChrgCode>
+                <AllowChrgAgencyCode>13</AllowChrgAgencyCode>
+                <AllowChrgAmt>58.4</AllowChrgAmt>
+                <AllowChrgPercentQual>6</AllowChrgPercentQual>
+                <AllowChrgPercent>5</AllowChrgPercent>
+                <AllowChrgHandlingCode>06</AllowChrgHandlingCode>
+                <AllowChrgHandlingDescription>Discount</AllowChrgHandlingDescription>
+            </ChargesAllowances>
+            <QuantityTotals>
+                <QuantityTotalsQualifier>SQT</QuantityTotalsQualifier>
+                <Quantity>20</Quantity>
+                <QuantityUOM>EA</QuantityUOM>
+            </QuantityTotals>
+        </Header>
+        <LineItem>
+            <OrderLine>
+                <LineSequenceNumber>1</LineSequenceNumber>
+                <BuyerPartNumber>SPSBuyerItem1</BuyerPartNumber>
+                <VendorPartNumber>SPSSupplierHD-20</VendorPartNumber>
+                <ConsumerPackageCode>859563003863</ConsumerPackageCode>
+                <GTIN>10384478861804</GTIN>
+                <UPCCaseCode>496099966745</UPCCaseCode>
+                <ProductID>
+                    <PartNumberQual>MG</PartNumberQual>
+                    <PartNumber>9565452</PartNumber>
+                </ProductID>
+                <OrderQty>5</OrderQty>
+                <OrderQtyUOM>EA</OrderQtyUOM>
+                <PurchasePrice>20</PurchasePrice>
+                <ProductSizeCode>S-800</ProductSizeCode>
+                <ProductSizeDescription>Small</ProductSizeDescription>
+                <ProductColorCode>C-999</ProductColorCode>
+                <ProductColorDescription>Fire Truck Red</ProductColorDescription>
+                <ProductMaterialDescription>Faux Fabric</ProductMaterialDescription>
+                <NRFStandardColorAndSize>
+                    <NRFColorCode>533</NRFColorCode>
+                    <NRFSizeCode>10185</NRFSizeCode>
+                </NRFStandardColorAndSize>
+            </OrderLine>
+            <Dates>
+                <DateTimeQualifier>037</DateTimeQualifier>
+                <Date>2017-03-12</Date>
+                <Time>14:22:14</Time>
+            </Dates>
+            <PriceInformation>
+                <PriceTypeIDCode>RTL</PriceTypeIDCode>
+                <UnitPrice>60</UnitPrice>
+            </PriceInformation>
+            <ProductOrItemDescription>
+                <ProductCharacteristicCode>08</ProductCharacteristicCode>
+                <ProductDescription>Sample Description1</ProductDescription>
+            </ProductOrItemDescription>
+            <PhysicalDetails>
+                <PackQualifier>OU</PackQualifier>
+                <PackValue>1</PackValue>
+                <PackSize>1</PackSize>
+                <PackUOM>EA</PackUOM>
+            </PhysicalDetails>
+            <References>
+                <ReferenceQual>MR</ReferenceQual>
+                <ReferenceID>MerchandiseTypeCode</ReferenceID>
+            </References>
+            <Notes>
+                <NoteCode>GEN</NoteCode>
+                <Note>Gift Message: Happy Birthday!</Note>
+            </Notes>
+        </LineItem>
+        <LineItem>
+            <OrderLine>
+                <LineSequenceNumber>2</LineSequenceNumber>
+                <BuyerPartNumber>SPSBuyerItem2</BuyerPartNumber>
+                <VendorPartNumber>SPSSupplierHD-40</VendorPartNumber>
+                <ConsumerPackageCode>884502115161</ConsumerPackageCode>
+                <GTIN>00361414123416</GTIN>
+                <UPCCaseCode>496099965155</UPCCaseCode>
+                <ProductID>
+                    <PartNumberQual>MG</PartNumberQual>
+                    <PartNumber>2563247</PartNumber>
+                </ProductID>
+                <OrderQty>2</OrderQty>
+                <OrderQtyUOM>EA</OrderQtyUOM>
+                <PurchasePrice>10</PurchasePrice>
+                <ProductSizeCode>S-800</ProductSizeCode>
+                <ProductSizeDescription>Medium</ProductSizeDescription>
+                <ProductColorCode>C-999</ProductColorCode>
+                <ProductColorDescription>Fire Truck Red</ProductColorDescription>
+                <ProductMaterialDescription>Faux Fabric</ProductMaterialDescription>
+                <NRFStandardColorAndSize>
+                    <NRFColorCode>534</NRFColorCode>
+                    <NRFSizeCode>10186</NRFSizeCode>
+                </NRFStandardColorAndSize>
+            </OrderLine>
+            <Dates>
+                <DateTimeQualifier>037</DateTimeQualifier>
+                <Date>2017-03-12</Date>
+                <Time>14:22:14</Time>
+            </Dates>
+            <PriceInformation>
+                <PriceTypeIDCode>RTL</PriceTypeIDCode>
+                <UnitPrice>280</UnitPrice>
+            </PriceInformation>
+            <ProductOrItemDescription>
+                <ProductCharacteristicCode>08</ProductCharacteristicCode>
+                <ProductDescription>Sample Description2</ProductDescription>
+            </ProductOrItemDescription>
+            <PhysicalDetails>
+                <PackQualifier>OU</PackQualifier>
+                <PackValue>1</PackValue>
+                <PackSize>1</PackSize>
+                <PackUOM>EA</PackUOM>
+            </PhysicalDetails>
+            <References>
+                <ReferenceQual>MR</ReferenceQual>
+                <ReferenceID>MerchandiseTypeCode</ReferenceID>
+            </References>
+            <Notes>
+                <NoteCode>GEN</NoteCode>
+                <Note>Gift Message: Happy Birthday!</Note>
+            </Notes>
+        </LineItem>
+        <LineItem>
+            <OrderLine>
+                <LineSequenceNumber>3</LineSequenceNumber>
+                <BuyerPartNumber>SPSBuyerItem3</BuyerPartNumber>
+                <VendorPartNumber>SPSSupplierHD-60</VendorPartNumber>
+                <ConsumerPackageCode>043000186706</ConsumerPackageCode>
+                <GTIN>10012345123457</GTIN>
+                <UPCCaseCode>471108151743</UPCCaseCode>
+                <ProductID>
+                    <PartNumberQual>MG</PartNumberQual>
+                    <PartNumber>2563299</PartNumber>
+                </ProductID>
+                <OrderQty>3</OrderQty>
+                <OrderQtyUOM>EA</OrderQtyUOM>
+                <PurchasePrice>50</PurchasePrice>
+                <ProductSizeCode>S-800</ProductSizeCode>
+                <ProductSizeDescription>Small</ProductSizeDescription>
+                <ProductColorCode>C-999</ProductColorCode>
+                <ProductColorDescription>Fire Truck Red</ProductColorDescription>
+                <ProductMaterialDescription>Faux Fabric</ProductMaterialDescription>
+                <NRFStandardColorAndSize>
+                    <NRFColorCode>535</NRFColorCode>
+                    <NRFSizeCode>10187</NRFSizeCode>
+                </NRFStandardColorAndSize>
+            </OrderLine>
+            <Dates>
+                <DateTimeQualifier>037</DateTimeQualifier>
+                <Date>2017-03-12</Date>
+                <Time>14:22:14</Time>
+            </Dates>
+            <PriceInformation>
+                <PriceTypeIDCode>RTL</PriceTypeIDCode>
+                <UnitPrice>100</UnitPrice>
+            </PriceInformation>
+            <ProductOrItemDescription>
+                <ProductCharacteristicCode>08</ProductCharacteristicCode>
+                <ProductDescription>Sample Description3</ProductDescription>
+            </ProductOrItemDescription>
+            <PhysicalDetails>
+                <PackQualifier>OU</PackQualifier>
+                <PackValue>1</PackValue>
+                <PackSize>1</PackSize>
+                <PackUOM>EA</PackUOM>
+            </PhysicalDetails>
+            <References>
+                <ReferenceQual>MR</ReferenceQual>
+                <ReferenceID>MerchandiseTypeCode</ReferenceID>
+            </References>
+            <Notes>
+                <NoteCode>GEN</NoteCode>
+                <Note>Gift Message: Happy Birthday!</Note>
+            </Notes>
+        </LineItem>
+        <Summary>
+            <TotalAmount>1226.6</TotalAmount>
+            <TotalLineItemNumber>3</TotalLineItemNumber>
+        </Summary>
+    </Order>
+</Orders>

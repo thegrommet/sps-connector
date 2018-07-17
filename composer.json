@@ -11,7 +11,8 @@
     "require": {
         "php": "^7.1",
         "phpseclib/phpseclib": "^2.0",
-        "psr/log": "^1.0"
+        "psr/log": "^1.0",
+        "ext-libxml": "^7.1"
     },
     "require-dev": {
         "phpunit/phpunit": "^7.2",
@@ -22,5 +23,12 @@
     },
     "autoload-dev": {
         "psr-4": {"Tests\\": "tests/"}
+    },
+    "scripts": {
+        "test": "phpunit",
+        "cs": "phpcs --standard=PSR12 ./src",
+        "cs-tests": "phpcs --standard=PSR12 ./tests",
+        "cbf": "phpcbf --standard=PSR12 ./src",
+        "cbf-tests": "phpcbf --standard=PSR12 ./tests"
     }
 }
