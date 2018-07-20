@@ -38,6 +38,13 @@
                 <PrimaryFax>612-435-9468</PrimaryFax>
                 <PrimaryEmail>buyer@spscommerce.com</PrimaryEmail>
             </Contacts>
+            <Contacts>
+                <ContactTypeCode>AC</ContactTypeCode>
+                <ContactName>Alternate</ContactName>
+                <PrimaryPhone>111-222-3333</PrimaryPhone>
+                <PrimaryFax>111-222-3333</PrimaryFax>
+                <PrimaryEmail>alt@spscommerce.com</PrimaryEmail>
+            </Contacts>
             <Address>
                 <AddressTypeCode>BT</AddressTypeCode>
                 <LocationCodeQualifier>92</LocationCodeQualifier>
@@ -84,7 +91,11 @@
             </References>
             <Notes>
                 <NoteCode>GEN</NoteCode>
-                <Note>FOR QUESTIONS PLEASE CONTACT YOUR BUYER AT 612-435-9400</Note>
+                <Note>FOR QUESTIONS PLEASE CONTACT YOUR BUYER</Note>
+            </Notes>
+            <Notes>
+                <NoteCode>CCG</NoteCode>
+                <Note>Note 2</Note>
             </Notes>
             <ChargesAllowances>
                 <AllowChrgIndicator>A</AllowChrgIndicator>

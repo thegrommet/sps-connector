@@ -9,7 +9,7 @@ use SpsConnector\Sftp\Client;
 /**
  * Abstract Document
  */
-abstract class AbstractDocument implements DocumentInterface
+abstract class AbstractDocument
 {
     /**
      * @var Client
@@ -32,8 +32,11 @@ abstract class AbstractDocument implements DocumentInterface
         return $this->sftp;
     }
 
-    public function setXml(string $xml): self
+    public function setXml($xml): self
     {
+        if ($xml instanceof SimpleXMLElement) {
+            $xml = $xml->asXml();  // remove any connection to an existing document
+        }
         // rename non-prefixed namespaces, which aren't supported with xpath()
         $xml = str_replace('xmlns=', 'ns=', $xml);
         $this->xml = new SimpleXMLElement($xml);
@@ -59,7 +62,7 @@ abstract class AbstractDocument implements DocumentInterface
     {
         $xml = $this->getXml();
         $data = $xml->xpath($xpath);
-        if (is_array($data)) {
+        if (is_array($data) && count($data)) {
             $first = $data[0];
             if ($first->count()) {
                 return '';

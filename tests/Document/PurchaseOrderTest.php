@@ -73,8 +73,7 @@ class PurchaseOrderTest extends TestCase
 
     public function testGetXmlData()
     {
-        $document = new PurchaseOrder();
-        $document->setXml(file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . 'PurchaseOrderTest.xml'));
+        $document = $this->document(false);
         $this->assertEquals('525', $document->getXmlData('//Order/Header/OrderHeader/TradingPartnerId'));
         $this->assertEquals('', $document->getXmlData('//Order/Header/OrderHeader'));
         $this->assertEquals('1', $document->getXmlData('//Order/LineItem/OrderLine/LineSequenceNumber'));
@@ -82,8 +81,7 @@ class PurchaseOrderTest extends TestCase
 
     public function testGetXmlChildren()
     {
-        $document = new PurchaseOrder();
-        $document->setXml(file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . 'PurchaseOrderTest.xml'));
+        $document = $this->document(false);
         $this->assertEquals(
             [new SimpleXMLElement('<data>525</data>')],
             $document->getXmlElements('//Order/Header/OrderHeader/TradingPartnerId')
@@ -92,22 +90,57 @@ class PurchaseOrderTest extends TestCase
         $this->assertCount(11, $header[0]->children());
     }
 
-    private function document(): PurchaseOrder
+    public function testContactByType()
     {
-        $mockSftp = $this->getMockBuilder(SFTP::class)
-            ->setMethods(['login', 'get', 'chdir', 'delete', 'nlist'])
-            ->setConstructorArgs(['test.com'])
-            ->getMock();
+        $document = $this->document(false);
+        $this->assertNull($document->contactByType('NM'));
+        $contact = $document->contactByType('AC');
+        $this->assertEquals('alt@spscommerce.com', (string)$contact->PrimaryEmail);
+    }
 
-        $mockSftp
-            ->expects($this->exactly(1))
-            ->method('login')
-            ->willReturn(true);
+    public function testAddressByType()
+    {
+        $document = $this->document(false);
+        $this->assertNull($document->addressByType('NM'));
+        $contact = $document->addressByType('BT');
+        $this->assertEquals('Corporate Headquarters', (string)$contact->AddressName);
+    }
 
-        $client = new Client('test.com', 'a', 'b');
-        $client->setClient($mockSftp);
+    public function testCombineNotes()
+    {
+        $document = $this->document(false);
+        $this->assertEquals("General Note: FOR QUESTIONS PLEASE CONTACT YOUR BUYER\nCustomization: Note 2", $document->combineNotes());
+        $this->assertEquals("General Note: FOR QUESTIONS PLEASE CONTACT YOUR BUYER - Customization: Note 2", $document->combineNotes(' - '));
+    }
 
-        $document = new PurchaseOrder($client);
+    public function testShippingDescription()
+    {
+        $document = $this->document(false);
+        $this->assertEquals('J. B. Hunt - Second Day', $document->shippingDescription());
+    }
+
+    private function document(bool $mockClient = true): PurchaseOrder
+    {
+        if ($mockClient) {
+            $mockSftp = $this->getMockBuilder(SFTP::class)
+                ->setMethods(['login', 'get', 'chdir', 'delete', 'nlist'])
+                ->setConstructorArgs(['test.com'])
+                ->getMock();
+
+            $mockSftp
+                ->expects($this->exactly(1))
+                ->method('login')
+                ->willReturn(true);
+
+            $client = new Client('test.com', 'a', 'b');
+            $client->setClient($mockSftp);
+
+            $document = new PurchaseOrder($client);
+        }
+        else {
+            $document = new PurchaseOrder();
+        }
+        $document->setXml(file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . 'PurchaseOrderTest.xml'));
         return $document;
     }
 }
