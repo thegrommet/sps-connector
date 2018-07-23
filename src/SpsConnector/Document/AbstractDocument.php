@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace SpsConnector\Document;
 
@@ -32,10 +33,16 @@ abstract class AbstractDocument
         return $this->sftp;
     }
 
+    /**
+     * @param SimpleXMLElement|string $xml
+     * @return $this
+     */
     public function setXml($xml): self
     {
         if ($xml instanceof SimpleXMLElement) {
             $xml = $xml->asXml();  // remove any connection to an existing document
+        } elseif (!is_string($xml)) {
+            throw new \TypeError('Invalid type for XML parameter.');
         }
         // rename non-prefixed namespaces, which aren't supported with xpath()
         $xml = str_replace('xmlns=', 'ns=', $xml);

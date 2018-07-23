@@ -120,7 +120,6 @@
                 <VendorPartNumber>SPSSupplierHD-20</VendorPartNumber>
                 <ConsumerPackageCode>859563003863</ConsumerPackageCode>
                 <GTIN>10384478861804</GTIN>
-                <UPCCaseCode>496099966745</UPCCaseCode>
                 <ProductID>
                     <PartNumberQual>MG</PartNumberQual>
                     <PartNumber>9565452</PartNumber>
@@ -128,41 +127,26 @@
                 <OrderQty>5</OrderQty>
                 <OrderQtyUOM>EA</OrderQtyUOM>
                 <PurchasePrice>20</PurchasePrice>
-                <ProductSizeCode>S-800</ProductSizeCode>
+                <PurchasePriceBasis>EA</PurchasePriceBasis>
                 <ProductSizeDescription>Small</ProductSizeDescription>
-                <ProductColorCode>C-999</ProductColorCode>
                 <ProductColorDescription>Fire Truck Red</ProductColorDescription>
-                <ProductMaterialDescription>Faux Fabric</ProductMaterialDescription>
-                <NRFStandardColorAndSize>
-                    <NRFColorCode>533</NRFColorCode>
-                    <NRFSizeCode>10185</NRFSizeCode>
-                </NRFStandardColorAndSize>
             </OrderLine>
             <Dates>
                 <DateTimeQualifier>037</DateTimeQualifier>
                 <Date>2017-03-12</Date>
-                <Time>14:22:14</Time>
             </Dates>
-            <PriceInformation>
-                <PriceTypeIDCode>RTL</PriceTypeIDCode>
-                <UnitPrice>60</UnitPrice>
-            </PriceInformation>
             <ProductOrItemDescription>
                 <ProductCharacteristicCode>08</ProductCharacteristicCode>
                 <ProductDescription>Sample Description1</ProductDescription>
             </ProductOrItemDescription>
             <PhysicalDetails>
-                <PackQualifier>OU</PackQualifier>
                 <PackValue>1</PackValue>
-                <PackSize>1</PackSize>
-                <PackUOM>EA</PackUOM>
             </PhysicalDetails>
             <References>
                 <ReferenceQual>MR</ReferenceQual>
                 <ReferenceID>MerchandiseTypeCode</ReferenceID>
             </References>
             <Notes>
-                <NoteCode>GEN</NoteCode>
                 <Note>Gift Message: Happy Birthday!</Note>
             </Notes>
         </LineItem>
@@ -173,7 +157,6 @@
                 <VendorPartNumber>SPSSupplierHD-40</VendorPartNumber>
                 <ConsumerPackageCode>884502115161</ConsumerPackageCode>
                 <GTIN>00361414123416</GTIN>
-                <UPCCaseCode>496099965155</UPCCaseCode>
                 <ProductID>
                     <PartNumberQual>MG</PartNumberQual>
                     <PartNumber>2563247</PartNumber>
@@ -181,41 +164,26 @@
                 <OrderQty>2</OrderQty>
                 <OrderQtyUOM>EA</OrderQtyUOM>
                 <PurchasePrice>10</PurchasePrice>
-                <ProductSizeCode>S-800</ProductSizeCode>
+                <PurchasePriceBasis>EA</PurchasePriceBasis>
                 <ProductSizeDescription>Medium</ProductSizeDescription>
-                <ProductColorCode>C-999</ProductColorCode>
                 <ProductColorDescription>Fire Truck Red</ProductColorDescription>
-                <ProductMaterialDescription>Faux Fabric</ProductMaterialDescription>
-                <NRFStandardColorAndSize>
-                    <NRFColorCode>534</NRFColorCode>
-                    <NRFSizeCode>10186</NRFSizeCode>
-                </NRFStandardColorAndSize>
             </OrderLine>
             <Dates>
                 <DateTimeQualifier>037</DateTimeQualifier>
                 <Date>2017-03-12</Date>
-                <Time>14:22:14</Time>
             </Dates>
-            <PriceInformation>
-                <PriceTypeIDCode>RTL</PriceTypeIDCode>
-                <UnitPrice>280</UnitPrice>
-            </PriceInformation>
             <ProductOrItemDescription>
                 <ProductCharacteristicCode>08</ProductCharacteristicCode>
                 <ProductDescription>Sample Description2</ProductDescription>
             </ProductOrItemDescription>
             <PhysicalDetails>
-                <PackQualifier>OU</PackQualifier>
                 <PackValue>1</PackValue>
-                <PackSize>1</PackSize>
-                <PackUOM>EA</PackUOM>
             </PhysicalDetails>
             <References>
                 <ReferenceQual>MR</ReferenceQual>
                 <ReferenceID>MerchandiseTypeCode</ReferenceID>
             </References>
             <Notes>
-                <NoteCode>GEN</NoteCode>
                 <Note>Gift Message: Happy Birthday!</Note>
             </Notes>
         </LineItem>
@@ -226,7 +194,6 @@
                 <VendorPartNumber>SPSSupplierHD-60</VendorPartNumber>
                 <ConsumerPackageCode>043000186706</ConsumerPackageCode>
                 <GTIN>10012345123457</GTIN>
-                <UPCCaseCode>471108151743</UPCCaseCode>
                 <ProductID>
                     <PartNumberQual>MG</PartNumberQual>
                     <PartNumber>2563299</PartNumber>
@@ -234,41 +201,26 @@
                 <OrderQty>3</OrderQty>
                 <OrderQtyUOM>EA</OrderQtyUOM>
                 <PurchasePrice>50</PurchasePrice>
-                <ProductSizeCode>S-800</ProductSizeCode>
+                <PurchasePriceBasis>EA</PurchasePriceBasis>
                 <ProductSizeDescription>Small</ProductSizeDescription>
-                <ProductColorCode>C-999</ProductColorCode>
                 <ProductColorDescription>Fire Truck Red</ProductColorDescription>
-                <ProductMaterialDescription>Faux Fabric</ProductMaterialDescription>
-                <NRFStandardColorAndSize>
-                    <NRFColorCode>535</NRFColorCode>
-                    <NRFSizeCode>10187</NRFSizeCode>
-                </NRFStandardColorAndSize>
             </OrderLine>
             <Dates>
                 <DateTimeQualifier>037</DateTimeQualifier>
                 <Date>2017-03-12</Date>
-                <Time>14:22:14</Time>
             </Dates>
-            <PriceInformation>
-                <PriceTypeIDCode>RTL</PriceTypeIDCode>
-                <UnitPrice>100</UnitPrice>
-            </PriceInformation>
             <ProductOrItemDescription>
                 <ProductCharacteristicCode>08</ProductCharacteristicCode>
                 <ProductDescription>Sample Description3</ProductDescription>
             </ProductOrItemDescription>
             <PhysicalDetails>
-                <PackQualifier>OU</PackQualifier>
                 <PackValue>1</PackValue>
-                <PackSize>1</PackSize>
-                <PackUOM>EA</PackUOM>
             </PhysicalDetails>
             <References>
                 <ReferenceQual>MR</ReferenceQual>
                 <ReferenceID>MerchandiseTypeCode</ReferenceID>
             </References>
             <Notes>
-                <NoteCode>GEN</NoteCode>
                 <Note>Gift Message: Happy Birthday!</Note>
             </Notes>
         </LineItem>

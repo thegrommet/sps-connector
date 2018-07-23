@@ -127,7 +127,7 @@ class PurchaseOrder extends AbstractDocument implements DocumentInterface
      * @param bool $deleteAfterFetch
      * @return PurchaseOrder[]
      */
-    public function fetchNewDocuments(string $remoteDirectory = 'in', bool $deleteAfterFetch = true): array
+    public function fetchNewDocuments(string $remoteDirectory = 'out', bool $deleteAfterFetch = true): array
     {
         if (!$this->sftp) {
             throw new Exception('SFTP client has not been set.');

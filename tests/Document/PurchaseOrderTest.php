@@ -14,13 +14,13 @@ use SpsConnector\Sftp\Client;
  */
 class PurchaseOrderTest extends TestCase
 {
-    public function testGetEdiType()
+    public function testGetEdiType(): void
     {
         $document = new PurchaseOrder();
         $this->assertEquals(850, $document->getEdiType());
     }
 
-    public function testFetchNewDocuments()
+    public function testFetchNewDocuments(): void
     {
         $document = $this->document();
         $sftp = $document->getSftpClient();
@@ -51,19 +51,20 @@ class PurchaseOrderTest extends TestCase
         $this->assertInstanceOf(PurchaseOrder::class, $documents['PR12345']);
     }
 
-    public function testGetXml()
+    public function testGetSetXml(): void
     {
         $document = new PurchaseOrder();
         $xml = '<?xml version="1.0" encoding="utf-8"?><Orders xmlns="http://www.spscommerce.com/RSX"><Header/></Orders>';
+        $expected = '<?xml version="1.0" encoding="utf-8"?><Orders ns="http://www.spscommerce.com/RSX"><Header/></Orders>';
         $document->setXml($xml);
         $this->assertInstanceOf(SimpleXMLElement::class, $document->getXml());
-        $this->assertEquals(
-            '<?xml version="1.0" encoding="utf-8"?><Orders ns="http://www.spscommerce.com/RSX"><Header/></Orders>',
-            str_replace("\n", '', $document->getXml()->asXML())
-        );
+        $this->assertEquals($expected, str_replace("\n", '', $document->getXml()->asXML()));
+
+        $document->setXml(new SimpleXMLElement($xml));
+        $this->assertEquals($expected, str_replace("\n", '', $document->getXml()->asXML()));
     }
 
-    public function testGetXmlNotSet()
+    public function testGetXmlNotSet(): void
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('XML has not been set.');
@@ -71,7 +72,15 @@ class PurchaseOrderTest extends TestCase
         $document->getXml();
     }
 
-    public function testGetXmlData()
+    public function testSetXmlInvalid(): void
+    {
+        $this->expectException(\TypeError::class);
+        $this->expectExceptionMessage('Invalid type for XML parameter.');
+        $document = new PurchaseOrder();
+        $document->setXml(0);
+    }
+
+    public function testGetXmlData(): void
     {
         $document = $this->document(false);
         $this->assertEquals('525', $document->getXmlData('//Order/Header/OrderHeader/TradingPartnerId'));
@@ -79,7 +88,7 @@ class PurchaseOrderTest extends TestCase
         $this->assertEquals('1', $document->getXmlData('//Order/LineItem/OrderLine/LineSequenceNumber'));
     }
 
-    public function testGetXmlChildren()
+    public function testGetXmlChildren(): void
     {
         $document = $this->document(false);
         $this->assertEquals(
@@ -90,7 +99,7 @@ class PurchaseOrderTest extends TestCase
         $this->assertCount(11, $header[0]->children());
     }
 
-    public function testContactByType()
+    public function testContactByType(): void
     {
         $document = $this->document(false);
         $this->assertNull($document->contactByType('NM'));
@@ -98,7 +107,7 @@ class PurchaseOrderTest extends TestCase
         $this->assertEquals('alt@spscommerce.com', (string)$contact->PrimaryEmail);
     }
 
-    public function testAddressByType()
+    public function testAddressByType(): void
     {
         $document = $this->document(false);
         $this->assertNull($document->addressByType('NM'));
@@ -106,14 +115,14 @@ class PurchaseOrderTest extends TestCase
         $this->assertEquals('Corporate Headquarters', (string)$contact->AddressName);
     }
 
-    public function testCombineNotes()
+    public function testCombineNotes(): void
     {
         $document = $this->document(false);
         $this->assertEquals("General Note: FOR QUESTIONS PLEASE CONTACT YOUR BUYER\nCustomization: Note 2", $document->combineNotes());
         $this->assertEquals("General Note: FOR QUESTIONS PLEASE CONTACT YOUR BUYER - Customization: Note 2", $document->combineNotes(' - '));
     }
 
-    public function testShippingDescription()
+    public function testShippingDescription(): void
     {
         $document = $this->document(false);
         $this->assertEquals('J. B. Hunt - Second Day', $document->shippingDescription());

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LineItem>
+    <OrderLine>
+        <LineSequenceNumber>1</LineSequenceNumber>
+        <BuyerPartNumber>SPSBuyerItem1</BuyerPartNumber>
+        <VendorPartNumber>SPSSupplierHD-20</VendorPartNumber>
+        <ConsumerPackageCode>859563003863</ConsumerPackageCode>
+        <GTIN>10384478861804</GTIN>
+        <ProductID>
+            <PartNumberQual>MG</PartNumberQual>
+            <PartNumber>9565452</PartNumber>
+        </ProductID>
+        <OrderQty>5</OrderQty>
+        <OrderQtyUOM>EA</OrderQtyUOM>
+        <PurchasePrice>20</PurchasePrice>
+        <PurchasePriceBasis>EA</PurchasePriceBasis>
+        <ProductSizeDescription>Small</ProductSizeDescription>
+        <ProductColorDescription>Fire Truck Red</ProductColorDescription>
+    </OrderLine>
+    <Dates>
+        <DateTimeQualifier>037</DateTimeQualifier>
+        <Date>2017-03-12</Date>
+    </Dates>
+    <ProductOrItemDescription>
+        <ProductCharacteristicCode>08</ProductCharacteristicCode>
+        <ProductDescription>Sample Description1</ProductDescription>
+    </ProductOrItemDescription>
+    <PhysicalDetails>
+        <PackValue>1</PackValue>
+    </PhysicalDetails>
+    <References>
+        <ReferenceQual>MR</ReferenceQual>
+        <ReferenceID>MerchandiseTypeCode</ReferenceID>
+    </References>
+    <Notes>
+        <Note>Gift Message: Happy Birthday!</Note>
+    </Notes>
+</LineItem>
