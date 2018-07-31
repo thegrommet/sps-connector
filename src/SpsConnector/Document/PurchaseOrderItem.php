@@ -8,6 +8,8 @@ namespace SpsConnector\Document;
  */
 class PurchaseOrderItem extends AbstractDocument
 {
+    const PRICE_BASIS_EACH = 'PE';
+
     public function price(): float
     {
         return (float)$this->getXmlData('//OrderLine/PurchasePrice');
@@ -24,12 +26,13 @@ class PurchaseOrderItem extends AbstractDocument
     }
 
     /**
-     * Compare ordered qty UOM with the price basis UOM and return true if equal.
+     * Is the line being priced by each'es? Assume each if the element is not present.
      *
      * @return bool
      */
-    public function comparePricingUOM(): bool
+    public function isPricingByEach(): bool
     {
-        return (string)$this->getXmlData('//OrderLine/OrderQtyUOM') === (string)$this->getXmlData('//OrderLine/PurchasePriceBasis');
+        $priceBasis = (string)$this->getXmlData('//OrderLine/PurchasePriceBasis');
+        return empty($priceBasis) || $priceBasis == self::PRICE_BASIS_EACH;
     }
 }

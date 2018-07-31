@@ -22,7 +22,7 @@ class PurchaseOrderTest extends TestCase
 
     public function testFetchNewDocuments(): void
     {
-        $document = $this->document();
+        $document = $this->document(true);
         $sftp = $document->getSftpClient();
         $mockClient = $sftp->getClient();
 
@@ -37,18 +37,20 @@ class PurchaseOrderTest extends TestCase
             ->willReturn(true);
         $mockClient
             ->method('nlist')
-            ->willReturn(['.', '..', 'PR12345', 'PR123456.xml', 'NOTAPO.xml', 'PR1234567.xml', 'pr4321']);
+            ->willReturn(['.', '..', 'PO12345', 'PO123456.xml', 'NOTAPO.xml', 'PO1234567.xml', 'po4321']);
         $mockClient
-            ->expects($this->exactly(3))
+            ->expects($this->exactly(6))
             ->method('get')
             ->willReturn($xml);
 
         $documents = $document->fetchNewDocuments();
         $this->assertEquals(
-            ['PR12345', 'PR123456.xml', 'PR1234567.xml'],
+            ['PO12345', 'PO123456.xml', 'PO1234567.xml'],
             array_keys($documents)
         );
-        $this->assertInstanceOf(PurchaseOrder::class, $documents['PR12345']);
+        $this->assertInstanceOf(PurchaseOrder::class, $documents['PO12345']);
+        $this->assertCount(2, $document->fetchNewDocuments(2, 'out', false));
+        $this->assertCount(1, $document->fetchNewDocuments(1, 'out', false));
     }
 
     public function testGetSetXml(): void
@@ -82,7 +84,7 @@ class PurchaseOrderTest extends TestCase
 
     public function testGetXmlData(): void
     {
-        $document = $this->document(false);
+        $document = $this->document();
         $this->assertEquals('525', $document->getXmlData('//Order/Header/OrderHeader/TradingPartnerId'));
         $this->assertEquals('', $document->getXmlData('//Order/Header/OrderHeader'));
         $this->assertEquals('1', $document->getXmlData('//Order/LineItem/OrderLine/LineSequenceNumber'));
@@ -90,7 +92,7 @@ class PurchaseOrderTest extends TestCase
 
     public function testGetXmlChildren(): void
     {
-        $document = $this->document(false);
+        $document = $this->document();
         $this->assertEquals(
             [new SimpleXMLElement('<data>525</data>')],
             $document->getXmlElements('//Order/Header/OrderHeader/TradingPartnerId')
@@ -99,9 +101,15 @@ class PurchaseOrderTest extends TestCase
         $this->assertCount(11, $header[0]->children());
     }
 
+    public function testPoNumber(): void
+    {
+        $document = $this->document();
+        $this->assertEquals('PO584615-1', $document->poNumber());
+    }
+
     public function testContactByType(): void
     {
-        $document = $this->document(false);
+        $document = $this->document();
         $this->assertNull($document->contactByType('NM'));
         $contact = $document->contactByType('AC');
         $this->assertEquals('alt@spscommerce.com', (string)$contact->PrimaryEmail);
@@ -109,7 +117,7 @@ class PurchaseOrderTest extends TestCase
 
     public function testAddressByType(): void
     {
-        $document = $this->document(false);
+        $document = $this->document();
         $this->assertNull($document->addressByType('NM'));
         $contact = $document->addressByType('BT');
         $this->assertEquals('Corporate Headquarters', (string)$contact->AddressName);
@@ -117,18 +125,46 @@ class PurchaseOrderTest extends TestCase
 
     public function testCombineNotes(): void
     {
-        $document = $this->document(false);
+        $document = $this->document();
         $this->assertEquals("General Note: FOR QUESTIONS PLEASE CONTACT YOUR BUYER\nCustomization: Note 2", $document->combineNotes());
         $this->assertEquals("General Note: FOR QUESTIONS PLEASE CONTACT YOUR BUYER - Customization: Note 2", $document->combineNotes(' - '));
     }
 
     public function testShippingDescription(): void
     {
-        $document = $this->document(false);
+        $document = $this->document();
         $this->assertEquals('J. B. Hunt - Second Day', $document->shippingDescription());
     }
 
-    private function document(bool $mockClient = true): PurchaseOrder
+    public function testPaymentTermsDescription(): void
+    {
+        $document = $this->document();
+        $this->assertEquals('2% 30 Net 31 terms based on Invoice Date', $document->paymentTermsDescription());
+
+        $xml = '<?xml version="1.0" encoding="utf-8"?>
+<Orders xmlns="http://www.spscommerce.com/RSX">
+    <Order>
+        <Header>
+            <PaymentTerms>
+            <TermsType>03</TermsType>
+            <TermsBasisDateCode>2</TermsBasisDateCode>
+            <TermsDiscountDueDays>90</TermsDiscountDueDays>
+            </PaymentTerms>
+        </Header>
+    </Order>
+</Orders>';
+
+        $document->setXml($xml);
+        $this->assertEquals('Fixed Date terms based on Delivery Date', $document->paymentTermsDescription());
+    }
+
+    public function testRequestedShipDate(): void
+    {
+        $document = $this->document();
+        $this->assertEquals('2018-05-27', $document->requestedShipDate());
+    }
+
+    private function document(bool $mockClient = false): PurchaseOrder
     {
         if ($mockClient) {
             $mockSftp = $this->getMockBuilder(SFTP::class)

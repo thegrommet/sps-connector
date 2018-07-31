@@ -29,7 +29,10 @@
             <Dates>
                 <DateTimeQualifier>002</DateTimeQualifier>
                 <Date>2017-03-15</Date>
-                <Time>14:22:14</Time>
+            </Dates>
+            <Dates>
+                <DateTimeQualifier>010</DateTimeQualifier>
+                <Date>2018-05-27</Date>
             </Dates>
             <Contacts>
                 <ContactTypeCode>IC</ContactTypeCode>
@@ -127,7 +130,7 @@
                 <OrderQty>5</OrderQty>
                 <OrderQtyUOM>EA</OrderQtyUOM>
                 <PurchasePrice>20</PurchasePrice>
-                <PurchasePriceBasis>EA</PurchasePriceBasis>
+                <PurchasePriceBasis>PE</PurchasePriceBasis>
                 <ProductSizeDescription>Small</ProductSizeDescription>
                 <ProductColorDescription>Fire Truck Red</ProductColorDescription>
             </OrderLine>
@@ -164,7 +167,7 @@
                 <OrderQty>2</OrderQty>
                 <OrderQtyUOM>EA</OrderQtyUOM>
                 <PurchasePrice>10</PurchasePrice>
-                <PurchasePriceBasis>EA</PurchasePriceBasis>
+                <PurchasePriceBasis>PE</PurchasePriceBasis>
                 <ProductSizeDescription>Medium</ProductSizeDescription>
                 <ProductColorDescription>Fire Truck Red</ProductColorDescription>
             </OrderLine>
@@ -201,7 +204,7 @@
                 <OrderQty>3</OrderQty>
                 <OrderQtyUOM>EA</OrderQtyUOM>
                 <PurchasePrice>50</PurchasePrice>
-                <PurchasePriceBasis>EA</PurchasePriceBasis>
+                <PurchasePriceBasis>PE</PurchasePriceBasis>
                 <ProductSizeDescription>Small</ProductSizeDescription>
                 <ProductColorDescription>Fire Truck Red</ProductColorDescription>
             </OrderLine>

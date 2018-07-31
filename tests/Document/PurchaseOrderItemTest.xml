@@ -13,7 +13,7 @@
         <OrderQty>5</OrderQty>
         <OrderQtyUOM>EA</OrderQtyUOM>
         <PurchasePrice>20</PurchasePrice>
-        <PurchasePriceBasis>EA</PurchasePriceBasis>
+        <PurchasePriceBasis>PE</PurchasePriceBasis>
         <ProductSizeDescription>Small</ProductSizeDescription>
         <ProductColorDescription>Fire Truck Red</ProductColorDescription>
     </OrderLine>

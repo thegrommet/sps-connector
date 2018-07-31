@@ -15,12 +15,13 @@ class PurchaseOrder extends AbstractDocument implements DocumentInterface
 {
     const EDI_TYPE = 850;
 
-    const TSET_ORIGINAL         = '00';
-    const TSET_CANCEL           = '01';
-    const TSET_REPLACE          = '05';
-    const CONTACT_TYPE_PRIMARY  = 'IC';
-    const ADDRESS_TYPE_BILLING  = 'BT';
-    const ADDRESS_TYPE_SHIPPING = 'ST';
+    const TSET_ORIGINAL                 = '00';
+    const TSET_CANCEL                   = '01';
+    const TSET_REPLACE                  = '05';
+    const CONTACT_TYPE_PRIMARY          = 'IC';
+    const ADDRESS_TYPE_BILLING          = 'BT';
+    const ADDRESS_TYPE_SHIPPING         = 'ST';
+    const DATE_QUALIFIER_REQUESTED_SHIP = '010';
 
     protected $contactTypes = [
         'CCG' => 'Customization',
@@ -123,11 +124,12 @@ class PurchaseOrder extends AbstractDocument implements DocumentInterface
     /**
      * Fetches and returns an array of documents from the FTP.
      *
+     * @param int $limit
      * @param string $remoteDirectory
      * @param bool $deleteAfterFetch
-     * @return PurchaseOrder[]
+     * @return static[]
      */
-    public function fetchNewDocuments(string $remoteDirectory = 'out', bool $deleteAfterFetch = true): array
+    public function fetchNewDocuments(int $limit = -1, string $remoteDirectory = 'out', bool $deleteAfterFetch = true): array
     {
         if (!$this->sftp) {
             throw new Exception('SFTP client has not been set.');
@@ -136,11 +138,15 @@ class PurchaseOrder extends AbstractDocument implements DocumentInterface
         if (!$result) {
             throw new CommandFailed('Could not change to remote directory.');
         }
+        $limited = $limit !== null && $limit > 0;
         $orders = [];
         $listing = $this->sftp->ls();
         foreach ($listing as $fileName) {
-            if (strpos($fileName, 'PR') === 0) {
+            if (strpos($fileName, 'PO') === 0) {
                 $orders[] = $fileName;
+                if ($limited && --$limit <= 0) {
+                    break;
+                }
             }
         }
         $documents = [];
@@ -155,6 +161,11 @@ class PurchaseOrder extends AbstractDocument implements DocumentInterface
             }
         }
         return $documents;
+    }
+
+    public function poNumber(): string
+    {
+        return (string)$this->getXmlData('//Order/Header/OrderHeader/PurchaseOrderNumber');
     }
 
     public function contactByType(string $type): ?SimpleXMLElement
@@ -198,6 +209,35 @@ class PurchaseOrder extends AbstractDocument implements DocumentInterface
             return (string)$xmlCarrier->CarrierRouting . ' - ' . ($this->carrierServiceLevels[$service] ?? '[Not Specified]');
         }
         return '';
+    }
+
+    public function paymentTermsDescription(): string
+    {
+        $basisDate = (string)$this->getXmlData('//Order/Header/PaymentTerms/TermsBasisDateCode');
+        $description = (string)$this->getXmlData('//Order/Header/PaymentTerms/TermsDescription');
+        if ($description) {
+            if (isset($this->paymentTermsBasisDates[$basisDate])) {
+                return sprintf('%s terms based on %s', $description, $this->paymentTermsBasisDates[$basisDate]);
+            }
+            return $description;
+        }
+        $termType = (string)$this->getXmlData('//Order/Header/PaymentTerms/TermsType');
+        return sprintf(
+            '%s terms based on %s',
+            $this->paymentTermTypes[$termType] ?? 'Unknown',
+            $this->paymentTermsBasisDates[$basisDate] ?? 'Unknown'
+        );
+    }
+
+    public function requestedShipDate(): ?string
+    {
+        $dates = $this->getXmlElements('//Order/Header/Dates');
+        foreach ($dates as $date) {
+            if ((string)$date->DateTimeQualifier == self::DATE_QUALIFIER_REQUESTED_SHIP) {
+                return (string)$date->Date;
+            }
+        }
+        return null;
     }
 
     public function newItem(): PurchaseOrderItem

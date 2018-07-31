@@ -26,9 +26,9 @@ class PurchaseOrderItemTest extends TestCase
         $this->assertEquals(100, $this->document()->rowTotal());
     }
 
-    public function testComparePricingUOM(): void
+    public function testIsPricingByEach(): void
     {
-        $this->assertTrue($this->document()->comparePricingUOM());
+        $this->assertTrue($this->document()->isPricingByEach());
     }
 
     private function document(): PurchaseOrderItem
