@@ -26,9 +26,9 @@
     },
     "scripts": {
         "test": "phpunit",
-        "cs": "phpcs --standard=PSR12 ./src",
-        "cs-tests": "phpcs --standard=PSR12 ./tests",
-        "cbf": "phpcbf --standard=PSR12 ./src",
-        "cbf-tests": "phpcbf --standard=PSR12 ./tests"
+        "cs": "phpcs --standard=PSR12 --exclude=Generic.Files.LineEndings ./src",
+        "cs-tests": "phpcs --standard=PSR12 --exclude=Generic.Files.LineEndings ./tests",
+        "cbf": "phpcbf --standard=PSR12 --exclude=Generic.Files.LineEndings ./src",
+        "cbf-tests": "phpcbf --standard=PSR12 --exclude=Generic.Files.LineEndings ./tests"
     }
 }

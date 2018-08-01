@@ -6,7 +6,7 @@ namespace SpsConnector\Document;
 /**
  * Purchase Order Item
  */
-class PurchaseOrderItem extends AbstractDocument
+class PurchaseOrderItem extends IncomingDocument
 {
     const PRICE_BASIS_EACH = 'PE';
 

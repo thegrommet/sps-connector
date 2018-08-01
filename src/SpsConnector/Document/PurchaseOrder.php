@@ -3,17 +3,15 @@ declare(strict_types=1);
 
 namespace SpsConnector\Document;
 
-use Exception;
 use SimpleXMLElement;
-use SpsConnector\Exception\CommandFailed;
-use SpsConnector\Sftp\Client;
 
 /**
  * Purchase Order EDI document
  */
-class PurchaseOrder extends AbstractDocument implements DocumentInterface
+class PurchaseOrder extends IncomingDocument implements DocumentInterface
 {
-    const EDI_TYPE = 850;
+    const EDI_NUMBER                    = 850;
+    const DOCUMENT_TYPE_CODE            = 'PO';
 
     const TSET_ORIGINAL                 = '00';
     const TSET_CANCEL                   = '01';
@@ -109,58 +107,14 @@ class PurchaseOrder extends AbstractDocument implements DocumentInterface
         'SI' => 'Standard Ground Hundred Weight'
     ];
 
-    public function __construct(Client $client = null)
+    public function ediNumber(): int
     {
-        if ($client) {
-            $this->setSftpClient($client);
-        }
+        return self::EDI_NUMBER;
     }
 
-    public function getEdiType(): int
+    public function documentTypeCode(): string
     {
-        return self::EDI_TYPE;
-    }
-
-    /**
-     * Fetches and returns an array of documents from the FTP.
-     *
-     * @param int $limit
-     * @param string $remoteDirectory
-     * @param bool $deleteAfterFetch
-     * @return static[]
-     */
-    public function fetchNewDocuments(int $limit = -1, string $remoteDirectory = 'out', bool $deleteAfterFetch = true): array
-    {
-        if (!$this->sftp) {
-            throw new Exception('SFTP client has not been set.');
-        }
-        $result = $this->sftp->chdir($remoteDirectory);
-        if (!$result) {
-            throw new CommandFailed('Could not change to remote directory.');
-        }
-        $limited = $limit !== null && $limit > 0;
-        $orders = [];
-        $listing = $this->sftp->ls();
-        foreach ($listing as $fileName) {
-            if (strpos($fileName, 'PO') === 0) {
-                $orders[] = $fileName;
-                if ($limited && --$limit <= 0) {
-                    break;
-                }
-            }
-        }
-        $documents = [];
-        foreach ($orders as $order) {
-            $document = new static();
-            $document->setXml($this->sftp->get($order));
-            $documents[$order] = $document;
-        }
-        if ($deleteAfterFetch) {
-            foreach ($orders as $order) {
-                $this->sftp->delete($order);
-            }
-        }
-        return $documents;
+        return self::DOCUMENT_TYPE_CODE;
     }
 
     public function poNumber(): string
@@ -206,7 +160,8 @@ class PurchaseOrder extends AbstractDocument implements DocumentInterface
         if (count($xmlCarriers)) {
             $xmlCarrier = current($xmlCarriers);
             $service = (string)$xmlCarrier->ServiceLevelCodes[0]->ServiceLevelCode;
-            return (string)$xmlCarrier->CarrierRouting . ' - ' . ($this->carrierServiceLevels[$service] ?? '[Not Specified]');
+            return (string)$xmlCarrier->CarrierRouting . ' - '
+                 . ($this->carrierServiceLevels[$service] ?? '[Not Specified]');
         }
         return '';
     }

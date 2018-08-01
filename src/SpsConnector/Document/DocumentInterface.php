@@ -6,9 +6,16 @@ namespace SpsConnector\Document;
 interface DocumentInterface
 {
     /**
-     * EDI document type.
+     * Returns the EDI document number.
      *
      * @return int
      */
-    public function getEdiType(): int;
+    public function ediNumber(): int;
+
+    /**
+     * Returns the 2-character document type code.
+     *
+     * @return string
+     */
+    public function documentTypeCode(): string;
 }
