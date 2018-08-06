@@ -92,7 +92,7 @@ class IncomingDocumentTest extends TestCase
             $document->getXmlElements('//Order/Header/OrderHeader/TradingPartnerId')
         );
         $header = $document->getXmlElements('//Order/Header/OrderHeader');
-        $this->assertCount(11, $header[0]->children());
+        $this->assertCount(10, $header[0]->children());
     }
 
     private function document(bool $mockClient = false): IncomingDocImpl

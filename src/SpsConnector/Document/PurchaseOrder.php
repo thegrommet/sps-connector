@@ -16,10 +16,36 @@ class PurchaseOrder extends IncomingDocument implements DocumentInterface
     const TSET_ORIGINAL                 = '00';
     const TSET_CANCEL                   = '01';
     const TSET_REPLACE                  = '05';
+    const TSET_CONFIRMATION             = '06';
+    const TSET_DUPLICATE                = '07';
+
     const CONTACT_TYPE_PRIMARY          = 'IC';
     const ADDRESS_TYPE_BILLING          = 'BT';
     const ADDRESS_TYPE_SHIPPING         = 'ST';
     const DATE_QUALIFIER_REQUESTED_SHIP = '010';
+
+    protected $poTypes = [
+        '26' => 'Replace',
+        'BK' => 'Blanket Order',
+        'CF' => 'Confirmation',
+        'CN' => 'Consigned Order',
+        'DS' => 'Drop Ship',
+        'EO' => 'Emergency Order',
+        'IN' => 'Information Copy',
+        'KC' => 'Contract',
+        'KN' => 'Cross Dock',
+        'NS' => 'New Store Order',
+        'OS' => 'Special Order',
+        'PR' => 'Promotion Information',
+        'RE' => 'Reorder',
+        'RL' => 'Release or Delivery Order',
+        'RO' => 'Rush Order',
+        'SA' => 'Stand Alone',
+        'SD' => 'Direct to Store',
+        'SP' => 'Sample Order',
+        'SS' => 'Supply or Service Order',
+        'WH' => 'Warehouse',
+    ];
 
     protected $contactTypes = [
         'CCG' => 'Customization',
@@ -115,6 +141,16 @@ class PurchaseOrder extends IncomingDocument implements DocumentInterface
     public function documentTypeCode(): string
     {
         return self::DOCUMENT_TYPE_CODE;
+    }
+
+    public function poType(): string
+    {
+        return (string)$this->getXmlData('//Order/Header/OrderHeader/PrimaryPOTypeCode');
+    }
+
+    public function poTypeDescription(): string
+    {
+        return $this->poTypes[$this->poType()] ?? '';
     }
 
     public function poNumber(): string

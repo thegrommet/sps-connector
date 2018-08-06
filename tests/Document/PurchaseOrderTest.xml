@@ -6,8 +6,7 @@
                 <TradingPartnerId>525</TradingPartnerId>
                 <PurchaseOrderNumber>PO584615-1</PurchaseOrderNumber>
                 <TsetPurposeCode>00</TsetPurposeCode>
-                <PrimaryPOTypeCode>BL</PrimaryPOTypeCode>
-                <PrimaryPOTypeDescription>Stand-alone Order</PrimaryPOTypeDescription>
+                <PrimaryPOTypeCode>NS</PrimaryPOTypeCode>
                 <PurchaseOrderDate>2017-03-12</PurchaseOrderDate>
                 <ShipCompleteCode>Y</ShipCompleteCode>
                 <BuyersCurrency>USD</BuyersCurrency>

@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace SpsConnector\Document;
 
+use SimpleXMLElement;
+
 /**
  * Shipment EDI document
  */
@@ -24,5 +26,14 @@ class Shipment extends OutgoingDocument implements DocumentInterface
     public function rootElementName(): string
     {
         return 'Shipments';
+    }
+
+    public function addHeader(array $childValues): SimpleXMLElement
+    {
+        $header = $this->addElement('Shipment/Header/ShipmentHeader');
+        foreach ($childValues as $name => $value) {
+            $header->addChild($name, $value);
+        }
+        return $header;
     }
 }

@@ -19,6 +19,18 @@ class PurchaseOrderTest extends TestCase
         $this->assertEquals(850, $document->ediNumber());
     }
 
+    public function testPoType(): void
+    {
+        $document = $this->document();
+        $this->assertEquals('NS', $document->poType());
+    }
+
+    public function testPoTypeDescription(): void
+    {
+        $document = $this->document();
+        $this->assertEquals('New Store Order', $document->poTypeDescription());
+    }
+
     public function testPoNumber(): void
     {
         $document = $this->document();
