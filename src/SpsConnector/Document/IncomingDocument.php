@@ -5,7 +5,7 @@ namespace SpsConnector\Document;
 
 use Exception;
 use SimpleXMLElement;
-use SpsConnector\Exception\CommandFailed;
+use SpsConnector\Sftp\Exception\CommandFailed;
 
 /**
  * Incoming Document - those downloaded from SPS

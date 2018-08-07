@@ -7,6 +7,7 @@ use phpseclib\Net\SFTP;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\AbstractLogger;
 use SpsConnector\Sftp\Client;
+use SpsConnector\Sftp\Exception\LoginFailed;
 use SpsConnector\Sftp\Exception\ServerError;
 
 /**
@@ -14,13 +15,20 @@ use SpsConnector\Sftp\Exception\ServerError;
  */
 class ClientTest extends TestCase
 {
-    public function testLogin()
+    public function testLoginSuccess(): void
     {
         $client = $this->client();
         $this->assertTrue($client->login('a', 'b'));
     }
 
-    public function testGetSuccess()
+    public function testLoginFailure(): void
+    {
+        $this->expectException(LoginFailed::class);
+        $client = $this->client(false);
+        $client->login();
+    }
+
+    public function testGetSuccess(): void
     {
         $client = $this->client();
         $mockSftp = $client->getClient();
@@ -32,7 +40,7 @@ class ClientTest extends TestCase
         $this->assertEquals('file contents', $client->get('test.txt'));
     }
 
-    public function testGetEmptyResponse()
+    public function testGetEmptyResponse(): void
     {
         $client = $this->client();
         $mockSftp = $client->getClient();
@@ -44,7 +52,7 @@ class ClientTest extends TestCase
         $this->assertEquals('', $client->get('test.txt'));
     }
 
-    public function testGetInvalidResponse()
+    public function testGetInvalidResponse(): void
     {
         $client = $this->client();
         $mockSftp = $client->getClient();
@@ -59,7 +67,7 @@ class ClientTest extends TestCase
         $client->get('test.txt');
     }
 
-    public function testPutSuccess()
+    public function testPutSuccess(): void
     {
         $client = $this->client();
         $mockSftp = $client->getClient();
@@ -71,7 +79,7 @@ class ClientTest extends TestCase
         $this->assertTrue($client->put('test.txt', '--data--'));
     }
 
-    public function testPutFailure()
+    public function testPutFailure(): void
     {
         $client = $this->client();
         $mockSftp = $client->getClient();
@@ -83,7 +91,7 @@ class ClientTest extends TestCase
         $this->assertFalse($client->put('test.txt', '--data--'));
     }
 
-    public function testDeleteSuccess()
+    public function testDeleteSuccess(): void
     {
         $client = $this->client();
         $mockSftp = $client->getClient();
@@ -95,7 +103,7 @@ class ClientTest extends TestCase
         $this->assertTrue($client->delete('test.txt'));
     }
 
-    public function testDeleteFailure()
+    public function testDeleteFailure(): void
     {
         $client = $this->client();
         $mockSftp = $client->getClient();
@@ -107,7 +115,7 @@ class ClientTest extends TestCase
         $this->assertFalse($client->delete('test.txt'));
     }
 
-    public function testLsSuccess()
+    public function testLsSuccess(): void
     {
         $client = $this->client();
         $mockSftp = $client->getClient();
@@ -119,7 +127,7 @@ class ClientTest extends TestCase
         $this->assertCount(4, $client->ls('.', true));
     }
 
-    public function testLsFailure()
+    public function testLsFailure(): void
     {
         $client = $this->client();
         $mockSftp = $client->getClient();
@@ -133,7 +141,7 @@ class ClientTest extends TestCase
         $client->ls();
     }
 
-    public function testChdirSuccess()
+    public function testChdirSuccess(): void
     {
         $client = $this->client();
         $mockSftp = $client->getClient();
@@ -144,7 +152,7 @@ class ClientTest extends TestCase
         $this->assertTrue($client->chdir('test'));
     }
 
-    public function testChdirFailure()
+    public function testChdirFailure(): void
     {
         $client = $this->client();
         $mockSftp = $client->getClient();
@@ -155,7 +163,7 @@ class ClientTest extends TestCase
         $this->assertFalse($client->chdir('test'));
     }
 
-    public function testLogger()
+    public function testLogger(): void
     {
         $client = $this->client();
         $logger = new ClientLogger();
@@ -168,7 +176,7 @@ class ClientTest extends TestCase
         ], $logger->logs);
     }
 
-    private function client(): Client
+    private function client(bool $loginResult = true): Client
     {
         $mockSftp = $this->getMockBuilder(SFTP::class)
             ->setMethods(['login', 'get', 'put', 'delete', 'chdir', 'nlist'])
@@ -178,7 +186,7 @@ class ClientTest extends TestCase
         $mockSftp
             ->expects($this->exactly(1))
             ->method('login')
-            ->willReturn(true);
+            ->willReturn($loginResult);
 
         $client = new Client('test.com', 'a', 'b');
         $client->setClient($mockSftp);
@@ -190,7 +198,7 @@ class ClientLogger extends AbstractLogger
 {
     public $logs = [];
 
-    public function log($level, $message, array $context = [])
+    public function log($level, $message, array $context = []): void
     {
         $this->logs[] = [$level => $message];
     }

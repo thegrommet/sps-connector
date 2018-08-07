@@ -5,7 +5,7 @@ namespace SpsConnector\Sftp;
 
 use phpseclib\Net\SFTP;
 use Psr\Log\LoggerInterface;
-use SpsConnector\Exception\LoginFailed;
+use SpsConnector\Sftp\Exception\LoginFailed;
 use SpsConnector\Sftp\Exception\ServerError;
 
 /**
