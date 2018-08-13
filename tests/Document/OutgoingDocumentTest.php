@@ -56,6 +56,18 @@ class OutgoingDocumentTest extends TestCase
             $toString()
         );
     }
+
+    public function testHasNode(): void
+    {
+        $document = new OutgoingDocImpl();
+        $document->addElement('A/B/C');
+        $this->assertTrue($document->hasNode('A'));
+        $this->assertTrue($document->hasNode('A/B'));
+        $this->assertTrue($document->hasNode('A/B/C'));
+        $this->assertFalse($document->hasNode('D'));
+        $this->assertFalse($document->hasNode('D/E'));
+        $this->assertFalse($document->hasNode('B'));
+    }
     
     public function testUploadDocument(): void
     {

@@ -3,10 +3,8 @@ declare(strict_types=1);
 
 namespace Tests\Document;
 
-use phpseclib\Net\SFTP;
 use PHPUnit\Framework\TestCase;
 use SpsConnector\Document\PurchaseOrder;
-use SpsConnector\Sftp\Client;
 
 /**
  * Purchase Order Doc Test Suite

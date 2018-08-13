@@ -23,7 +23,8 @@ abstract class OutgoingDocument extends AbstractDocument
     public function __construct(Client $client = null)
     {
         parent::__construct($client);
-        $this->xml = new SimpleXMLElement('<' . $this->rootElementName() . '/>', 0, false, self::XMLNS);
+        $this->xml = new SimpleXMLElement('<' . $this->rootElementName() . '/>');
+        //$this->xml = new SimpleXMLElement('<' . $this->rootElementName() . '/>'/*, 0, false, self::XMLNS*/);
     }
 
     /**
@@ -60,6 +61,17 @@ abstract class OutgoingDocument extends AbstractDocument
         } else {
             return $this->xml->addChild($name, $value);
         }
+    }
+
+    /**
+     * Does the XML document have a node at the path specified?
+     *
+     * @param string $path
+     * @return bool
+     */
+    public function hasNode(string $path): bool
+    {
+        return count($this->xml->xpath($path)) > 0;
     }
 
     /**
