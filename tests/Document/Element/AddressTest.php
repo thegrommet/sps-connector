@@ -14,11 +14,41 @@ use SpsConnector\Document\Exception\ElementNotSet;
  */
 class AddressTest extends TestCase
 {
-    public function testAddToXml(): void
+    public function testImportFromXml(): void
+    {
+        $xml = new SimpleXMLElement('<Address>
+                <AddressTypeCode>ST</AddressTypeCode>
+                <LocationCodeQualifier>92</LocationCodeQualifier>
+                <AddressLocationNumber>012</AddressLocationNumber>
+                <AddressName>Main Warehouse</AddressName>
+                <Address1>123 Main</Address1>
+                <Address2>Suite B</Address2><!--optional-->
+                <City>Boulder</City>
+                <State>CO</State>
+                <PostalCode>80301</PostalCode>
+                <Country>USA</Country><!--optional-->
+            </Address>');
+
+        $address = new Address();
+        $address->importFromXml($xml);
+
+        $this->assertEquals(Address::TYPE_SHIP_TO, $address->typeCode);
+        $this->assertEquals('92', $address->locationQualifier);
+        $this->assertEquals('012', $address->locationNumber);
+        $this->assertEquals('Main Warehouse', $address->name);
+        $this->assertEquals('123 Main', $address->street1);
+        $this->assertEquals('Suite B', $address->street2);
+        $this->assertEquals('Boulder', $address->city);
+        $this->assertEquals('CO', $address->state);
+        $this->assertEquals('80301', $address->postalCode);
+        $this->assertEquals('USA', $address->country);
+    }
+
+    public function testExportToXml(): void
     {
         $address = $this->address();
         $xml = new SimpleXMLElement('<address/>');
-        $address->addToXml($xml);
+        $address->exportToXml($xml);
         $this->assertEquals(Address::TYPE_SHIP_FROM, (string)$xml->Address->AddressTypeCode);
         $this->assertEquals('012', (string)$xml->Address->AddressLocationNumber);
         $this->assertEquals('Main Warehouse', (string)$xml->Address->AddressName);
@@ -30,24 +60,24 @@ class AddressTest extends TestCase
         $this->assertEquals('USA', (string)$xml->Address->Country);
     }
 
-    public function testAddToXmlRequired(): void
+    public function testExportToXmlRequired(): void
     {
         $address = $this->address();
         $address->name = '';
         $xml = new SimpleXMLElement('<address/>');
         $this->expectException(ElementNotSet::class);
         $this->expectExceptionMessage('Element "AddressName" is required in an address.');
-        $address->addToXml($xml);
+        $address->exportToXml($xml);
     }
 
-    public function testAddToXmlInvalidType(): void
+    public function testExportToXmlInvalidType(): void
     {
         $address = $this->address();
         $address->typeCode = 'BAD';
         $xml = new SimpleXMLElement('<address/>');
         $this->expectException(ElementInvalid::class);
         $this->expectExceptionMessage('Invalid type code.');
-        $address->addToXml($xml);
+        $address->exportToXml($xml);
     }
 
     private function address(): Address

@@ -13,7 +13,9 @@ use SpsConnector\Sftp\Exception\CommandFailed;
  */
 abstract class OutgoingDocument extends AbstractDocument
 {
-    const XMLNS = 'http://www.spscommerce.com/RSX';
+    const XMLNS       = 'http://www.spscommerce.com/RSX';
+    const DATE_FORMAT = 'Y-m-d';
+    const TIME_FORMAT = 'H:i:sP';
 
     /**
      * @var SimpleXMLElement
@@ -96,5 +98,15 @@ abstract class OutgoingDocument extends AbstractDocument
     public function __toString(): string
     {
         return $this->xml->asXML();
+    }
+
+    public function formatDate(string $date): string
+    {
+        return date(self::DATE_FORMAT, strtotime($date));
+    }
+
+    public function formatTime(string $date): string
+    {
+        return date(self::TIME_FORMAT, strtotime($date));
     }
 }

@@ -4,6 +4,8 @@ declare(strict_types=1);
 namespace Tests\Document;
 
 use PHPUnit\Framework\TestCase;
+use SpsConnector\Document\Element\Address;
+use SpsConnector\Document\Element\Contact;
 use SpsConnector\Document\PurchaseOrder;
 
 /**
@@ -40,22 +42,38 @@ class PurchaseOrderTest extends TestCase
         $document = $this->document();
         $this->assertNull($document->contactByType('NM'));
         $contact = $document->contactByType('AC');
-        $this->assertEquals('alt@spscommerce.com', (string)$contact->PrimaryEmail);
+        $this->assertInstanceOf(Contact::class, $contact);
+        $this->assertEquals('alt@spscommerce.com', $contact->email);
+    }
+
+    public function testContacts(): void
+    {
+        $document = $this->document();
+        $contacts = $document->contacts();
+        $this->assertCount(2, $contacts);
+        $this->assertInstanceOf(Contact::class, $contacts[0]);
     }
 
     public function testAddressByType(): void
     {
         $document = $this->document();
         $this->assertNull($document->addressByType('NM'));
-        $contact = $document->addressByType('BT');
-        $this->assertEquals('Corporate Headquarters', (string)$contact->AddressName);
+        $address = $document->addressByType('BT');
+        $this->assertInstanceOf(Address::class, $address);
+        $this->assertEquals('Corporate Headquarters', $address->name);
     }
 
     public function testCombineNotes(): void
     {
         $document = $this->document();
-        $this->assertEquals("General Note: FOR QUESTIONS PLEASE CONTACT YOUR BUYER\nCustomization: Note 2", $document->combineNotes());
-        $this->assertEquals("General Note: FOR QUESTIONS PLEASE CONTACT YOUR BUYER - Customization: Note 2", $document->combineNotes(' - '));
+        $this->assertEquals(
+            "General Note: FOR QUESTIONS PLEASE CONTACT YOUR BUYER\nCustomization: Note 2",
+            $document->combineNotes()
+        );
+        $this->assertEquals(
+            "General Note: FOR QUESTIONS PLEASE CONTACT YOUR BUYER - Customization: Note 2",
+            $document->combineNotes(' - ')
+        );
     }
 
     public function testShippingDescription(): void

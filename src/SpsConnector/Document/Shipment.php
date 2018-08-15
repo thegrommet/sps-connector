@@ -15,6 +15,8 @@ class Shipment extends OutgoingDocument implements DocumentInterface
 {
     const EDI_NUMBER         = 856;
     const DOCUMENT_TYPE_CODE = 'SH';
+    const TSET_CODE_ORIGINAL = '00';
+    const ASN_SOPI_CODE      = '0001';
 
     public function ediNumber(): int
     {
@@ -46,17 +48,17 @@ class Shipment extends OutgoingDocument implements DocumentInterface
 
     public function addHeaderDate(Date $date): SimpleXMLElement
     {
-        return $date->addToXml($this->header());
+        return $date->exportToXml($this->header());
     }
 
     public function addHeaderReference(Reference $reference): SimpleXMLElement
     {
-        return $reference->addToXml($this->header());
+        return $reference->exportToXml($this->header());
     }
 
     public function addHeaderAddress(Address $address): SimpleXMLElement
     {
-        return $address->addToXml($this->header());
+        return $address->exportToXml($this->header());
     }
 
     /**

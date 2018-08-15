@@ -95,6 +95,30 @@ class OutgoingDocumentTest extends TestCase
 
         $this->assertTrue($document->uploadDocument('SH12345'));
     }
+
+    public function testFormatDate(): void
+    {
+        $document = new OutgoingDocImpl();
+        $this->assertEquals('2018-08-12', $document->formatDate('2018-08-12'));
+        $this->assertEquals('2018-08-12', $document->formatDate('2018-08-12 22:54:24'));
+        $this->assertEquals('2018-08-12', $document->formatDate('8/12/18'));
+        $this->assertEquals('2018-08-01', $document->formatDate('08/01/18'));
+    }
+
+    public function testFormatDateInvalid(): void
+    {
+        $document = new OutgoingDocImpl();
+        $this->expectException(\TypeError::class);
+        $document->formatDate('bogus');
+    }
+
+    public function testFormatTime(): void
+    {
+        $document = new OutgoingDocImpl();
+        $this->assertEquals('00:00:00+00:00', $document->formatTime('2018-08-12'));
+        $this->assertEquals('22:54:24+00:00', $document->formatTime('2018-08-12 22:54:24'));
+        $this->assertEquals('02:54:00+00:00', $document->formatTime('2:54:00'));
+    }
 }
 
 class OutgoingDocImpl extends OutgoingDocument

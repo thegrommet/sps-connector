@@ -14,6 +14,7 @@ class Reference implements ElementInterface
 {
     const QUALIFIER_LOAD_PLANNING = 'LO';
     const QUALIFIER_MANIFEST      = 'MK';
+    const QUALIFIER_WAREHOUSE_LOC = 'WS';
 
     public $qualifier;
     public $id;
@@ -24,12 +25,13 @@ class Reference implements ElementInterface
         $this->id = $id;
     }
 
-    public function addToXml(SimpleXMLElement $parent): SimpleXMLElement
+    public function exportToXml(SimpleXMLElement $parent): SimpleXMLElement
     {
         if (!$this->qualifier || !$this->id) {
             throw new ElementNotSet('Both "qualifier" and "id" must be set.');
         }
-        if ($this->qualifier != self::QUALIFIER_LOAD_PLANNING && $this->qualifier != self::QUALIFIER_MANIFEST) {
+        if ($this->qualifier != self::QUALIFIER_LOAD_PLANNING && $this->qualifier != self::QUALIFIER_MANIFEST
+            && $this->qualifier != self::QUALIFIER_WAREHOUSE_LOC) {
             throw new ElementInvalid('Invalid qualifier.');
         }
         $root = $parent->addChild('References');

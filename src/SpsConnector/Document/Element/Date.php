@@ -6,6 +6,7 @@ namespace SpsConnector\Document\Element;
 use SimpleXMLElement;
 use SpsConnector\Document\Exception\ElementInvalid;
 use SpsConnector\Document\Exception\ElementNotSet;
+use SpsConnector\Document\OutgoingDocument;
 use TypeError;
 
 /**
@@ -13,8 +14,9 @@ use TypeError;
  */
 class Date implements ElementInterface
 {
-    const QUALIFIER_SHIP         = '011';
-    const QUALIFIER_EST_DELIVERY = '017';
+    const QUALIFIER_REQUESTED_SHIP = '010';
+    const QUALIFIER_SHIP           = '011';
+    const QUALIFIER_EST_DELIVERY   = '017';
 
     public $qualifier;
     public $date;
@@ -25,16 +27,17 @@ class Date implements ElementInterface
         $this->date = $date;
     }
 
-    public function addToXml(SimpleXMLElement $parent): SimpleXMLElement
+    public function exportToXml(SimpleXMLElement $parent): SimpleXMLElement
     {
         if (!$this->qualifier || !$this->date) {
             throw new ElementNotSet('Both "qualifier" and "date" must be set.');
         }
-        if ($this->qualifier != self::QUALIFIER_EST_DELIVERY && $this->qualifier != self::QUALIFIER_SHIP) {
+        if ($this->qualifier != self::QUALIFIER_REQUESTED_SHIP && $this->qualifier != self::QUALIFIER_EST_DELIVERY
+            && $this->qualifier != self::QUALIFIER_SHIP) {
             throw new ElementInvalid('Invalid qualifier.');
         }
         try {
-            $date = date('Y-m-d', strtotime($this->date));
+            $date = date(OutgoingDocument::DATE_FORMAT, strtotime($this->date));
         } catch (TypeError $e) {
             $date = false;
         }

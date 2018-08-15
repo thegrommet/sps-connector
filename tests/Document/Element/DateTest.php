@@ -14,44 +14,44 @@ use SpsConnector\Document\Exception\ElementNotSet;
  */
 class DateTest extends TestCase
 {
-    public function testAddToXml(): void
+    public function testExportToXml(): void
     {
         $date = new Date('011', '2018-08-12');
         $xml = new SimpleXMLElement('<root/>');
-        $date->addToXml($xml);
+        $date->exportToXml($xml);
         $this->assertEquals('011', (string)$xml->Dates->DateTimeQualifier);
         $this->assertEquals('2018-08-12', (string)$xml->Dates->Date);
 
         $date = new Date('017', '9/10/18');
-        $date->addToXml($xml);
+        $date->exportToXml($xml);
         $this->assertEquals('017', (string)$xml->Dates[1]->DateTimeQualifier);
         $this->assertEquals('2018-09-10', (string)$xml->Dates[1]->Date);
     }
 
-    public function testAddToXmlRequired(): void
+    public function testExportToXmlRequired(): void
     {
         $date = new Date();
         $xml = new SimpleXMLElement('<root/>');
         $this->expectException(ElementNotSet::class);
         $this->expectExceptionMessage('Both "qualifier" and "date" must be set.');
-        $date->addToXml($xml);
+        $date->exportToXml($xml);
     }
 
-    public function testAddToXmlInvalidQualifier(): void
+    public function testExportToXmlInvalidQualifier(): void
     {
         $date = new Date('055', 'a');
         $xml = new SimpleXMLElement('<root/>');
         $this->expectException(ElementInvalid::class);
         $this->expectExceptionMessage('Invalid qualifier.');
-        $date->addToXml($xml);
+        $date->exportToXml($xml);
     }
 
-    public function testAddToXmlInvalidDate(): void
+    public function testExportToXmlInvalidDate(): void
     {
         $date = new Date('011', 'bogus');
         $xml = new SimpleXMLElement('<root/>');
         $this->expectException(ElementInvalid::class);
         $this->expectExceptionMessage('Invalid date.');
-        $date->addToXml($xml);
+        $date->exportToXml($xml);
     }
 }

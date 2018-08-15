@@ -16,5 +16,5 @@ interface ElementInterface
      * @param SimpleXMLElement $parent
      * @return SimpleXMLElement The added element under $parent
      */
-    public function addToXml(SimpleXMLElement $parent): SimpleXMLElement;
+    public function exportToXml(SimpleXMLElement $parent): SimpleXMLElement;
 }

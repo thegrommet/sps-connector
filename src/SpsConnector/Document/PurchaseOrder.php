@@ -3,7 +3,9 @@ declare(strict_types=1);
 
 namespace SpsConnector\Document;
 
-use SimpleXMLElement;
+use SpsConnector\Document\Element\Address;
+use SpsConnector\Document\Element\Contact;
+use SpsConnector\Document\Element\Date;
 
 /**
  * Purchase Order EDI document
@@ -19,10 +21,8 @@ class PurchaseOrder extends IncomingDocument implements DocumentInterface
     const TSET_CONFIRMATION             = '06';
     const TSET_DUPLICATE                = '07';
 
-    const CONTACT_TYPE_PRIMARY          = 'IC';
-    const ADDRESS_TYPE_BILLING          = 'BT';
-    const ADDRESS_TYPE_SHIPPING         = 'ST';
-    const DATE_QUALIFIER_REQUESTED_SHIP = '010';
+    const ADDRESS_TYPE_BILLING          = Address::TYPE_BILL_TO;
+    const ADDRESS_TYPE_SHIPPING         = Address::TYPE_SHIP_TO;
 
     protected $poTypes = [
         '26' => 'Replace',
@@ -47,7 +47,7 @@ class PurchaseOrder extends IncomingDocument implements DocumentInterface
         'WH' => 'Warehouse',
     ];
 
-    protected $contactTypes = [
+    protected $noteCodes = [
         'CCG' => 'Customization',
         'GEN' => 'General Note',
         'GFT' => 'Gift Note',
@@ -158,22 +158,39 @@ class PurchaseOrder extends IncomingDocument implements DocumentInterface
         return (string)$this->getXmlData('//Order/Header/OrderHeader/PurchaseOrderNumber');
     }
 
-    public function contactByType(string $type): ?SimpleXMLElement
+    public function contactByType(string $type): ?Contact
     {
-        $contacts = $this->getXmlElements('//Order/Header/Contacts');
-        foreach ($contacts as $contact) {
-            if ((string)$contact->ContactTypeCode === $type) {
+        foreach ($this->getXmlElements('//Order/Header/Contacts') as $headerContact) {
+            if ((string)$headerContact->ContactTypeCode === $type) {
+                $contact = new Contact();
+                $contact->importFromXml($headerContact);
                 return $contact;
             }
         }
         return null;
     }
 
-    public function addressByType(string $type): ?SimpleXMLElement
+    /**
+     * @return Contact[]
+     */
+    public function contacts(): array
+    {
+        $contacts = [];
+        foreach ($this->getXmlElements('//Order/Header/Contacts') as $headerContact) {
+            $contact = new Contact();
+            $contact->importFromXml($headerContact);
+            $contacts[] = $contact;
+        }
+        return $contacts;
+    }
+
+    public function addressByType(string $type): ?Address
     {
         $addresses = $this->getXmlElements('//Order/Header/Address');
-        foreach ($addresses as $address) {
-            if ((string)$address->AddressTypeCode === $type) {
+        foreach ($addresses as $headerAddress) {
+            if ((string)$headerAddress->AddressTypeCode === $type) {
+                $address = new Address();
+                $address->importFromXml($headerAddress);
                 return $address;
             }
         }
@@ -185,7 +202,7 @@ class PurchaseOrder extends IncomingDocument implements DocumentInterface
         $notes = [];
         $xmlNotes = $this->getXmlElements('//Order/Header/Notes');
         foreach ($xmlNotes as $xmlNote) {
-            $notes[] = ($this->contactTypes[(string)$xmlNote->NoteCode] ?? 'N/A') . ': ' . (string)$xmlNote->Note;
+            $notes[] = ($this->noteCodes[(string)$xmlNote->NoteCode] ?? 'N/A') . ': ' . (string)$xmlNote->Note;
         }
         return implode($separator, $notes);
     }
@@ -224,7 +241,7 @@ class PurchaseOrder extends IncomingDocument implements DocumentInterface
     {
         $dates = $this->getXmlElements('//Order/Header/Dates');
         foreach ($dates as $date) {
-            if ((string)$date->DateTimeQualifier == self::DATE_QUALIFIER_REQUESTED_SHIP) {
+            if ((string)$date->DateTimeQualifier == Date::QUALIFIER_REQUESTED_SHIP) {
                 return (string)$date->Date;
             }
         }
