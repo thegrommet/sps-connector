@@ -32,16 +32,16 @@ class AddressTest extends TestCase
         $address = new Address();
         $address->importFromXml($xml);
 
-        $this->assertEquals(Address::TYPE_SHIP_TO, $address->typeCode);
-        $this->assertEquals('92', $address->locationQualifier);
-        $this->assertEquals('012', $address->locationNumber);
-        $this->assertEquals('Main Warehouse', $address->name);
-        $this->assertEquals('123 Main', $address->street1);
-        $this->assertEquals('Suite B', $address->street2);
-        $this->assertEquals('Boulder', $address->city);
-        $this->assertEquals('CO', $address->state);
-        $this->assertEquals('80301', $address->postalCode);
-        $this->assertEquals('USA', $address->country);
+        $this->assertSame(Address::TYPE_SHIP_TO, $address->typeCode);
+        $this->assertSame('92', $address->locationQualifier);
+        $this->assertSame('012', $address->locationNumber);
+        $this->assertSame('Main Warehouse', $address->name);
+        $this->assertSame('123 Main', $address->street1);
+        $this->assertSame('Suite B', $address->street2);
+        $this->assertSame('Boulder', $address->city);
+        $this->assertSame('CO', $address->state);
+        $this->assertSame('80301', $address->postalCode);
+        $this->assertSame('USA', $address->country);
     }
 
     public function testExportToXml(): void
@@ -49,15 +49,15 @@ class AddressTest extends TestCase
         $address = $this->address();
         $xml = new SimpleXMLElement('<address/>');
         $address->exportToXml($xml);
-        $this->assertEquals(Address::TYPE_SHIP_FROM, (string)$xml->Address->AddressTypeCode);
-        $this->assertEquals('012', (string)$xml->Address->AddressLocationNumber);
-        $this->assertEquals('Main Warehouse', (string)$xml->Address->AddressName);
-        $this->assertEquals('123 Main', (string)$xml->Address->Address1);
-        $this->assertEquals('Suite B', (string)$xml->Address->Address2);
-        $this->assertEquals('Boulder', (string)$xml->Address->City);
-        $this->assertEquals('CO', (string)$xml->Address->State);
-        $this->assertEquals('80301', (string)$xml->Address->PostalCode);
-        $this->assertEquals('USA', (string)$xml->Address->Country);
+        $this->assertSame(Address::TYPE_SHIP_FROM, (string)$xml->Address->AddressTypeCode);
+        $this->assertSame('012', (string)$xml->Address->AddressLocationNumber);
+        $this->assertSame('Main Warehouse', (string)$xml->Address->AddressName);
+        $this->assertSame('123 Main', (string)$xml->Address->Address1);
+        $this->assertSame('Suite B', (string)$xml->Address->Address2);
+        $this->assertSame('Boulder', (string)$xml->Address->City);
+        $this->assertSame('CO', (string)$xml->Address->State);
+        $this->assertSame('80301', (string)$xml->Address->PostalCode);
+        $this->assertSame('USA', (string)$xml->Address->Country);
     }
 
     public function testExportToXmlRequired(): void

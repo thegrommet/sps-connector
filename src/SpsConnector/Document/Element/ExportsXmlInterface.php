@@ -6,9 +6,9 @@ namespace SpsConnector\Document\Element;
 use SimpleXMLElement;
 
 /**
- * Element Interface
+ * Exports XML Interface
  */
-interface ElementInterface
+interface ExportsXmlInterface
 {
     /**
      * Add this element's information to the given XML parent.

@@ -18,6 +18,13 @@ abstract class IncomingDocument extends AbstractDocument
     protected $xml;
 
     /**
+     * Two-character string for ID'ing the document on the FTP.
+     *
+     * @return string
+     */
+    abstract public function documentTypeCode(): string;
+
+    /**
      * Fetches and returns an array of documents from the FTP.
      *
      * @param int $limit
@@ -59,11 +66,6 @@ abstract class IncomingDocument extends AbstractDocument
         return $documents;
     }
 
-    public function documentTypeCode(): string
-    {
-        return '';
-    }
-
     /**
      * @param SimpleXMLElement|string $xml
      * @return $this
@@ -98,8 +100,7 @@ abstract class IncomingDocument extends AbstractDocument
      */
     public function getXmlData(string $xpath): string
     {
-        $xml = $this->getXml();
-        $data = $xml->xpath($xpath);
+        $data = $this->getXml()->xpath($xpath);
         if (is_array($data) && count($data)) {
             $first = $data[0];
             if ($first->count()) {
@@ -118,8 +119,7 @@ abstract class IncomingDocument extends AbstractDocument
      */
     public function getXmlElements(string $xpath): array
     {
-        $xml = $this->getXml();
-        $data = $xml->xpath($xpath);
+        $data = $this->getXml()->xpath($xpath);
         if (is_array($data)) {
             return $data;
         }

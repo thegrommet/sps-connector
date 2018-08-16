@@ -12,7 +12,7 @@ use TypeError;
 /**
  * Date element
  */
-class Date implements ElementInterface
+class Date implements ExportsXmlInterface
 {
     const QUALIFIER_REQUESTED_SHIP = '010';
     const QUALIFIER_SHIP           = '011';

@@ -10,7 +10,7 @@ use SpsConnector\Document\Exception\ElementNotSet;
 /**
  * Address element
  */
-class Address implements ElementInterface
+class Address implements ExportsXmlInterface, ImportsXmlInterface
 {
     const TYPE_BILL_TO   = 'BT';
     const TYPE_SHIP_TO   = 'ST';

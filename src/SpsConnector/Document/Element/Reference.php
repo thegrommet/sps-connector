@@ -10,7 +10,7 @@ use SpsConnector\Document\Exception\ElementNotSet;
 /**
  * Reference element
  */
-class Reference implements ElementInterface
+class Reference implements ExportsXmlInterface
 {
     const QUALIFIER_LOAD_PLANNING = 'LO';
     const QUALIFIER_MANIFEST      = 'MK';

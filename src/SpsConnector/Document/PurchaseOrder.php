@@ -6,23 +6,24 @@ namespace SpsConnector\Document;
 use SpsConnector\Document\Element\Address;
 use SpsConnector\Document\Element\Contact;
 use SpsConnector\Document\Element\Date;
+use SpsConnector\Document\Element\LineItem;
 
 /**
  * Purchase Order EDI document
  */
 class PurchaseOrder extends IncomingDocument implements DocumentInterface
 {
-    const EDI_NUMBER                    = 850;
-    const DOCUMENT_TYPE_CODE            = 'PO';
+    const EDI_NUMBER            = 850;
+    const DOCUMENT_TYPE_CODE    = 'PO';
 
-    const TSET_ORIGINAL                 = '00';
-    const TSET_CANCEL                   = '01';
-    const TSET_REPLACE                  = '05';
-    const TSET_CONFIRMATION             = '06';
-    const TSET_DUPLICATE                = '07';
+    const TSET_ORIGINAL         = '00';
+    const TSET_CANCEL           = '01';
+    const TSET_REPLACE          = '05';
+    const TSET_CONFIRMATION     = '06';
+    const TSET_DUPLICATE        = '07';
 
-    const ADDRESS_TYPE_BILLING          = Address::TYPE_BILL_TO;
-    const ADDRESS_TYPE_SHIPPING         = Address::TYPE_SHIP_TO;
+    const ADDRESS_TYPE_BILLING  = Address::TYPE_BILL_TO;
+    const ADDRESS_TYPE_SHIPPING = Address::TYPE_SHIP_TO;
 
     protected $poTypes = [
         '26' => 'Replace',
@@ -248,8 +249,17 @@ class PurchaseOrder extends IncomingDocument implements DocumentInterface
         return null;
     }
 
-    public function newItem(): PurchaseOrderItem
+    /**
+     * @return LineItem[]
+     */
+    public function items(): array
     {
-        return new PurchaseOrderItem();
+        $items = [];
+        foreach ($this->getXmlElements('//Order/LineItem') as $xmlItem) {
+            $item = new LineItem();
+            $item->importFromXml($xmlItem);
+            $items[] = $item;
+        }
+        return $items;
     }
 }

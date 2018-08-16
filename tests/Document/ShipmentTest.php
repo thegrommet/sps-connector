@@ -17,7 +17,7 @@ class ShipmentTest extends TestCase
     public function testEdiNumber(): void
     {
         $document = new Shipment();
-        $this->assertEquals(856, $document->ediNumber());
+        $this->assertSame(856, $document->ediNumber());
     }
 
     public function testAddShipmentHeader(): void
@@ -42,7 +42,7 @@ class ShipmentTest extends TestCase
             '</Shipment>' .
             '</Shipments>';
 
-        $this->assertEquals($expected, str_replace("\n", '', $document->__toString()));
+        $this->assertSame($expected, str_replace("\n", '', $document->__toString()));
     }
 
     public function testAddHeaderDate(): void
@@ -67,7 +67,7 @@ class ShipmentTest extends TestCase
             '</Shipment>' .
             '</Shipments>';
 
-        $this->assertEquals($expected, str_replace("\n", '', $document->__toString()));
+        $this->assertSame($expected, str_replace("\n", '', $document->__toString()));
     }
 
     public function testAddHeaderReference(): void
@@ -92,14 +92,14 @@ class ShipmentTest extends TestCase
             '</Shipment>' .
             '</Shipments>';
 
-        $this->assertEquals($expected, str_replace("\n", '', $document->__toString()));
+        $this->assertSame($expected, str_replace("\n", '', $document->__toString()));
     }
 
     public function testAddHeaderAddress(): void
     {
         $document = new Shipment();
         $address = $document->addHeaderAddress($this->address());
-        $this->assertEquals('Main Warehouse', (string)$address->AddressName);
+        $this->assertSame('Main Warehouse', (string)$address->AddressName);
     }
 
     private function address(): Address

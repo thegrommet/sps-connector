@@ -38,7 +38,7 @@ class IncomingDocumentTest extends TestCase
             ->willReturn($xml);
 
         $documents = $document->fetchNewDocuments();
-        $this->assertEquals(
+        $this->assertSame(
             ['TD12345', 'TD123456.xml', 'TD1234567.xml'],
             array_keys($documents)
         );
@@ -54,10 +54,10 @@ class IncomingDocumentTest extends TestCase
         $expected = '<?xml version="1.0" encoding="utf-8"?><Orders ns="http://www.spscommerce.com/RSX"><Header/></Orders>';
         $document->setXml($xml);
         $this->assertInstanceOf(SimpleXMLElement::class, $document->getXml());
-        $this->assertEquals($expected, str_replace("\n", '', $document->getXml()->asXML()));
+        $this->assertSame($expected, str_replace("\n", '', $document->getXml()->asXML()));
 
         $document->setXml(new SimpleXMLElement($xml));
-        $this->assertEquals($expected, str_replace("\n", '', $document->getXml()->asXML()));
+        $this->assertSame($expected, str_replace("\n", '', $document->getXml()->asXML()));
     }
 
     public function testGetXmlNotSet(): void
@@ -79,9 +79,9 @@ class IncomingDocumentTest extends TestCase
     public function testGetXmlData(): void
     {
         $document = $this->document();
-        $this->assertEquals('525', $document->getXmlData('//Order/Header/OrderHeader/TradingPartnerId'));
-        $this->assertEquals('', $document->getXmlData('//Order/Header/OrderHeader'));
-        $this->assertEquals('1', $document->getXmlData('//Order/LineItem/OrderLine/LineSequenceNumber'));
+        $this->assertSame('525', $document->getXmlData('//Order/Header/OrderHeader/TradingPartnerId'));
+        $this->assertSame('', $document->getXmlData('//Order/Header/OrderHeader'));
+        $this->assertSame('1', $document->getXmlData('//Order/LineItem/OrderLine/LineSequenceNumber'));
     }
 
     public function testGetXmlChildren(): void

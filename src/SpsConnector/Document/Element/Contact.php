@@ -9,7 +9,7 @@ use SpsConnector\Document\Exception\ElementInvalid;
 /**
  * Contact element
  */
-class Contact implements ElementInterface
+class Contact implements ExportsXmlInterface, ImportsXmlInterface
 {
     const TYPE_DELIVERY = 'RE';
     const TYPE_ORDER    = 'OC';

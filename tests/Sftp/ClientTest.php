@@ -37,7 +37,7 @@ class ClientTest extends TestCase
             ->with($this->stringContains('.'))
             ->willReturn('file contents');
 
-        $this->assertEquals('file contents', $client->get('test.txt'));
+        $this->assertSame('file contents', $client->get('test.txt'));
     }
 
     public function testGetEmptyResponse(): void
@@ -49,7 +49,7 @@ class ClientTest extends TestCase
             ->with($this->stringContains('.'))
             ->willReturn('');
 
-        $this->assertEquals('', $client->get('test.txt'));
+        $this->assertSame('', $client->get('test.txt'));
     }
 
     public function testGetInvalidResponse(): void
@@ -170,7 +170,7 @@ class ClientTest extends TestCase
         $client->setLogger($logger);
         $client->login('test', 'secret');
         $client->log('debug message', 'debug');
-        $this->assertEquals([
+        $this->assertSame([
             ['info' => 'CMD login test ***'],
             ['debug' => 'debug message']
         ], $logger->logs);

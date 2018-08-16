@@ -16,7 +16,7 @@ class OutgoingDocumentTest extends TestCase
     public function testToString(): void
     {
         $document = new OutgoingDocImpl();
-        $this->assertEquals('<?xml version="1.0"?><Test/>', str_replace("\n", '', $document->__toString()));
+        $this->assertSame('<?xml version="1.0"?><Test/>', str_replace("\n", '', $document->__toString()));
     }
     
     public function testAddElement(): void
@@ -26,32 +26,32 @@ class OutgoingDocumentTest extends TestCase
             return str_replace("\n", '', $document->__toString());
         };
         $document->addElement('Shipment');
-        $this->assertEquals(
+        $this->assertSame(
             '<?xml version="1.0"?><Test><Shipment/></Test>',
             $toString()
         );
         $document->addElement('Shipment');
-        $this->assertEquals(
+        $this->assertSame(
             '<?xml version="1.0"?><Test><Shipment/><Shipment/></Test>',
             $toString()
         );
         $document->addElement('A', '1');
-        $this->assertEquals(
+        $this->assertSame(
             '<?xml version="1.0"?><Test><Shipment/><Shipment/><A>1</A></Test>',
             $toString()
         );
         $document->addElement('Shipment/B');
-        $this->assertEquals(
+        $this->assertSame(
             '<?xml version="1.0"?><Test><Shipment><B/></Shipment><Shipment/><A>1</A></Test>',
             $toString()
         );
         $document->addElement('Shipment/C', '2');
-        $this->assertEquals(
+        $this->assertSame(
             '<?xml version="1.0"?><Test><Shipment><B/><C>2</C></Shipment><Shipment/><A>1</A></Test>',
             $toString()
         );
         $document->addElement('Shipment/D/E', '3');
-        $this->assertEquals(
+        $this->assertSame(
             '<?xml version="1.0"?><Test><Shipment><B/><C>2</C><D><E>3</E></D></Shipment><Shipment/><A>1</A></Test>',
             $toString()
         );
@@ -99,10 +99,10 @@ class OutgoingDocumentTest extends TestCase
     public function testFormatDate(): void
     {
         $document = new OutgoingDocImpl();
-        $this->assertEquals('2018-08-12', $document->formatDate('2018-08-12'));
-        $this->assertEquals('2018-08-12', $document->formatDate('2018-08-12 22:54:24'));
-        $this->assertEquals('2018-08-12', $document->formatDate('8/12/18'));
-        $this->assertEquals('2018-08-01', $document->formatDate('08/01/18'));
+        $this->assertSame('2018-08-12', $document->formatDate('2018-08-12'));
+        $this->assertSame('2018-08-12', $document->formatDate('2018-08-12 22:54:24'));
+        $this->assertSame('2018-08-12', $document->formatDate('8/12/18'));
+        $this->assertSame('2018-08-01', $document->formatDate('08/01/18'));
     }
 
     public function testFormatDateInvalid(): void
@@ -115,9 +115,9 @@ class OutgoingDocumentTest extends TestCase
     public function testFormatTime(): void
     {
         $document = new OutgoingDocImpl();
-        $this->assertEquals('00:00:00+00:00', $document->formatTime('2018-08-12'));
-        $this->assertEquals('22:54:24+00:00', $document->formatTime('2018-08-12 22:54:24'));
-        $this->assertEquals('02:54:00+00:00', $document->formatTime('2:54:00'));
+        $this->assertSame('00:00:00+00:00', $document->formatTime('2018-08-12'));
+        $this->assertSame('22:54:24+00:00', $document->formatTime('2018-08-12 22:54:24'));
+        $this->assertSame('02:54:00+00:00', $document->formatTime('2:54:00'));
     }
 }
 

@@ -19,13 +19,13 @@ class ReferenceTest extends TestCase
         $reference = new Reference('LO', 'abc123');
         $xml = new SimpleXMLElement('<root/>');
         $reference->exportToXml($xml);
-        $this->assertEquals('LO', (string)$xml->References->ReferenceQual);
-        $this->assertEquals('abc123', (string)$xml->References->ReferenceID);
+        $this->assertSame('LO', (string)$xml->References->ReferenceQual);
+        $this->assertSame('abc123', (string)$xml->References->ReferenceID);
 
         $reference = new Reference('MK', 'def');
         $reference->exportToXml($xml);
-        $this->assertEquals('MK', (string)$xml->References[1]->ReferenceQual);
-        $this->assertEquals('def', (string)$xml->References[1]->ReferenceID);
+        $this->assertSame('MK', (string)$xml->References[1]->ReferenceQual);
+        $this->assertSame('def', (string)$xml->References[1]->ReferenceID);
     }
 
     public function testExportToXmlRequired(): void

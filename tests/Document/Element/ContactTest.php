@@ -25,10 +25,10 @@ class ContactTest extends TestCase
         $contact = new Contact();
         $contact->importFromXml($xml);
 
-        $this->assertEquals(Contact::TYPE_DELIVERY, $contact->typeCode);
-        $this->assertEquals('John Doe', $contact->name);
-        $this->assertEquals('123-456-7890', $contact->phone);
-        $this->assertEquals('john@retailer.com', $contact->email);
+        $this->assertSame(Contact::TYPE_DELIVERY, $contact->typeCode);
+        $this->assertSame('John Doe', $contact->name);
+        $this->assertSame('123-456-7890', $contact->phone);
+        $this->assertSame('john@retailer.com', $contact->email);
     }
 
     public function testExportToXml(): void
@@ -36,10 +36,10 @@ class ContactTest extends TestCase
         $contact = $this->contact();
         $xml = new SimpleXMLElement('<contact/>');
         $contact->exportToXml($xml);
-        $this->assertEquals(Contact::TYPE_DELIVERY, (string)$xml->Contacts->ContactTypeCode);
-        $this->assertEquals('John Doe', (string)$xml->Contacts->ContactName);
-        $this->assertEquals('123-456-7890', (string)$xml->Contacts->PrimaryPhone);
-        $this->assertEquals('john@retailer.com', (string)$xml->Contacts->PrimaryEmail);
+        $this->assertSame(Contact::TYPE_DELIVERY, (string)$xml->Contacts->ContactTypeCode);
+        $this->assertSame('John Doe', (string)$xml->Contacts->ContactName);
+        $this->assertSame('123-456-7890', (string)$xml->Contacts->PrimaryPhone);
+        $this->assertSame('john@retailer.com', (string)$xml->Contacts->PrimaryEmail);
     }
 
     public function testExportToXmlInvalidType(): void

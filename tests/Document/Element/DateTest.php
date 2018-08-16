@@ -19,13 +19,13 @@ class DateTest extends TestCase
         $date = new Date('011', '2018-08-12');
         $xml = new SimpleXMLElement('<root/>');
         $date->exportToXml($xml);
-        $this->assertEquals('011', (string)$xml->Dates->DateTimeQualifier);
-        $this->assertEquals('2018-08-12', (string)$xml->Dates->Date);
+        $this->assertSame('011', (string)$xml->Dates->DateTimeQualifier);
+        $this->assertSame('2018-08-12', (string)$xml->Dates->Date);
 
         $date = new Date('017', '9/10/18');
         $date->exportToXml($xml);
-        $this->assertEquals('017', (string)$xml->Dates[1]->DateTimeQualifier);
-        $this->assertEquals('2018-09-10', (string)$xml->Dates[1]->Date);
+        $this->assertSame('017', (string)$xml->Dates[1]->DateTimeQualifier);
+        $this->assertSame('2018-09-10', (string)$xml->Dates[1]->Date);
     }
 
     public function testExportToXmlRequired(): void
