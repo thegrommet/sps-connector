@@ -32,8 +32,11 @@ abstract class IncomingDocument extends AbstractDocument
      * @param bool $deleteAfterFetch
      * @return static[]
      */
-    public function fetchNewDocuments(int $limit = -1, string $remoteDirectory = 'out', bool $deleteAfterFetch = true): array
-    {
+    public function fetchNewDocuments(
+        int $limit = -1,
+        string $remoteDirectory = 'out',
+        bool $deleteAfterFetch = true
+    ): array {
         if (!$this->sftp) {
             throw new Exception('SFTP client has not been set.');
         }

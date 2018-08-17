@@ -10,6 +10,9 @@ use SpsConnector\Sftp\Client;
  */
 abstract class AbstractDocument
 {
+    const DATE_FORMAT = 'Y-m-d';
+    const TIME_FORMAT = 'H:i:sP';
+
     /**
      * @var Client
      */

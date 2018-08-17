@@ -6,14 +6,14 @@ namespace SpsConnector\Document\Element;
 use SimpleXMLElement;
 use SpsConnector\Document\Exception\ElementInvalid;
 use SpsConnector\Document\Exception\ElementNotSet;
-use SpsConnector\Document\OutgoingDocument;
-use TypeError;
 
 /**
  * Date element
  */
 class Date implements ExportsXmlInterface
 {
+    use DateTimeTrait;
+
     const QUALIFIER_REQUESTED_SHIP = '010';
     const QUALIFIER_SHIP           = '011';
     const QUALIFIER_EST_DELIVERY   = '017';
@@ -36,17 +36,9 @@ class Date implements ExportsXmlInterface
             && $this->qualifier != self::QUALIFIER_SHIP) {
             throw new ElementInvalid('Invalid qualifier.');
         }
-        try {
-            $date = date(OutgoingDocument::DATE_FORMAT, strtotime($this->date));
-        } catch (TypeError $e) {
-            $date = false;
-        }
-        if ($date === false) {
-            throw new ElementInvalid('Invalid date.');
-        }
-        $dateRoot = $parent->addChild('Dates');
-        $dateRoot->addChild('DateTimeQualifier', $this->qualifier);
-        $dateRoot->addChild('Date', $date);
-        return $dateRoot;
+        $root = $parent->addChild('Dates');
+        $root->addChild('DateTimeQualifier', $this->qualifier);
+        $root->addChild('Date', $this->formatDate($this->date));
+        return $root;
     }
 }

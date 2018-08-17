@@ -159,6 +159,11 @@ class PurchaseOrder extends IncomingDocument implements DocumentInterface
         return (string)$this->getXmlData('//Order/Header/OrderHeader/PurchaseOrderNumber');
     }
 
+    public function tradingPartnerId(): string
+    {
+        return (string)$this->getXmlData('//Order/Header/OrderHeader/TradingPartnerId');
+    }
+
     public function contactByType(string $type): ?Contact
     {
         foreach ($this->getXmlElements('//Order/Header/Contacts') as $headerContact) {

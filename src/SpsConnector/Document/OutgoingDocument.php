@@ -5,6 +5,7 @@ namespace SpsConnector\Document;
 
 use Exception;
 use SimpleXMLElement;
+use SpsConnector\Document\Element\DateTimeTrait;
 use SpsConnector\Sftp\Client;
 use SpsConnector\Sftp\Exception\CommandFailed;
 
@@ -13,9 +14,9 @@ use SpsConnector\Sftp\Exception\CommandFailed;
  */
 abstract class OutgoingDocument extends AbstractDocument
 {
-    const XMLNS       = 'http://www.spscommerce.com/RSX';
-    const DATE_FORMAT = 'Y-m-d';
-    const TIME_FORMAT = 'H:i:sP';
+    use DateTimeTrait;
+
+    const XMLNS = 'http://www.spscommerce.com/RSX';
 
     /**
      * @var SimpleXMLElement
@@ -98,15 +99,5 @@ abstract class OutgoingDocument extends AbstractDocument
     public function __toString(): string
     {
         return $this->xml->asXML();
-    }
-
-    public function formatDate(string $date): string
-    {
-        return date(self::DATE_FORMAT, strtotime($date));
-    }
-
-    public function formatTime(string $date): string
-    {
-        return date(self::TIME_FORMAT, strtotime($date));
     }
 }

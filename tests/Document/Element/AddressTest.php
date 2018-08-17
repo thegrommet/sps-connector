@@ -60,6 +60,15 @@ class AddressTest extends TestCase
         $this->assertSame('USA', (string)$xml->Address->Country);
     }
 
+    public function testExportToXmlOmitted(): void
+    {
+        $address = $this->address();
+        $address->street2 = '';
+        $xml = new SimpleXMLElement('<address/>');
+        $address->exportToXml($xml);
+        $this->assertFalse(isset($xml->Address->Address2));
+    }
+
     public function testExportToXmlRequired(): void
     {
         $address = $this->address();
@@ -80,11 +89,24 @@ class AddressTest extends TestCase
         $address->exportToXml($xml);
     }
 
+    public function testExportToXmlLocationOnly(): void
+    {
+        $address = new Address();
+        $address->typeCode = Address::TYPE_BUYING_PARTY;
+        $address->isLocationOnly = true;
+        $address->locationQualifier = Address::LOCATION_QUALIFIER_BUYER;
+        $address->locationNumber = '123';
+        $xml = new SimpleXMLElement('<address/>');
+        $address->exportToXml($xml);
+        $this->assertSame(Address::LOCATION_QUALIFIER_BUYER, (string)$xml->Address->LocationCodeQualifier);
+        $this->assertSame('123', (string)$xml->Address->AddressLocationNumber);
+        $this->assertFalse(isset($xml->Address->AddressName));
+    }
+
     private function address(): Address
     {
         $address = new Address();
         $address->typeCode = Address::TYPE_SHIP_FROM;
-        //$address->locationQualifier = 'todo';
         $address->locationNumber = '012';
         $address->name = 'Main Warehouse';
         $address->street1 = '123 Main';

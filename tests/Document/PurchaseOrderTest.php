@@ -39,6 +39,12 @@ class PurchaseOrderTest extends TestCase
         $this->assertSame('PO584615-1', $document->poNumber());
     }
 
+    public function testTradingPartnerId(): void
+    {
+        $document = $this->document();
+        $this->assertSame('525GROMM', $document->tradingPartnerId());
+    }
+
     public function testContactByType(): void
     {
         $document = $this->document();

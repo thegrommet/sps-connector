@@ -12,9 +12,10 @@ use SpsConnector\Document\Exception\ElementNotSet;
  */
 class Address implements ExportsXmlInterface, ImportsXmlInterface
 {
-    const TYPE_BILL_TO   = 'BT';
-    const TYPE_SHIP_TO   = 'ST';
-    const TYPE_SHIP_FROM = 'SF';
+    const TYPE_BILL_TO      = 'BT';
+    const TYPE_SHIP_TO      = 'ST';
+    const TYPE_SHIP_FROM    = 'SF';
+    const TYPE_BUYING_PARTY = 'BY';
 
     const LOCATION_QUALIFIER_BUYER = '92';
 
@@ -28,6 +29,13 @@ class Address implements ExportsXmlInterface, ImportsXmlInterface
     public $state;
     public $postalCode;
     public $country = 'USA';
+
+    /**
+     * Does this address represent a store location only (no address/city/state/etc)?
+     *
+     * @var bool
+     */
+    public $isLocationOnly = false;
 
     /**
      * Populate this address from the given XML.
@@ -63,19 +71,19 @@ class Address implements ExportsXmlInterface, ImportsXmlInterface
     public function exportToXml(SimpleXMLElement $parent): SimpleXMLElement
     {
         if ($this->typeCode != self::TYPE_BILL_TO && $this->typeCode != self::TYPE_SHIP_FROM
-            && $this->typeCode != self::TYPE_SHIP_TO) {
+            && $this->typeCode != self::TYPE_SHIP_TO && $this->typeCode != self::TYPE_BUYING_PARTY) {
             throw new ElementInvalid('Invalid type code.');
         }
         $root = $parent->addChild('Address');
-        $this->addChild($root, 'AddressTypeCode', $this->typeCode);
-        $this->addChild($root, 'LocationCodeQualifier', $this->locationQualifier, false);
-        $this->addChild($root, 'AddressLocationNumber', $this->locationNumber, false);
-        $this->addChild($root, 'AddressName', $this->name);
-        $this->addChild($root, 'Address1', $this->street1);
+        $this->addChild($root, 'AddressTypeCode', $this->typeCode, true);
+        $this->addChild($root, 'LocationCodeQualifier', $this->locationQualifier, false || $this->isLocationOnly);
+        $this->addChild($root, 'AddressLocationNumber', $this->locationNumber, false || $this->isLocationOnly);
+        $this->addChild($root, 'AddressName', $this->name, true && !$this->isLocationOnly);
+        $this->addChild($root, 'Address1', $this->street1, true && !$this->isLocationOnly);
         $this->addChild($root, 'Address2', $this->street2, false);
-        $this->addChild($root, 'City', $this->city);
-        $this->addChild($root, 'State', $this->state);
-        $this->addChild($root, 'PostalCode', $this->postalCode);
+        $this->addChild($root, 'City', $this->city, true && !$this->isLocationOnly);
+        $this->addChild($root, 'State', $this->state, true && !$this->isLocationOnly);
+        $this->addChild($root, 'PostalCode', $this->postalCode, true && !$this->isLocationOnly);
         $this->addChild($root, 'Country', $this->country, false);
         return $root;
     }

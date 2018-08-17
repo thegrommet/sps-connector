@@ -9,16 +9,9 @@ use SpsConnector\Document\Exception\ElementInvalid;
 /**
  * LineItem element
  */
-class LineItem implements ImportsXmlInterface
+class LineItem extends AbstractItem implements ImportsXmlInterface
 {
-    const PRICE_BASIS_EACH = 'PE';
-
-    public $sequenceNumber;
-    public $buyerPartNumber;
-    public $vendorPartNumber;
     public $gtin;
-    public $orderedQty;
-    public $orderedQtyUOM;
     public $purchasePrice;
     public $purchasePriceBasis;
     public $productPartNumber;
@@ -37,8 +30,10 @@ class LineItem implements ImportsXmlInterface
         }
         $orderLine = $root->OrderLine;
         $this->sequenceNumber = (int)$orderLine->LineSequenceNumber;
+        $this->sequenceNumberLength = strlen((string)$orderLine->LineSequenceNumber);
         $this->buyerPartNumber = (string)$orderLine->BuyerPartNumber;
         $this->vendorPartNumber = (string)$orderLine->VendorPartNumber;
+        $this->consumerPackageCode = (string)$orderLine->ConsumerPackageCode;
         $this->gtin = (string)$orderLine->GTIN;
         $this->orderedQty = (int)$orderLine->OrderQty;
         $this->orderedQtyUOM = (string)$orderLine->OrderQtyUOM;

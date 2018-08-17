@@ -79,7 +79,7 @@ class IncomingDocumentTest extends TestCase
     public function testGetXmlData(): void
     {
         $document = $this->document();
-        $this->assertSame('525', $document->getXmlData('//Order/Header/OrderHeader/TradingPartnerId'));
+        $this->assertSame('525GROMM', $document->getXmlData('//Order/Header/OrderHeader/TradingPartnerId'));
         $this->assertSame('', $document->getXmlData('//Order/Header/OrderHeader'));
         $this->assertSame('1', $document->getXmlData('//Order/LineItem/OrderLine/LineSequenceNumber'));
     }
@@ -88,7 +88,7 @@ class IncomingDocumentTest extends TestCase
     {
         $document = $this->document();
         $this->assertEquals(
-            [new SimpleXMLElement('<data>525</data>')],
+            [new SimpleXMLElement('<data>525GROMM</data>')],
             $document->getXmlElements('//Order/Header/OrderHeader/TradingPartnerId')
         );
         $header = $document->getXmlElements('//Order/Header/OrderHeader');
