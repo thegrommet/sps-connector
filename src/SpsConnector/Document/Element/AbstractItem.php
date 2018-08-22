@@ -8,6 +8,7 @@ namespace SpsConnector\Document\Element;
  */
 abstract class AbstractItem
 {
+    const UOM_EACH         = 'EA';
     const PRICE_BASIS_EACH = 'PE';
 
     public $sequenceNumber;

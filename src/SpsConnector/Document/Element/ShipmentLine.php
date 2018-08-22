@@ -20,13 +20,13 @@ class ShipmentLine extends AbstractItem implements ExportsXmlInterface
 
     public function __construct()
     {
-        $this->orderedQtyUOM = self::PRICE_BASIS_EACH;
-        $this->shipQtyUOM = self::PRICE_BASIS_EACH;
+        $this->orderedQtyUOM = self::UOM_EACH;
+        $this->shipQtyUOM = self::UOM_EACH;
     }
 
     public function exportToXml(SimpleXMLElement $parent): SimpleXMLElement
     {
-        if ($this->orderedQtyUOM != self::PRICE_BASIS_EACH || $this->shipQtyUOM != self::PRICE_BASIS_EACH) {
+        if ($this->orderedQtyUOM != self::UOM_EACH || $this->shipQtyUOM != self::UOM_EACH) {
             throw new ElementInvalid('UOM attributes must be in EA.');
         }
         if ($this->itemStatusCode != self::ITEM_STATUS_ACCEPT
@@ -44,5 +44,21 @@ class ShipmentLine extends AbstractItem implements ExportsXmlInterface
         $root->addChild('ShipQty', (string)$this->shipQty);
         $root->addChild('ShipQtyUOM', $this->shipQtyUOM);
         return $root;
+    }
+
+    /**
+     * Copies required data from the PO line item to this shipment item.
+     *
+     * @param LineItem $poItem
+     */
+    public function copyFromPOItem(LineItem $poItem): void
+    {
+        $this->sequenceNumber = $poItem->sequenceNumber;
+        $this->sequenceNumberLength = $poItem->sequenceNumberLength;
+        $this->buyerPartNumber = $poItem->buyerPartNumber;
+        $this->vendorPartNumber = $poItem->vendorPartNumber;
+        $this->consumerPackageCode = $poItem->consumerPackageCode;
+        $this->orderedQty = $poItem->orderedQty;
+        $this->orderedQtyUOM = $poItem->orderedQtyUOM;
     }
 }
