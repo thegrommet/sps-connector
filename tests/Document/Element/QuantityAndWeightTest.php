@@ -15,7 +15,7 @@ class QuantityAndWeightTest extends TestCase
 {
     public function testExportToXml(): void
     {
-        $qaw = new QuantityAndWeight('CTN', 15, 22.125, 'LB');
+        $qaw = new QuantityAndWeight(15, 22.125, 'LB');
         $xml = new SimpleXMLElement('<root/>');
         $qaw->exportToXml($xml);
         $this->assertSame('CTN', (string)$xml->QuantityAndWeight->PackingMedium);

@@ -20,10 +20,10 @@ class QuantityAndWeight implements ExportsXmlInterface
     public $weightUOM;
 
     public function __construct(
-        string $packingMedium = null,
         int $ladingQuantity = null,
         float $weight = null,
-        string $weightUOM = null
+        string $weightUOM = null,
+        string $packingMedium = self::MEDIUM_CARTON
     ) {
         $this->packingMedium = $packingMedium;
         $this->ladingQuantity = $ladingQuantity;

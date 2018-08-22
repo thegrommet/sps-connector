@@ -37,7 +37,9 @@ class ShipmentLine extends AbstractItem implements ExportsXmlInterface
         $root->addChild('LineSequenceNumber', $this->formatSequenceNumber());
         $root->addChild('BuyerPartNumber', $this->buyerPartNumber);
         $root->addChild('VendorPartNumber', $this->vendorPartNumber);
-        $root->addChild('ConsumerPackageCode', $this->consumerPackageCode);
+        if ($this->consumerPackageCode) {
+            $root->addChild('ConsumerPackageCode', $this->consumerPackageCode);
+        }
         $root->addChild('OrderQty', (string)$this->orderedQty);
         $root->addChild('OrderQtyUOM', $this->orderedQtyUOM);
         $root->addChild('ItemStatusCode', $this->itemStatusCode);
