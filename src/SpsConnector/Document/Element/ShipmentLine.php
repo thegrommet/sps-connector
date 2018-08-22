@@ -27,11 +27,11 @@ class ShipmentLine extends AbstractItem implements ExportsXmlInterface
     public function exportToXml(SimpleXMLElement $parent): SimpleXMLElement
     {
         if ($this->orderedQtyUOM != self::UOM_EACH || $this->shipQtyUOM != self::UOM_EACH) {
-            throw new ElementInvalid('UOM attributes must be in EA.');
+            throw new ElementInvalid('ShipmentLine: UOM attributes must be in EA.');
         }
         if ($this->itemStatusCode != self::ITEM_STATUS_ACCEPT
             && $this->itemStatusCode != self::ITEM_STATUS_ACCEPT_SHIP) {
-            throw new ElementInvalid('Invalid item status code.');
+            throw new ElementInvalid('ShipmentLine: Invalid ItemStatusCode.');
         }
         $root = $parent->addChild('ShipmentLine');
         $root->addChild('LineSequenceNumber', $this->formatSequenceNumber());

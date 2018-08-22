@@ -27,7 +27,7 @@ class CarrierInformationTest extends TestCase
         $carrierInformation = new CarrierInformation('FDEG');
         $xml = new SimpleXMLElement('<root/>');
         $this->expectException(ElementNotSet::class);
-        $this->expectExceptionMessage('Both "carrierAlphaCode" and "carrierRouting" must be set.');
+        $this->expectExceptionMessage('CarrierInformation: Both CarrierAlphaCode and CarrierRouting must be set.');
         $carrierInformation->exportToXml($xml);
     }
 }

@@ -40,18 +40,18 @@ class PhysicalDetails implements ExportsXmlInterface
     public function exportToXml(SimpleXMLElement $parent): SimpleXMLElement
     {
         if (!$this->weight || !$this->volume) {
-            throw new ElementNotSet('Both "weight" and "volume" must be set.');
+            throw new ElementNotSet('PhysicalDetails: Both PackWeight and PackVolume must be set.');
         }
         if ($this->weightUOM != self::WEIGHT_LB) {
-            throw new ElementInvalid('Invalid weight UOM.');
+            throw new ElementInvalid('PhysicalDetails: Invalid PackWeightUOM.');
         }
         if ($this->volumeUOM != self::VOLUME_CUBIC_INCHES && $this->volumeUOM != self::VOLUME_CUBIC_FEET) {
-            throw new ElementInvalid('Invalid volume UOM.');
+            throw new ElementInvalid('PhysicalDetails: Invalid PackVolumeUOM.');
         }
         $root = $parent->addChild('PhysicalDetails');
         if ($this->packingMedium) {
             if ($this->packingMedium != self::MEDIUM_CARTON) {
-                throw new ElementInvalid('Invalid packing medium.');
+                throw new ElementInvalid('PhysicalDetails: Invalid packing medium.');
             }
             $root->addChild('PackingMedium', $this->packingMedium);
         }

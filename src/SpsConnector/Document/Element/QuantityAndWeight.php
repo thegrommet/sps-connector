@@ -19,12 +19,24 @@ class QuantityAndWeight implements ExportsXmlInterface
     public $weight;
     public $weightUOM;
 
+    public function __construct(
+        string $packingMedium = null,
+        int $ladingQuantity = null,
+        float $weight = null,
+        string $weightUOM = null
+    ) {
+        $this->packingMedium = $packingMedium;
+        $this->ladingQuantity = $ladingQuantity;
+        $this->weight = $weight;
+        $this->weightUOM = $weightUOM;
+    }
+
     public function exportToXml(SimpleXMLElement $parent): SimpleXMLElement
     {
         $root = $parent->addChild('QuantityAndWeight');
         if ($this->packingMedium) {
             if ($this->packingMedium != self::MEDIUM_CARTON) {
-                throw new ElementInvalid('Invalid packing medium.');
+                throw new ElementInvalid('QuantityAndWeight: Invalid PackingMedium.');
             }
             $root->addChild('PackingMedium', $this->packingMedium);
         }
@@ -36,7 +48,7 @@ class QuantityAndWeight implements ExportsXmlInterface
         }
         if ($this->weightUOM) {
             if ($this->weightUOM != self::WEIGHT_LB) {
-                throw new ElementInvalid('Invalid weight UOM.');
+                throw new ElementInvalid('QuantityAndWeight: Invalid WeightUOM.');
             }
             $root->addChild('WeightUOM', $this->weightUOM);
         }

@@ -33,7 +33,7 @@ class ReferenceTest extends TestCase
         $reference = new Reference();
         $xml = new SimpleXMLElement('<root/>');
         $this->expectException(ElementNotSet::class);
-        $this->expectExceptionMessage('Both "qualifier" and "id" must be set.');
+        $this->expectExceptionMessage('Reference: Both ReferenceQual and ReferenceID must be set.');
         $reference->exportToXml($xml);
     }
 
@@ -42,7 +42,7 @@ class ReferenceTest extends TestCase
         $reference = new Reference('XX', 'a');
         $xml = new SimpleXMLElement('<root/>');
         $this->expectException(ElementInvalid::class);
-        $this->expectExceptionMessage('Invalid qualifier.');
+        $this->expectExceptionMessage('Reference: Invalid ReferenceQual.');
         $reference->exportToXml($xml);
     }
 }

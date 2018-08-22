@@ -48,18 +48,12 @@ class ContactTest extends TestCase
         $contact->typeCode = 'BAD';
         $xml = new SimpleXMLElement('<contact/>');
         $this->expectException(ElementInvalid::class);
-        $this->expectExceptionMessage('Invalid type code.');
+        $this->expectExceptionMessage('Contacts: Invalid ContactTypeCode.');
         $contact->exportToXml($xml);
     }
 
     private function contact(): Contact
     {
-        $contact = new Contact();
-        $contact->typeCode = Contact::TYPE_DELIVERY;
-        $contact->name = 'John Doe';
-        $contact->phone = '123-456-7890';
-        $contact->email = 'john@retailer.com';
-
-        return $contact;
+        return new Contact(Contact::TYPE_DELIVERY, 'John Doe', '123-456-7890', 'john@retailer.com');
     }
 }

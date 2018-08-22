@@ -15,12 +15,7 @@ class QuantityAndWeightTest extends TestCase
 {
     public function testExportToXml(): void
     {
-        $qaw = new QuantityAndWeight();
-        $qaw->packingMedium = $qaw::MEDIUM_CARTON;
-        $qaw->ladingQuantity = 15;
-        $qaw->weight = 22.125;
-        $qaw->weightUOM = $qaw::WEIGHT_LB;
-
+        $qaw = new QuantityAndWeight('CTN', 15, 22.125, 'LB');
         $xml = new SimpleXMLElement('<root/>');
         $qaw->exportToXml($xml);
         $this->assertSame('CTN', (string)$xml->QuantityAndWeight->PackingMedium);
@@ -35,7 +30,7 @@ class QuantityAndWeightTest extends TestCase
         $qaw->weightUOM = 'BAD';
         $xml = new SimpleXMLElement('<root/>');
         $this->expectException(ElementInvalid::class);
-        $this->expectExceptionMessage('Invalid weight UOM.');
+        $this->expectExceptionMessage('QuantityAndWeight: Invalid WeightUOM.');
         $qaw->exportToXml($xml);
     }
 }

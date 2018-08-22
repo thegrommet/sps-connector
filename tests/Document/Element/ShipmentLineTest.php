@@ -59,7 +59,7 @@ class ShipmentLineTest extends TestCase
         $line->shipQtyUOM = 'BAD';
         $xml = new SimpleXMLElement('<root/>');
         $this->expectException(ElementInvalid::class);
-        $this->expectExceptionMessage('UOM attributes must be in EA.');
+        $this->expectExceptionMessage('ShipmentLine: UOM attributes must be in EA.');
         $line->exportToXml($xml);
     }
 

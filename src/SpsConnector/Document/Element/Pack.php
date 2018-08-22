@@ -27,10 +27,10 @@ class Pack implements ExportsXmlInterface
     public function exportToXml(SimpleXMLElement $parent): SimpleXMLElement
     {
         if (!$this->type || !$this->shippingSerialId) {
-            throw new ElementNotSet('Both "type" and "shippingSerialId" must be set.');
+            throw new ElementNotSet('Pack: Both PackLevelType and ShippingSerialID must be set.');
         }
         if ($this->type != self::TYPE_PACKAGE && $this->type != self::TYPE_PALLET) {
-            throw new ElementInvalid('Invalid package level type.');
+            throw new ElementInvalid('Pack: Invalid PackLevelType.');
         }
         $root = $parent->addChild('Pack');
         $root->addChild('PackLevelType', $this->type);

@@ -28,11 +28,11 @@ class Reference implements ExportsXmlInterface
     public function exportToXml(SimpleXMLElement $parent): SimpleXMLElement
     {
         if (!$this->qualifier || !$this->id) {
-            throw new ElementNotSet('Both "qualifier" and "id" must be set.');
+            throw new ElementNotSet('Reference: Both ReferenceQual and ReferenceID must be set.');
         }
         if ($this->qualifier != self::QUALIFIER_LOAD_PLANNING && $this->qualifier != self::QUALIFIER_MANIFEST
             && $this->qualifier != self::QUALIFIER_WAREHOUSE_LOC) {
-            throw new ElementInvalid('Invalid qualifier.');
+            throw new ElementInvalid('Reference: Invalid ReferenceQual.');
         }
         $root = $parent->addChild('References');
         $root->addChild('ReferenceQual', $this->qualifier);

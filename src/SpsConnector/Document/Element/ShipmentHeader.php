@@ -46,10 +46,10 @@ class ShipmentHeader implements ExportsXmlInterface
     public function exportToXml(SimpleXMLElement $parent): SimpleXMLElement
     {
         if (!$this->shipDate) {
-            throw new ElementNotSet('Invalid ship date.');
+            throw new ElementNotSet('ShipmentHeader: Invalid ShipDate.');
         }
         if (!$this->shipNoticeDate) {
-            throw new ElementNotSet('Invalid ship notice date.');
+            throw new ElementNotSet('ShipmentHeader: Invalid ShipNoticeDate.');
         }
         $root = $parent->addChild('ShipmentHeader');
         $this->addChild($root, 'TradingPartnerId', $this->tradingPartnerId);
@@ -67,7 +67,7 @@ class ShipmentHeader implements ExportsXmlInterface
     protected function addChild(SimpleXMLElement $parent, string $name, ?string $value, bool $required = true): void
     {
         if ($required && !$value) {
-            throw new ElementNotSet(sprintf('Element "%s" is required in the header.', $name));
+            throw new ElementNotSet(sprintf('ShipmentHeader: %s must be set.', $name));
         }
         if ($value) {
             $parent->addChild($name, $value);

@@ -34,7 +34,7 @@ class ShipmentHeaderTest extends TestCase
         $header = new ShipmentHeader('abc', '123');
         $xml = new SimpleXMLElement('<root/>');
         $this->expectException(ElementNotSet::class);
-        $this->expectExceptionMessage('Invalid ship date.');
+        $this->expectExceptionMessage('ShipmentHeader: Invalid ShipDate.');
         $header->exportToXml($xml);
     }
 }

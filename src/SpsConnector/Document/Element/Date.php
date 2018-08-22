@@ -30,11 +30,11 @@ class Date implements ExportsXmlInterface
     public function exportToXml(SimpleXMLElement $parent): SimpleXMLElement
     {
         if (!$this->qualifier || !$this->date) {
-            throw new ElementNotSet('Both "qualifier" and "date" must be set.');
+            throw new ElementNotSet('Dates: Both DateTimeQualifier and Date must be set.');
         }
         if ($this->qualifier != self::QUALIFIER_REQUESTED_SHIP && $this->qualifier != self::QUALIFIER_EST_DELIVERY
             && $this->qualifier != self::QUALIFIER_SHIP) {
-            throw new ElementInvalid('Invalid qualifier.');
+            throw new ElementInvalid('Dates: Invalid DateTimeQualifier.');
         }
         $root = $parent->addChild('Dates');
         $root->addChild('DateTimeQualifier', $this->qualifier);

@@ -21,6 +21,18 @@ class Contact implements ExportsXmlInterface, ImportsXmlInterface
     public $phone;
     public $email;
 
+    public function __construct(
+        string $typeCode = null,
+        string $name = null,
+        string $phone = null,
+        string $email = null
+    ) {
+        $this->typeCode = $typeCode;
+        $this->name = $name;
+        $this->phone = $phone;
+        $this->email = $email;
+    }
+
     public function importFromXml(SimpleXMLElement $root): void
     {
         if ($root->getName() != 'Contacts') {
@@ -38,7 +50,7 @@ class Contact implements ExportsXmlInterface, ImportsXmlInterface
         if ($this->typeCode) {
             if ($this->typeCode != self::TYPE_DELIVERY && $this->typeCode != self::TYPE_ORDER
                 && $this->typeCode != self::TYPE_BUYER && $this->typeCode != self::TYPE_SUPPLIER) {
-                throw new ElementInvalid('Invalid type code.');
+                throw new ElementInvalid('Contacts: Invalid ContactTypeCode.');
             }
             $root->addChild('ContactTypeCode', $this->typeCode);
         }

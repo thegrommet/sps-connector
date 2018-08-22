@@ -34,7 +34,7 @@ class CarrierInformation implements ExportsXmlInterface
     public function exportToXml(SimpleXMLElement $parent): SimpleXMLElement
     {
         if (!$this->carrierAlphaCode || !$this->carrierRouting) {
-            throw  new ElementNotSet('Both "carrierAlphaCode" and "carrierRouting" must be set.');
+            throw new ElementNotSet('CarrierInformation: Both CarrierAlphaCode and CarrierRouting must be set.');
         }
         $root = $parent->addChild('CarrierInformation');
         $root->addChild('CarrierAlphaCode', $this->carrierAlphaCode);

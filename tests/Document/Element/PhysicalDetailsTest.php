@@ -29,7 +29,7 @@ class PhysicalDetailsTest extends TestCase
         $qaw = new PhysicalDetails(12.5, 4.0, 'BAD');
         $xml = new SimpleXMLElement('<root/>');
         $this->expectException(ElementInvalid::class);
-        $this->expectExceptionMessage('Invalid weight UOM.');
+        $this->expectExceptionMessage('PhysicalDetails: Invalid PackWeightUOM.');
         $qaw->exportToXml($xml);
     }
 }

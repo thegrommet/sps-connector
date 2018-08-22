@@ -72,7 +72,7 @@ class Address implements ExportsXmlInterface, ImportsXmlInterface
     {
         if ($this->typeCode != self::TYPE_BILL_TO && $this->typeCode != self::TYPE_SHIP_FROM
             && $this->typeCode != self::TYPE_SHIP_TO && $this->typeCode != self::TYPE_BUYING_PARTY) {
-            throw new ElementInvalid('Invalid type code.');
+            throw new ElementInvalid('Address: Invalid AddressTypeCode.');
         }
         $root = $parent->addChild('Address');
         $this->addChild($root, 'AddressTypeCode', $this->typeCode, true);
@@ -91,7 +91,7 @@ class Address implements ExportsXmlInterface, ImportsXmlInterface
     protected function addChild(SimpleXMLElement $parent, string $name, ?string $value, bool $required = true): void
     {
         if ($required && !$value) {
-            throw new ElementNotSet(sprintf('Element "%s" is required in an address.', $name));
+            throw new ElementNotSet(sprintf('Address: %s must be set.', $name));
         }
         if ($value) {
             $parent->addChild($name, $value);

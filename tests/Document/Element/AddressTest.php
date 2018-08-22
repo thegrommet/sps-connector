@@ -75,7 +75,7 @@ class AddressTest extends TestCase
         $address->name = '';
         $xml = new SimpleXMLElement('<address/>');
         $this->expectException(ElementNotSet::class);
-        $this->expectExceptionMessage('Element "AddressName" is required in an address.');
+        $this->expectExceptionMessage('Address: AddressName must be set.');
         $address->exportToXml($xml);
     }
 
@@ -85,7 +85,7 @@ class AddressTest extends TestCase
         $address->typeCode = 'BAD';
         $xml = new SimpleXMLElement('<address/>');
         $this->expectException(ElementInvalid::class);
-        $this->expectExceptionMessage('Invalid type code.');
+        $this->expectExceptionMessage('Address: Invalid AddressTypeCode.');
         $address->exportToXml($xml);
     }
 

@@ -33,7 +33,7 @@ class DateTest extends TestCase
         $date = new Date();
         $xml = new SimpleXMLElement('<root/>');
         $this->expectException(ElementNotSet::class);
-        $this->expectExceptionMessage('Both "qualifier" and "date" must be set.');
+        $this->expectExceptionMessage('Dates: Both DateTimeQualifier and Date must be set.');
         $date->exportToXml($xml);
     }
 
@@ -42,7 +42,7 @@ class DateTest extends TestCase
         $date = new Date('055', 'a');
         $xml = new SimpleXMLElement('<root/>');
         $this->expectException(ElementInvalid::class);
-        $this->expectExceptionMessage('Invalid qualifier.');
+        $this->expectExceptionMessage('Dates: Invalid DateTimeQualifier.');
         $date->exportToXml($xml);
     }
 

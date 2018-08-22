@@ -28,7 +28,7 @@ class PackTest extends TestCase
         $pack = new Pack();
         $xml = new SimpleXMLElement('<root/>');
         $this->expectException(ElementNotSet::class);
-        $this->expectExceptionMessage('Both "type" and "shippingSerialId" must be set.');
+        $this->expectExceptionMessage('Pack: Both PackLevelType and ShippingSerialID must be set.');
         $pack->exportToXml($xml);
     }
 
@@ -37,7 +37,7 @@ class PackTest extends TestCase
         $pack = new Pack('X', 'a');
         $xml = new SimpleXMLElement('<root/>');
         $this->expectException(ElementInvalid::class);
-        $this->expectExceptionMessage('Invalid package level type.');
+        $this->expectExceptionMessage('Pack: Invalid PackLevelType.');
         $pack->exportToXml($xml);
     }
 }
