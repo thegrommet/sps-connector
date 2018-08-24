@@ -16,8 +16,6 @@ abstract class OutgoingDocument extends AbstractDocument
 {
     use DateTimeTrait;
 
-    const XMLNS = 'http://www.spscommerce.com/RSX';
-
     /**
      * @var SimpleXMLElement
      */
@@ -27,7 +25,6 @@ abstract class OutgoingDocument extends AbstractDocument
     {
         parent::__construct($client);
         $this->xml = new SimpleXMLElement('<' . $this->rootElementName() . '/>');
-        //$this->xml = new SimpleXMLElement('<' . $this->rootElementName() . '/>'/*, 0, false, self::XMLNS*/);
     }
 
     /**
