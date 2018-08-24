@@ -14,29 +14,29 @@ jobs:
       # documented at https://circleci.com/docs/2.0/circleci-images/
       # - image: circleci/mysql:9.4
 
-      #working_directory: ~/src
+    working_directory: ~/repo
 
-      steps:
-        - checkout
+    steps:
+      - checkout
 
-        # Download and cache dependencies
-        - restore_cache:
-            keys:
-              - v1-dependencies-{{ checksum "composer.json" }}
-              # fallback to using the latest cache if no exact match is found
-              - v1-dependencies-
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "composer.json" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
 
-        - run: composer install -n --prefer-dist
+      - run: composer install -n --prefer-dist
 
-        - save_cache:
-            paths:
-              - ./vendor
-            key: v1-dependencies-{{ checksum "composer.json" }}
+      - save_cache:
+          paths:
+            - ./vendor
+          key: v1-dependencies-{{ checksum "composer.json" }}
 
-        - run:
-            name: CodeSniff
-            command: ./vendor/bin/phpcs --standard=PSR12 ./src
+      - run:
+          name: CodeSniff
+          command: ./vendor/bin/phpcs --standard=PSR12 ./src
 
-        - run:
-            name: PHPUnit
-            command: phpunit
+      - run:
+          name: PHPUnit
+          command: phpunit
