@@ -26,7 +26,9 @@ jobs:
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
 
-      - run: composer install -n --prefer-dist
+      - run:
+          name: Composer install
+          command: composer install -n --prefer-dist
 
       - save_cache:
           paths:
