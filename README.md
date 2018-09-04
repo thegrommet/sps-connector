@@ -24,7 +24,7 @@ composer test
 # sniff src folder
 composer cs
 # sniff tests folder
-compser cs-tests
+composer cs-tests
 
 # fix src folder
 composer cbf
