@@ -22,9 +22,6 @@ class PurchaseOrder extends IncomingDocument implements DocumentInterface
     const TSET_CONFIRMATION     = '06';
     const TSET_DUPLICATE        = '07';
 
-    const ADDRESS_TYPE_BILLING  = Address::TYPE_BILL_TO;
-    const ADDRESS_TYPE_SHIPPING = Address::TYPE_SHIP_TO;
-
     protected $poTypes = [
         '26' => 'Replace',
         'BK' => 'Blanket Order',
@@ -164,18 +161,6 @@ class PurchaseOrder extends IncomingDocument implements DocumentInterface
         return (string)$this->getXmlData('//Order/Header/OrderHeader/TradingPartnerId');
     }
 
-    public function contactByType(string $type): ?Contact
-    {
-        foreach ($this->getXmlElements('//Order/Header/Contacts') as $headerContact) {
-            if ((string)$headerContact->ContactTypeCode === $type) {
-                $contact = new Contact();
-                $contact->importFromXml($headerContact);
-                return $contact;
-            }
-        }
-        return null;
-    }
-
     /**
      * @return Contact[]
      */
@@ -190,13 +175,34 @@ class PurchaseOrder extends IncomingDocument implements DocumentInterface
         return $contacts;
     }
 
+    public function contactByType(string $type): ?Contact
+    {
+        foreach ($this->contacts() as $contact) {
+            if ($contact->typeCode == $type) {
+                return $contact;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * @return Address[]
+     */
+    public function addresses(): array
+    {
+        $addresses = [];
+        foreach ($this->getXmlElements('//Order/Header/Address') as $headerAddress) {
+            $address = new Address();
+            $address->importFromXml($headerAddress);
+            $addresses[] = $address;
+        }
+        return $addresses;
+    }
+
     public function addressByType(string $type): ?Address
     {
-        $addresses = $this->getXmlElements('//Order/Header/Address');
-        foreach ($addresses as $headerAddress) {
-            if ((string)$headerAddress->AddressTypeCode === $type) {
-                $address = new Address();
-                $address->importFromXml($headerAddress);
+        foreach ($this->addresses() as $address) {
+            if ($address->typeCode == $type) {
                 return $address;
             }
         }

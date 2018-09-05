@@ -29,5 +29,5 @@ composer cs-tests
 # fix src folder
 composer cbf
 # fix tests folder
-compser cbf-tests
+composer cbf-tests
 ```

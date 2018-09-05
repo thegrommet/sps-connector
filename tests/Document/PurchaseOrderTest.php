@@ -62,6 +62,14 @@ class PurchaseOrderTest extends TestCase
         $this->assertInstanceOf(Contact::class, $contacts[0]);
     }
 
+    public function testAddresses(): void
+    {
+        $document = $this->document();
+        $addresses = $document->addresses();
+        $this->assertCount(2, $addresses);
+        $this->assertInstanceOf(Address::class, $addresses[0]);
+    }
+
     public function testAddressByType(): void
     {
         $document = $this->document();
