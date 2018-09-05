@@ -7,8 +7,8 @@ use PHPUnit\Framework\TestCase;
 use SpsConnector\Document\Element\Address;
 use SpsConnector\Document\Element\Contact;
 use SpsConnector\Document\Element\LineItem;
+use SpsConnector\Document\Element\PaymentTerms;
 use SpsConnector\Document\PurchaseOrder;
-use SpsConnector\Document\PurchaseOrderItem;
 
 /**
  * Purchase Order Doc Test Suite
@@ -79,6 +79,14 @@ class PurchaseOrderTest extends TestCase
         $this->assertSame('Corporate Headquarters', $address->name);
     }
 
+    public function testPaymentTerms(): void
+    {
+        $document = $this->document();
+        $terms = $document->paymentTerms();
+        $this->assertInstanceOf(PaymentTerms::class, $terms);
+        $this->assertSame('2% 30 Net 31', $terms->description);
+    }
+
     public function testCombineNotes(): void
     {
         $document = $this->document();
@@ -96,28 +104,6 @@ class PurchaseOrderTest extends TestCase
     {
         $document = $this->document();
         $this->assertSame('J. B. Hunt - Second Day', $document->shippingDescription());
-    }
-
-    public function testPaymentTermsDescription(): void
-    {
-        $document = $this->document();
-        $this->assertSame('2% 30 Net 31 terms based on Invoice Date', $document->paymentTermsDescription());
-
-        $xml = '<?xml version="1.0" encoding="utf-8"?>
-<Orders xmlns="http://www.spscommerce.com/RSX">
-    <Order>
-        <Header>
-            <PaymentTerms>
-            <TermsType>03</TermsType>
-            <TermsBasisDateCode>2</TermsBasisDateCode>
-            <TermsDiscountDueDays>90</TermsDiscountDueDays>
-            </PaymentTerms>
-        </Header>
-    </Order>
-</Orders>';
-
-        $document->setXml($xml);
-        $this->assertSame('Fixed Date terms based on Delivery Date', $document->paymentTermsDescription());
     }
 
     public function testRequestedShipDate(): void

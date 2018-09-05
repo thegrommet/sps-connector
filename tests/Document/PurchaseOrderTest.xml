@@ -17,12 +17,11 @@
             <TermsType>01</TermsType>
             <TermsBasisDateCode>3</TermsBasisDateCode>
             <TermsDiscountPercentage>2</TermsDiscountPercentage>
-            <TermsDiscountDate>2017-03-12</TermsDiscountDate>
             <TermsDiscountDueDays>30</TermsDiscountDueDays>
             <TermsNetDueDate>2016-04-12</TermsNetDueDate>
             <TermsNetDueDays>31</TermsNetDueDays>
-            <TermsDiscountAmount>23.36</TermsDiscountAmount>
             <TermsDescription>2% 30 Net 31</TermsDescription>
+            <TermsDueDay>14</TermsDueDay>
         </PaymentTerms>
         <Dates>
             <DateTimeQualifier>002</DateTimeQualifier>

@@ -7,6 +7,7 @@ use SpsConnector\Document\Element\Address;
 use SpsConnector\Document\Element\Contact;
 use SpsConnector\Document\Element\Date;
 use SpsConnector\Document\Element\LineItem;
+use SpsConnector\Document\Element\PaymentTerms;
 
 /**
  * Purchase Order EDI document
@@ -55,42 +56,6 @@ class PurchaseOrder extends IncomingDocument implements DocumentInterface
         'RTN' => 'Return Instructions',
         'SHP' => 'Shipping Note',
         'SPE' => 'Special Instructions'
-    ];
-
-    protected $paymentTermTypes = [
-        '01' => 'Basic',
-        '02' => 'End of Month',
-        '03' => 'Fixed Date',
-        '04' => 'Deferred or Installment',
-        '05' => 'Discount Not Applicable',
-        '06' => 'Mixed',
-        '07' => 'Extended',
-        '08' => 'Basic Discount Offered',
-        '09' => 'Proximo',
-        '10' => 'Instant',
-        '11' => 'Elective',
-        '12' => '10 Days after End of Month',
-        '14' => 'Previously agreed upon',
-        '18' => 'Fixed Date',
-        '22' => 'Cash Discount Terms Apply',
-        '23' => 'Payment Due Upon Receipt of Invoice',
-        '24' => 'Anticipation',
-        'CO' => 'Consignment',
-        'NC' => 'No Charge',
-        'PP' => 'Prepayment'
-    ];
-
-    protected $paymentTermsBasisDates = [
-        '1' => 'Ship Date',
-        '2' => 'Delivery Date',
-        '3' => 'Invoice Date',
-        '4' => 'Specified Date',
-        '5' => 'Invoice Receipt Date',
-        '6' => 'Anticipated Delivery Date',
-        '7' => 'Effective Date',
-        '8' => 'Invoice Transmission Date',
-        '09' => 'Purchase Order Date',
-        '15' => 'Receipt of Goods'
     ];
 
     protected $carrierServiceLevels = [
@@ -209,6 +174,16 @@ class PurchaseOrder extends IncomingDocument implements DocumentInterface
         return null;
     }
 
+    public function paymentTerms(): ?PaymentTerms
+    {
+        foreach ($this->getXmlElements('//Order/Header/PaymentTerms') as $headerTerms) {
+            $terms = new PaymentTerms();
+            $terms->importFromXml($headerTerms);
+            return $terms;
+        }
+        return null;
+    }
+
     public function combineNotes(string $separator = "\n"): string
     {
         $notes = [];
@@ -229,24 +204,6 @@ class PurchaseOrder extends IncomingDocument implements DocumentInterface
                  . ($this->carrierServiceLevels[$service] ?? '[Not Specified]');
         }
         return '';
-    }
-
-    public function paymentTermsDescription(): string
-    {
-        $basisDate = (string)$this->getXmlData('//Order/Header/PaymentTerms/TermsBasisDateCode');
-        $description = (string)$this->getXmlData('//Order/Header/PaymentTerms/TermsDescription');
-        if ($description) {
-            if (isset($this->paymentTermsBasisDates[$basisDate])) {
-                return sprintf('%s terms based on %s', $description, $this->paymentTermsBasisDates[$basisDate]);
-            }
-            return $description;
-        }
-        $termType = (string)$this->getXmlData('//Order/Header/PaymentTerms/TermsType');
-        return sprintf(
-            '%s terms based on %s',
-            $this->paymentTermTypes[$termType] ?? 'Unknown',
-            $this->paymentTermsBasisDates[$basisDate] ?? 'Unknown'
-        );
     }
 
     public function requestedShipDate(): ?string
