@@ -19,6 +19,9 @@ class DateTimeTraitTest extends TestCase
         $this->assertSame('2018-08-12', $document->formatDate('2018-08-12 22:54:24'));
         $this->assertSame('2018-08-12', $document->formatDate('8/12/18'));
         $this->assertSame('2018-08-01', $document->formatDate('08/01/18'));
+
+        $this->assertSame('12-08-2018', $document->formatDate('2018-08-12', 'd-m-Y'));
+        $this->assertSame('1534032000', $document->formatDate('2018-08-12', 'U'));
     }
 
     public function testFormatDateInvalid(): void

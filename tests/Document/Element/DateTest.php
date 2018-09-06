@@ -54,4 +54,33 @@ class DateTest extends TestCase
         $this->expectExceptionMessage('Invalid date.');
         $date->exportToXml($xml);
     }
+
+    public function testImportFromXml(): void
+    {
+        $xml = new SimpleXMLElement('<Dates>
+            <DateTimeQualifier>010</DateTimeQualifier>
+            <Date>2018-08-25</Date>
+        </Dates>');
+
+        $date = new Date();
+        $date->importFromXml($xml);
+        $this->assertSame('010', $date->qualifier);
+        $this->assertSame('2018-08-25', $date->date);
+    }
+
+    public function testQualifierLabel(): void
+    {
+        $date = new Date();
+        $this->assertSame('Cancel Date', $date->qualifierLabel('001'));
+        $this->assertSame('Requested Ship', $date->qualifierLabel('010'));
+        $this->assertSame('', $date->qualifierLabel('BOGUS'));
+    }
+
+    public function testTimestamp(): void
+    {
+        $date = new Date('010', '2018-08-12');
+        $this->assertSame(1534032000, $date->timestamp());
+        $date->date = '2018-08-12 00:00:55';
+        $this->assertSame(1534032055, $date->timestamp());
+    }
 }

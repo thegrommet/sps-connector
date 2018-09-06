@@ -57,7 +57,7 @@ class PaymentTerms implements ImportsXmlInterface
     ];
 
     /**
-     * Populate this address from the given XML.
+     * Populate this element from the given XML.
      *
      * @param SimpleXMLElement $root
      */

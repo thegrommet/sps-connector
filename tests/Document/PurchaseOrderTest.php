@@ -6,6 +6,7 @@ namespace Tests\Document;
 use PHPUnit\Framework\TestCase;
 use SpsConnector\Document\Element\Address;
 use SpsConnector\Document\Element\Contact;
+use SpsConnector\Document\Element\Date;
 use SpsConnector\Document\Element\LineItem;
 use SpsConnector\Document\Element\PaymentTerms;
 use SpsConnector\Document\PurchaseOrder;
@@ -106,10 +107,38 @@ class PurchaseOrderTest extends TestCase
         $this->assertSame('J. B. Hunt - Second Day', $document->shippingDescription());
     }
 
+    public function testDates(): void
+    {
+        $document = $this->document();
+        $dates = $document->dates();
+        $this->assertCount(2, $dates);
+        $this->assertInstanceOf(Date::class, $dates[0]);
+    }
+
+    public function testDateByQualifier(): void
+    {
+        $document = $this->document();
+        $this->assertNull($document->dateByQualifier('BOGUS'));
+        $date = $document->dateByQualifier('002');
+        $this->assertInstanceOf(Date::class, $date);
+        $this->assertSame('2017-03-15', $date->date);
+    }
+
     public function testRequestedShipDate(): void
     {
         $document = $this->document();
-        $this->assertSame('2018-05-27', $document->requestedShipDate());
+        $this->assertSame('2022-05-27', $document->requestedShipDate());
+
+        $document->setXml('<Order>
+            <Header>
+                <Dates>
+                    <DateTimeQualifier>010</DateTimeQualifier>
+                    <Date>2018-05-27</Date>
+                </Dates>
+            </Header>
+        </Order>');
+
+        $this->assertNull($document->requestedShipDate());
     }
 
     public function testItems(): void

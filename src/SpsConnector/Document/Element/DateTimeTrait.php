@@ -13,16 +13,17 @@ use TypeError;
 trait DateTimeTrait
 {
     /**
-     * Convert a date-time string to an SPS-compatible date.
+     * Convert a date-time string to the specified format.
      *
      * @param string $date
+     * @param string $format
      * @return string
      * @throws ElementInvalid
      */
-    public function formatDate(string $date): string
+    public function formatDate(string $date, string $format = AbstractDocument::DATE_FORMAT): string
     {
         try {
-            return date(AbstractDocument::DATE_FORMAT, strtotime($date));
+            return date($format, strtotime($date));
         } catch (TypeError $e) {
             throw new ElementInvalid('Invalid date.');
         }
@@ -37,10 +38,6 @@ trait DateTimeTrait
      */
     public function formatTime(string $date): string
     {
-        try {
-            return date(AbstractDocument::TIME_FORMAT, strtotime($date));
-        } catch (TypeError $e) {
-            throw new ElementInvalid('Invalid time.');
-        }
+        return $this->formatDate($date, AbstractDocument::TIME_FORMAT);
     }
 }

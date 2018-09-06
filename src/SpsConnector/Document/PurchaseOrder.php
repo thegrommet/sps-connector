@@ -206,13 +206,35 @@ class PurchaseOrder extends IncomingDocument implements DocumentInterface
         return '';
     }
 
+    /**
+     * @return Date[]
+     */
+    public function dates(): array
+    {
+        $dates = [];
+        foreach ($this->getXmlElements('//Order/Header/Dates') as $headerDate) {
+            $date = new Date();
+            $date->importFromXml($headerDate);
+            $dates[] = $date;
+        }
+        return $dates;
+    }
+
+    public function dateByQualifier(string $qualifier): ?Date
+    {
+        foreach ($this->dates() as $date) {
+            if ($date->qualifier == $qualifier) {
+                return $date;
+            }
+        }
+        return null;
+    }
+
     public function requestedShipDate(): ?string
     {
-        $dates = $this->getXmlElements('//Order/Header/Dates');
-        foreach ($dates as $date) {
-            if ((string)$date->DateTimeQualifier == Date::QUALIFIER_REQUESTED_SHIP) {
-                return (string)$date->Date;
-            }
+        $date = $this->dateByQualifier(Date::QUALIFIER_REQUESTED_SHIP);
+        if ($date && $date->timestamp() > time()) {
+            return $date->date;
         }
         return null;
     }
