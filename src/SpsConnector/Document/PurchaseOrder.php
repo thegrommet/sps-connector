@@ -23,6 +23,11 @@ class PurchaseOrder extends IncomingDocument implements DocumentInterface
     const TSET_CONFIRMATION     = '06';
     const TSET_DUPLICATE        = '07';
 
+    /**
+     * @var Address[]
+     */
+    protected $addresses;
+
     protected $poTypes = [
         '26' => 'Replace',
         'BK' => 'Blanket Order',
@@ -155,13 +160,15 @@ class PurchaseOrder extends IncomingDocument implements DocumentInterface
      */
     public function addresses(): array
     {
-        $addresses = [];
-        foreach ($this->getXmlElements('//Order/Header/Address') as $headerAddress) {
-            $address = new Address();
-            $address->importFromXml($headerAddress);
-            $addresses[] = $address;
+        if ($this->addresses === null) {
+            $this->addresses = [];
+            foreach ($this->getXmlElements('//Order/Header/Address') as $headerAddress) {
+                $address = new Address();
+                $address->importFromXml($headerAddress);
+                $this->addresses[] = $address;
+            }
         }
-        return $addresses;
+        return $this->addresses;
     }
 
     public function addressByType(string $type): ?Address
