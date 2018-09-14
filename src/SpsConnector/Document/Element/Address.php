@@ -94,7 +94,7 @@ class Address implements ExportsXmlInterface, ImportsXmlInterface
             throw new ElementNotSet(sprintf('Address: %s must be set.', $name));
         }
         if ($value) {
-            $parent->addChild($name, $value);
+            $parent->addChild($name, preg_replace('/[\x00-\x1F\x7F]/', '', $value));  // remove control characters
         }
     }
 }

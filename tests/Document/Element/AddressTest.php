@@ -103,6 +103,15 @@ class AddressTest extends TestCase
         $this->assertFalse(isset($xml->Address->AddressName));
     }
 
+    public function testExportToXmlBadCharStrip(): void
+    {
+        $address = $this->address();
+        $address->street1 .= "\r\n St.\t";
+        $xml = new SimpleXMLElement('<address/>');
+        $address->exportToXml($xml);
+        $this->assertSame('123 Main St.', (string)$xml->Address->Address1);
+    }
+
     private function address(): Address
     {
         $address = new Address();
