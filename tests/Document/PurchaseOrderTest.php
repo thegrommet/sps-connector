@@ -28,12 +28,6 @@ class PurchaseOrderTest extends TestCase
         $this->assertSame('NS', $document->poType());
     }
 
-    public function testPoTypeDescription(): void
-    {
-        $document = $this->document();
-        $this->assertSame('New Store Order', $document->poTypeDescription());
-    }
-
     public function testPoNumber(): void
     {
         $document = $this->document();

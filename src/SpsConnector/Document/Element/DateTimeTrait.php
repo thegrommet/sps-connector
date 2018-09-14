@@ -22,6 +22,9 @@ trait DateTimeTrait
      */
     public function formatDate(string $date, string $format = AbstractDocument::DATE_FORMAT): string
     {
+        if (empty($date)) {
+            return '';
+        }
         try {
             return date($format, strtotime($date));
         } catch (TypeError $e) {

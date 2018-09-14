@@ -26,10 +26,10 @@ class PhysicalDetailsTest extends TestCase
 
     public function testExportToXmlInvalidUOM(): void
     {
-        $qaw = new PhysicalDetails(12.5, 4.0, 'BAD');
+        $pd = new PhysicalDetails(12.5, 4.0, 'BAD');
         $xml = new SimpleXMLElement('<root/>');
         $this->expectException(ElementInvalid::class);
         $this->expectExceptionMessage('PhysicalDetails: Invalid PackWeightUOM.');
-        $qaw->exportToXml($xml);
+        $pd->exportToXml($xml);
     }
 }

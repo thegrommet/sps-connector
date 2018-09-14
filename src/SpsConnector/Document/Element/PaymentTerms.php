@@ -5,22 +5,27 @@ namespace SpsConnector\Document\Element;
 
 use SimpleXMLElement;
 use SpsConnector\Document\Exception\ElementInvalid;
+use SpsConnector\Document\Exception\ElementNotSet;
 
 /**
  * PaymentTerms
  */
-class PaymentTerms implements ImportsXmlInterface
+class PaymentTerms implements ExportsXmlInterface, ImportsXmlInterface
 {
+    use DateTimeTrait;
+
     public $termsType;
     public $basisDateCode;
     public $discountPercentage;
+    public $discountAmount;
+    public $discountDate;
     public $discountDueDays;
     public $netDueDate;
     public $netDueDays;
     public $description;
     public $dueDay;
 
-    protected $termTypes = [
+    protected $termsTypes = [
         '01' => 'Basic',
         '02' => 'End of Month',
         '03' => 'Fixed Date',
@@ -69,11 +74,42 @@ class PaymentTerms implements ImportsXmlInterface
         $this->termsType = (string)$root->TermsType;
         $this->basisDateCode = (string)$root->TermsBasisDateCode;
         $this->discountPercentage = (float)$root->TermsDiscountPercentage;
+        $this->discountAmount = (float)$root->TermsDiscountAmount;
+        $this->discountDate = (string)$root->TermsDiscountDate;
         $this->discountDueDays = (int)$root->TermsDiscountDueDays;
         $this->netDueDate = (string)$root->TermsNetDueDate;
         $this->netDueDays = (int)$root->TermsNetDueDays;
         $this->description = (string)$root->TermsDescription;
         $this->dueDay = (int)$root->TermsDueDay;
+    }
+
+    public function exportToXml(SimpleXMLElement $parent): SimpleXMLElement
+    {
+        if (!array_key_exists($this->termsType, $this->termsTypes)) {
+            throw new ElementInvalid('PaymentTerms: Invalid TermsType.');
+        }
+        $root = $parent->addChild('PaymentTerms');
+        $this->addChild($root, 'TermsType', $this->termsType);
+        $this->addChild($root, 'TermsBasisDateCode', $this->basisDateCode);
+        $this->addChild($root, 'TermsDiscountPercentage', (string)$this->discountPercentage, false);
+        $this->addChild($root, 'TermsDiscountAmount', (string)$this->discountAmount, false);
+        $this->addChild($root, 'TermsDiscountDate', $this->formatDate((string)$this->discountDate));
+        $this->addChild($root, 'TermsDiscountDueDays', (string)$this->discountDueDays, false);
+        $this->addChild($root, 'TermsNetDueDate', $this->formatDate((string)$this->netDueDate));
+        $this->addChild($root, 'TermsNetDueDays', (string)$this->netDueDays, false);
+        $this->addChild($root, 'TermsDescription', $this->description, false);
+        $this->addChild($root, 'TermsDueDay', (string)$this->dueDay, false);
+        return $root;
+    }
+
+    protected function addChild(SimpleXMLElement $parent, string $name, ?string $value, bool $required = true): void
+    {
+        if ($required && !$value) {
+            throw new ElementNotSet(sprintf('PaymentTerms: %s must be set.', $name));
+        }
+        if ($value) {
+            $parent->addChild($name, $value);
+        }
     }
 
     public function formatTermsDescription(): string
@@ -90,7 +126,7 @@ class PaymentTerms implements ImportsXmlInterface
         }
         return sprintf(
             '%s terms based on %s',
-            $this->termTypes[$this->termsType] ?? 'Unknown',
+            $this->termsTypes[$this->termsType] ?? 'Unknown',
             $this->termsBasisDates[$this->basisDateCode] ?? 'Unknown'
         );
     }
@@ -106,6 +142,8 @@ class PaymentTerms implements ImportsXmlInterface
             'terms_type' => $this->termsType,
             'basis_date_code' => $this->basisDateCode,
             'discount_percentage' => $this->discountPercentage,
+            'discount_amount' => $this->discountAmount,
+            'discount_date' => $this->discountDate,
             'discount_due_days' => $this->discountDueDays,
             'net_due_date' => $this->netDueDate,
             'net_due_days' => $this->netDueDays,

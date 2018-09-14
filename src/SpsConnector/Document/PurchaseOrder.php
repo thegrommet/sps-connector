@@ -28,29 +28,6 @@ class PurchaseOrder extends IncomingDocument implements DocumentInterface
      */
     protected $addresses;
 
-    protected $poTypes = [
-        '26' => 'Replace',
-        'BK' => 'Blanket Order',
-        'CF' => 'Confirmation',
-        'CN' => 'Consigned Order',
-        'DS' => 'Drop Ship',
-        'EO' => 'Emergency Order',
-        'IN' => 'Information Copy',
-        'KC' => 'Contract',
-        'KN' => 'Cross Dock',
-        'NS' => 'New Store Order',
-        'OS' => 'Special Order',
-        'PR' => 'Promotion Information',
-        'RE' => 'Reorder',
-        'RL' => 'Release or Delivery Order',
-        'RO' => 'Rush Order',
-        'SA' => 'Stand Alone',
-        'SD' => 'Direct to Store',
-        'SP' => 'Sample Order',
-        'SS' => 'Supply or Service Order',
-        'WH' => 'Warehouse',
-    ];
-
     protected $noteCodes = [
         'CCG' => 'Customization',
         'GEN' => 'General Note',
@@ -114,11 +91,6 @@ class PurchaseOrder extends IncomingDocument implements DocumentInterface
     public function poType(): string
     {
         return (string)$this->getXmlData('//Order/Header/OrderHeader/PrimaryPOTypeCode');
-    }
-
-    public function poTypeDescription(): string
-    {
-        return $this->poTypes[$this->poType()] ?? '';
     }
 
     public function poNumber(): string
