@@ -98,6 +98,11 @@ class PurchaseOrder extends IncomingDocument implements DocumentInterface
         return (string)$this->getXmlData('//Order/Header/OrderHeader/PurchaseOrderNumber');
     }
 
+    public function poDate(): string
+    {
+        return (string)$this->getXmlData('//Order/Header/OrderHeader/PurchaseOrderDate');
+    }
+
     public function tradingPartnerId(): string
     {
         return (string)$this->getXmlData('//Order/Header/OrderHeader/TradingPartnerId');
