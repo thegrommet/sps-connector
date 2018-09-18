@@ -19,6 +19,13 @@ class Address implements ExportsXmlInterface, ImportsXmlInterface
 
     const LOCATION_QUALIFIER_BUYER = '92';
 
+    /**
+     * The name of the exported root element.
+     *
+     * @var string
+     */
+    public $xmlRootName = 'Address';
+
     public $typeCode;
     public $locationQualifier;
     public $locationNumber;
@@ -72,9 +79,9 @@ class Address implements ExportsXmlInterface, ImportsXmlInterface
     {
         if ($this->typeCode != self::TYPE_BILL_TO && $this->typeCode != self::TYPE_SHIP_FROM
             && $this->typeCode != self::TYPE_SHIP_TO && $this->typeCode != self::TYPE_BUYING_PARTY) {
-            throw new ElementInvalid('Address: Invalid AddressTypeCode.');
+            throw new ElementInvalid($this->xmlRootName . ': Invalid AddressTypeCode.');
         }
-        $root = $parent->addChild('Address');
+        $root = $parent->addChild($this->xmlRootName);
         $this->addChild($root, 'AddressTypeCode', $this->typeCode, true);
         $this->addChild($root, 'LocationCodeQualifier', $this->locationQualifier, false || $this->isLocationOnly);
         $this->addChild($root, 'AddressLocationNumber', $this->locationNumber, false || $this->isLocationOnly);
@@ -91,7 +98,7 @@ class Address implements ExportsXmlInterface, ImportsXmlInterface
     protected function addChild(SimpleXMLElement $parent, string $name, ?string $value, bool $required = true): void
     {
         if ($required && !$value) {
-            throw new ElementNotSet(sprintf('Address: %s must be set.', $name));
+            throw new ElementNotSet(sprintf($this->xmlRootName . ': %s must be set.', $name));
         }
         if ($value) {
             $parent->addChild($name, $value);

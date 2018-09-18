@@ -1,0 +1,53 @@
+<ShippingLabels>
+    <ShippingLabel>
+        <Header>
+            <LabelHeader>
+                <RequestId>1</RequestId>
+                <LabelId>123</LabelId>
+                <ShipmentIdentification>COD1543</ShipmentIdentification>
+                <Vendor>007261415</Vendor>
+                <CarrierAlphaCode>FX</CarrierAlphaCode>
+                <CarrierRouting>FedEx</CarrierRouting>
+                <BillOfLadingNumber>93186-20121119</BillOfLadingNumber>
+                <CarrierProNumber>89593458948</CarrierProNumber>
+                <CartonCount>1</CartonCount>
+                <CartonTotal>1</CartonTotal>
+            </LabelHeader>
+            <ShipFromAddress>
+                <AddressName>SPS Commerce, Inc.</AddressName>
+                <Address1>333 S. 7th St.</Address1>
+                <City>Minneapolis</City>
+                <State>MN</State>
+                <PostalCode>55402</PostalCode>
+                <Country>USA</Country>
+            </ShipFromAddress>
+            <ShipToAddress>
+                <AddressLocationNumber>324</AddressLocationNumber>
+                <AddressName>RSR Group Inc</AddressName>
+                <Address1>1070 WINDHAM PARKWAY</Address1>
+                <City>INDIANAPOLIS</City>
+                <State>IN</State>
+                <PostalCode>46219</PostalCode>
+            </ShipToAddress>
+        </Header>
+        <Order>
+            <OrderHeader>
+                <PurchaseOrderNumber>TST00001</PurchaseOrderNumber>
+            </OrderHeader>
+            <UCCAndOrEANBarcodeItem>
+                <SerialShippingContainerCode>000521775138957172</SerialShippingContainerCode>
+            </UCCAndOrEANBarcodeItem>
+            <Item>
+                <BuyerPartNumber>0126748</BuyerPartNumber>
+                <VendorPartNumber>9382F</VendorPartNumber>
+                <ConsumerPackageCode>123456789012</ConsumerPackageCode>
+                <ShipQty>1</ShipQty>
+                <ShipQtyUOM>EA</ShipQtyUOM>
+                <ProductDescription>My fav prod</ProductDescription>
+            </Item>
+            <Pack>
+                <InnerPack>InnerPack</InnerPack>
+            </Pack>
+        </Order>
+    </ShippingLabel>
+</ShippingLabels>

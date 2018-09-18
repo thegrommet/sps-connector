@@ -13,62 +13,6 @@ use SpsConnector\Sftp\Client;
  */
 class OutgoingDocumentTest extends TestCase
 {
-    public function testToString(): void
-    {
-        $document = new OutgoingDocImpl();
-        $this->assertSame('<?xml version="1.0"?><Test/>', str_replace("\n", '', $document->__toString()));
-    }
-    
-    public function testAddElement(): void
-    {
-        $document = new OutgoingDocImpl();
-        $toString = function () use ($document) {
-            return str_replace("\n", '', $document->__toString());
-        };
-        $document->addElement('Shipment');
-        $this->assertSame(
-            '<?xml version="1.0"?><Test><Shipment/></Test>',
-            $toString()
-        );
-        $document->addElement('Shipment');
-        $this->assertSame(
-            '<?xml version="1.0"?><Test><Shipment/><Shipment/></Test>',
-            $toString()
-        );
-        $document->addElement('A', '1');
-        $this->assertSame(
-            '<?xml version="1.0"?><Test><Shipment/><Shipment/><A>1</A></Test>',
-            $toString()
-        );
-        $document->addElement('Shipment/B');
-        $this->assertSame(
-            '<?xml version="1.0"?><Test><Shipment><B/></Shipment><Shipment/><A>1</A></Test>',
-            $toString()
-        );
-        $document->addElement('Shipment/C', '2');
-        $this->assertSame(
-            '<?xml version="1.0"?><Test><Shipment><B/><C>2</C></Shipment><Shipment/><A>1</A></Test>',
-            $toString()
-        );
-        $document->addElement('Shipment/D/E', '3');
-        $this->assertSame(
-            '<?xml version="1.0"?><Test><Shipment><B/><C>2</C><D><E>3</E></D></Shipment><Shipment/><A>1</A></Test>',
-            $toString()
-        );
-    }
-
-    public function testHasNode(): void
-    {
-        $document = new OutgoingDocImpl();
-        $document->addElement('A/B/C');
-        $this->assertTrue($document->hasNode('A'));
-        $this->assertTrue($document->hasNode('A/B'));
-        $this->assertTrue($document->hasNode('A/B/C'));
-        $this->assertFalse($document->hasNode('D'));
-        $this->assertFalse($document->hasNode('D/E'));
-        $this->assertFalse($document->hasNode('B'));
-    }
-    
     public function testUploadDocument(): void
     {
         $mockSftp = $this->getMockBuilder(SFTP::class)
