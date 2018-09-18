@@ -19,7 +19,7 @@ jobs:
     steps:
       - run:
           name: Install PHP Extensions
-          command: sudo docker-php-ext-install soap
+          command: sudo apt-get update && sudo apt-get install -y libxml2-dev && sudo docker-php-ext-install soap
 
       - checkout
 
