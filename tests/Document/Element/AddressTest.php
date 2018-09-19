@@ -60,6 +60,15 @@ class AddressTest extends TestCase
         $this->assertSame('USA', (string)$xml->Address->Country);
     }
 
+    public function testExportToXmlDifferentRoot(): void
+    {
+        $address = $this->address();
+        $address->xmlRootName = 'ShipFromAddress';
+        $xml = new SimpleXMLElement('<address/>');
+        $address->exportToXml($xml);
+        $this->assertSame(Address::TYPE_SHIP_FROM, (string)$xml->ShipFromAddress->AddressTypeCode);
+    }
+
     public function testExportToXmlOmitted(): void
     {
         $address = $this->address();

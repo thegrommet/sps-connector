@@ -60,21 +60,6 @@ class Shipment extends OutgoingDocument implements DocumentInterface
         return null;
     }
 
-    /**
-     * Return the child elements of the element specified by xpath.
-     *
-     * @param string $xpath
-     * @return SimpleXMLElement[]
-     */
-    public function getXmlElements(string $xpath): array
-    {
-        $data = $this->xml->xpath($xpath);
-        if (is_array($data)) {
-            return $data;
-        }
-        return [];
-    }
-
     /*
      * Convenience methods for commonly-added elements
      */
