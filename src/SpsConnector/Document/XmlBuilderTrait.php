@@ -67,6 +67,21 @@ trait XmlBuilderTrait
         return count($this->xml->xpath($path)) > 0;
     }
 
+    /**
+     * Return the child elements of the element specified by xpath.
+     *
+     * @param string $xpath
+     * @return SimpleXMLElement[]
+     */
+    public function getXmlElements(string $xpath): array
+    {
+        $data = $this->xml->xpath($xpath);
+        if (is_array($data)) {
+            return $data;
+        }
+        return [];
+    }
+
     public function __toString(): string
     {
         return $this->xml->asXML();

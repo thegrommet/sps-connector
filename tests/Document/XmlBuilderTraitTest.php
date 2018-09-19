@@ -55,6 +55,19 @@ class XmlBuilderTraitTest extends TestCase
         );
     }
 
+    public function testGetXmlElements(): void
+    {
+        $document = new XmlBuilderTraitImpl();
+        $document->addElement('A/B/C');
+        $document->addElement('A/B/D');
+        $document->addElement('A/B');
+        $a = $document->getXmlElements('A');
+        $this->assertCount(1, $a);
+        $b = $document->getXmlElements('A/B');
+        $this->assertCount(2, $b);
+        $this->assertCount(2, $b[0]->children());
+    }
+
     public function testHasNode(): void
     {
         $document = new XmlBuilderTraitImpl();

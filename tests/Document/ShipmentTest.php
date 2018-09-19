@@ -77,6 +77,18 @@ class ShipmentTest extends TestCase
         $this->assertSame('Main Warehouse', (string)$address->AddressName);
     }
 
+    public function testAddressXmlByType(): void
+    {
+        $document = new Shipment();
+        $address = $this->address();
+        $document->addHeaderAddress($address);
+        $address->typeCode = Address::TYPE_BUYING_PARTY;
+        $document->addHeaderAddress($address);
+        $this->assertInstanceOf(\SimpleXMLElement::class, $document->addressXmlByType(Address::TYPE_SHIP_FROM));
+        $this->assertInstanceOf(\SimpleXMLElement::class, $document->addressXmlByType(Address::TYPE_BUYING_PARTY));
+        $this->assertNull($document->addressXmlByType('NM'));
+    }
+
     private function address(): Address
     {
         $address = new Address();

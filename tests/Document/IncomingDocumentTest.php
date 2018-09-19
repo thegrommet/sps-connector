@@ -84,7 +84,7 @@ class IncomingDocumentTest extends TestCase
         $this->assertSame('1', $document->getXmlData('//Order/LineItem/OrderLine/LineSequenceNumber'));
     }
 
-    public function testGetXmlChildren(): void
+    public function testGetXmlElements(): void
     {
         $document = $this->document();
         $this->assertEquals(
