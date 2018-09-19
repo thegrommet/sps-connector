@@ -31,6 +31,50 @@ class Shipment extends OutgoingDocument implements DocumentInterface
         return 'Shipments';
     }
 
+    /**
+     * Returns the Shipment/Header element or creates it if it doesn't exist.
+     *
+     * @return SimpleXMLElement
+     */
+    protected function header(): SimpleXMLElement
+    {
+        if (!$this->hasNode('Shipment/Header')) {
+            return $this->addElement('Shipment/Header');
+        }
+        return $this->xml->Shipment->Header;
+    }
+
+    /**
+     * Returns the Address SimpleXMLElement matching the given type code, if it exists.
+     *
+     * @param string $type
+     * @return null|SimpleXMLElement
+     */
+    public function addressXmlByType(string $type): ?SimpleXMLElement
+    {
+        foreach ($this->getXmlElements('Shipment/Header/Address') as $address) {
+            if ($address->AddressTypeCode == $type) {
+                return $address;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Return the child elements of the element specified by xpath.
+     *
+     * @param string $xpath
+     * @return SimpleXMLElement[]
+     */
+    public function getXmlElements(string $xpath): array
+    {
+        $data = $this->xml->xpath($xpath);
+        if (is_array($data)) {
+            return $data;
+        }
+        return [];
+    }
+
     /*
      * Convenience methods for commonly-added elements
      */
@@ -48,18 +92,5 @@ class Shipment extends OutgoingDocument implements DocumentInterface
     public function addHeaderAddress(Address $address): SimpleXMLElement
     {
         return $address->exportToXml($this->header());
-    }
-
-    /**
-     * Returns the Shipment/Header element or creates it if it doesn't exist.
-     *
-     * @return SimpleXMLElement
-     */
-    protected function header(): SimpleXMLElement
-    {
-        if (!$this->hasNode('Shipment/Header')) {
-            return $this->addElement('Shipment/Header');
-        }
-        return $this->xml->Shipment->Header;
     }
 }
