@@ -181,6 +181,38 @@ class PurchaseOrder extends IncomingDocument implements DocumentInterface
         return null;
     }
 
+    /**
+     * Returns an Address that best matches the billing address.
+     *
+     * @return null|Address
+     */
+    public function billToAddress(): ?Address
+    {
+        foreach ([Address::TYPE_BILL_TO, Address::TYPE_BUYING_PARTY, Address::TYPE_SHIP_TO] as $addressType) {
+            $address = $this->addressByType($addressType);
+            if ($address !== null) {
+                return $address;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Returns an Address that best matches the ship-to.
+     *
+     * @return null|Address
+     */
+    public function shipToAddress(): ?Address
+    {
+        foreach ([Address::TYPE_SHIP_TO, Address::TYPE_BUYING_PARTY, Address::TYPE_BILL_TO] as $addressType) {
+            $address = $this->addressByType($addressType);
+            if ($address !== null) {
+                return $address;
+            }
+        }
+        return null;
+    }
+
     public function paymentTerms(): ?PaymentTerms
     {
         foreach ($this->getXmlElements('//Order/Header/PaymentTerms') as $headerTerms) {

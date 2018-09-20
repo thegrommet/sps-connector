@@ -80,6 +80,22 @@ class PurchaseOrderTest extends TestCase
         $this->assertSame('Corporate Headquarters', $address->name);
     }
 
+    public function testBillToAddress(): void
+    {
+        $document = $this->document();
+        $address = $document->billToAddress();
+        $this->assertInstanceOf(Address::class, $address);
+        $this->assertSame('Corporate Headquarters', $address->name);
+    }
+
+    public function testShipToAddress(): void
+    {
+        $document = $this->document();
+        $address = $document->shipToAddress();
+        $this->assertInstanceOf(Address::class, $address);
+        $this->assertSame('SPS Commerce Distribution Center', $address->name);
+    }
+
     public function testPaymentTerms(): void
     {
         $document = $this->document();
