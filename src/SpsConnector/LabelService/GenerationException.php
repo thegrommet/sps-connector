@@ -15,5 +15,10 @@ class GenerationException extends \Exception
      */
     public $spsCode;
 
+    /**
+     * Array of validation errors.
+     *
+     * @var string[]
+     */
     public $validationErrors = [];
 }

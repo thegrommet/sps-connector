@@ -57,8 +57,7 @@ class LabelService
         $this->username = $username;
         $this->password = $password;
         if ($logger) {
-            $this->logger = $logger;
-            $this->soapOptions['trace'] = true;
+            $this->setLogger($logger);
         }
         if (!empty($wsdlUrl)) {
             $this->wsdl = $wsdlUrl;
@@ -67,6 +66,14 @@ class LabelService
 
     public function getLabel(string $labelXml, string $labelUID, string $format = self::FORMAT_PDF): string
     {
+        function requestToString(SoapClient $client, string $xml)
+        {
+            return print_r([
+                'xml' => $xml,
+                'request' => preg_replace('/password>.+</', 'password>***<', $client->__getLastRequest()),
+                'response' => $client->__getLastResponse(),
+            ], true);
+        };
         try {
             $response = $this->soapClient()->getLabel([
                 'username' => $this->username,
@@ -75,17 +82,11 @@ class LabelService
                 'labelData' => $labelXml
             ]);
             if ($this->logger) {
-                $this->logger->info(print_r([
-                    'request' => $this->soapClient()->__getLastRequest(),
-                    'response' => $this->soapClient()->__getLastResponse(),
-                ], 1));
+                $this->logger->info(requestToString($this->soapClient(), $labelXml));
             }
         } catch (SoapFault $e) {
             if ($this->logger) {
-                $this->logger->error(print_r([
-                    'request' => $this->soapClient()->__getLastRequest(),
-                    'response' => $this->soapClient()->__getLastResponse(),
-                ], 1));
+                $this->logger->error(requestToString($this->soapClient(), $labelXml));
             }
             throw new GenerationException($e->getMessage(), 0, $e);
         }
@@ -96,7 +97,11 @@ class LabelService
         if ($response->statusCode != self::RESPONSE_CODE_SUCCESS) {
             $e = new GenerationException($response->statusMessage);
             $e->spsCode = $response->statusCode;
-            $e->validationErrors = $response->validationErrors->item ?? [];
+            if (is_string($response->validationErrors->item)) {
+                $e->validationErrors = [$response->validationErrors->item];
+            } elseif (is_array($response->validationErrors->item)) {
+                $e->validationErrors = $response->validationErrors->item;
+            }
             throw $e;
         }
         if (empty($response->payload)) {
@@ -130,6 +135,7 @@ class LabelService
     public function setLogger(LoggerInterface $logger): self
     {
         $this->logger = $logger;
+        $this->soapOptions['trace'] = true;
         return $this;
     }
 }

@@ -77,12 +77,13 @@ class Address implements ExportsXmlInterface, ImportsXmlInterface
      */
     public function exportToXml(SimpleXMLElement $parent): SimpleXMLElement
     {
-        if ($this->typeCode != self::TYPE_BILL_TO && $this->typeCode != self::TYPE_SHIP_FROM
-            && $this->typeCode != self::TYPE_SHIP_TO && $this->typeCode != self::TYPE_BUYING_PARTY) {
+        $allowedTypes = [self::TYPE_SHIP_FROM, self::TYPE_SHIP_TO, self::TYPE_BUYING_PARTY, self::TYPE_BILL_TO];
+        if ($this->xmlRootName == 'Address' && !in_array($this->typeCode, $allowedTypes)) {
             throw new ElementInvalid($this->xmlRootName . ': Invalid AddressTypeCode.');
         }
         $root = $parent->addChild($this->xmlRootName);
-        $this->addChild($root, 'AddressTypeCode', $this->typeCode, true);
+        // type code is not required for addresses with a different root
+        $this->addChild($root, 'AddressTypeCode', $this->typeCode, $this->xmlRootName == 'Address');
         $this->addChild($root, 'LocationCodeQualifier', $this->locationQualifier, false || $this->isLocationOnly);
         $this->addChild($root, 'AddressLocationNumber', $this->locationNumber, false || $this->isLocationOnly);
         $this->addChild($root, 'AddressName', $this->name, true && !$this->isLocationOnly);

@@ -16,7 +16,7 @@ composer require thegrommet/sps-connector
 
 ### GS1 Label Generation
 
-> See [generate-label.php](examples/generate-label.php)
+> See [generate-label.php](example/generate-label.php)
 
 ```php
 use SpsConnector\Document\ShippingLabel;

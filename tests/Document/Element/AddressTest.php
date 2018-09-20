@@ -64,9 +64,10 @@ class AddressTest extends TestCase
     {
         $address = $this->address();
         $address->xmlRootName = 'ShipFromAddress';
+        $address->typeCode = '';  // not required for addresses with a different root
         $xml = new SimpleXMLElement('<address/>');
         $address->exportToXml($xml);
-        $this->assertSame(Address::TYPE_SHIP_FROM, (string)$xml->ShipFromAddress->AddressTypeCode);
+        $this->assertSame('Main Warehouse', (string)$xml->ShipFromAddress->AddressName);
     }
 
     public function testExportToXmlOmitted(): void
