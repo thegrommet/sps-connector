@@ -7,9 +7,9 @@ use SimpleXMLElement;
 use SpsConnector\Document\Exception\ElementInvalid;
 
 /**
- * LineItem element
+ * Order LineItem element
  */
-class LineItem extends AbstractItem implements ImportsXmlInterface
+class OrderLineItem extends AbstractItem implements ImportsXmlInterface
 {
     public $gtin;
     public $purchasePrice;

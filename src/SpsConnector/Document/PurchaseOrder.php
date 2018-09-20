@@ -6,7 +6,7 @@ namespace SpsConnector\Document;
 use SpsConnector\Document\Element\Address;
 use SpsConnector\Document\Element\Contact;
 use SpsConnector\Document\Element\Date;
-use SpsConnector\Document\Element\LineItem;
+use SpsConnector\Document\Element\OrderLineItem;
 use SpsConnector\Document\Element\PaymentTerms;
 
 /**
@@ -279,13 +279,13 @@ class PurchaseOrder extends IncomingDocument implements DocumentInterface
     }
 
     /**
-     * @return LineItem[]
+     * @return OrderLineItem[]
      */
     public function items(): array
     {
         $items = [];
         foreach ($this->getXmlElements('//Order/LineItem') as $xmlItem) {
-            $item = new LineItem();
+            $item = new OrderLineItem();
             $item->importFromXml($xmlItem);
             $items[] = $item;
         }

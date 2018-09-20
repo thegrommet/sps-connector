@@ -5,7 +5,7 @@ namespace Tests\Document\Element;
 
 use PHPUnit\Framework\TestCase;
 use SimpleXMLElement;
-use SpsConnector\Document\Element\LineItem;
+use SpsConnector\Document\Element\OrderLineItem;
 use SpsConnector\Document\Element\ShipmentLine;
 use SpsConnector\Document\Exception\ElementInvalid;
 
@@ -65,7 +65,7 @@ class ShipmentLineTest extends TestCase
 
     public function testCopyFromPOItem(): void
     {
-        $poItem = new LineItem();
+        $poItem = new OrderLineItem();
         $poItem->sequenceNumber = 1;
         $poItem->sequenceNumberLength = 2;
         $poItem->buyerPartNumber = 'buy123';

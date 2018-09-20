@@ -51,9 +51,9 @@ class ShipmentLine extends AbstractItem implements ExportsXmlInterface
     /**
      * Copies required data from the PO line item to this shipment item.
      *
-     * @param LineItem $poItem
+     * @param OrderLineItem $poItem
      */
-    public function copyFromPOItem(LineItem $poItem): void
+    public function copyFromPOItem(OrderLineItem $poItem): void
     {
         $this->sequenceNumber = $poItem->sequenceNumber;
         $this->sequenceNumberLength = $poItem->sequenceNumberLength;

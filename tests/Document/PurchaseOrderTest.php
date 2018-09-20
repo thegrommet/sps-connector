@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 use SpsConnector\Document\Element\Address;
 use SpsConnector\Document\Element\Contact;
 use SpsConnector\Document\Element\Date;
-use SpsConnector\Document\Element\LineItem;
+use SpsConnector\Document\Element\OrderLineItem;
 use SpsConnector\Document\Element\PaymentTerms;
 use SpsConnector\Document\PurchaseOrder;
 
@@ -163,7 +163,7 @@ class PurchaseOrderTest extends TestCase
         $items = $document->items();
         $this->assertCount(3, $items);
         $item = current($items);
-        $this->assertInstanceOf(LineItem::class, $item);
+        $this->assertInstanceOf(OrderLineItem::class, $item);
         $this->assertSame(1, $item->sequenceNumber);
     }
 

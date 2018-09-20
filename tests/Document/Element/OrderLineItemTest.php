@@ -5,12 +5,12 @@ namespace Tests\Document\Element;
 
 use PHPUnit\Framework\TestCase;
 use SimpleXMLElement;
-use SpsConnector\Document\Element\LineItem;
+use SpsConnector\Document\Element\OrderLineItem;
 
 /**
- * LineItem Element Test Suite
+ * Order LineItem Element Test Suite
  */
-class LineItemTest extends TestCase
+class OrderLineItemTest extends TestCase
 {
     public function testImportFromXml(): void
     {
@@ -35,7 +35,7 @@ class LineItemTest extends TestCase
             </ProductOrItemDescription>
         </LineItem>');
 
-        $line = new LineItem();
+        $line = new OrderLineItem();
         $line->importFromXml($xml);
 
         $this->assertSame(1, $line->sequenceNumber);
