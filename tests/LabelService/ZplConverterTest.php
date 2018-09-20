@@ -21,7 +21,7 @@ class ZplConverterTest extends TestCase
     {
         $this->getFunctionMock($this->mockNamespace, 'curl_init')
             ->expects($this->once())
-            ->with($this->equalTo('http://api.labelary.com/v1/printers/8dpmm/labels/4x6/0/'))
+            ->with($this->equalTo('http://api.labelary.com/v1/printers/8dpmm/labels/4x6/'))
             ->willReturn(null);
         $this->getFunctionMock($this->mockNamespace, 'curl_setopt')
             ->expects($this->exactly(5))
@@ -44,7 +44,7 @@ class ZplConverterTest extends TestCase
     {
         $this->getFunctionMock($this->mockNamespace, 'curl_init')
             ->expects($this->once())
-            ->with($this->equalTo('http://api.labelary.com/v1/printers/8dpmm/labels/4x6/0/'))
+            ->with($this->equalTo('http://api.labelary.com/v1/printers/8dpmm/labels/4x6/'))
             ->willReturn(null);
         $this->getFunctionMock($this->mockNamespace, 'curl_setopt')
             ->expects($this->exactly(5))

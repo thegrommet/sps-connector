@@ -22,7 +22,7 @@ class ZplConverter
     public function toPdf(string $zpl, int $dpmm = 8, string $dimensions = '4x6'): string
     {
         $url = sprintf(
-            'http://api.labelary.com/v1/printers/%ddpmm/labels/%s/0/',
+            'http://api.labelary.com/v1/printers/%ddpmm/labels/%s/',
             $dpmm,
             $dimensions
         );
