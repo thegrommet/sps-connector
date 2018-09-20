@@ -66,27 +66,27 @@ class LabelService
 
     public function getLabel(string $labelXml, string $labelUID, string $format = self::FORMAT_PDF): string
     {
-        function requestToString(SoapClient $client, string $xml)
-        {
+        $client = $this->soapClient();
+        $requestToString = function () use ($client, $labelXml) {
             return print_r([
-                'xml' => $xml,
+                'xml' => $labelXml,
                 'request' => preg_replace('/password>.+</', 'password>***<', $client->__getLastRequest()),
                 'response' => $client->__getLastResponse(),
             ], true);
         };
         try {
-            $response = $this->soapClient()->getLabel([
+            $response = $client->getLabel([
                 'username' => $this->username,
                 'password' => $this->password,
                 'labelUID' => $labelUID,
                 'labelData' => $labelXml
             ]);
             if ($this->logger) {
-                $this->logger->info(requestToString($this->soapClient(), $labelXml));
+                $this->logger->info($requestToString());
             }
         } catch (SoapFault $e) {
             if ($this->logger) {
-                $this->logger->error(requestToString($this->soapClient(), $labelXml));
+                $this->logger->error($requestToString());
             }
             throw new GenerationException($e->getMessage(), 0, $e);
         }
@@ -97,10 +97,12 @@ class LabelService
         if ($response->statusCode != self::RESPONSE_CODE_SUCCESS) {
             $e = new GenerationException($response->statusMessage);
             $e->spsCode = $response->statusCode;
-            if (is_string($response->validationErrors->item)) {
-                $e->validationErrors = [$response->validationErrors->item];
-            } elseif (is_array($response->validationErrors->item)) {
-                $e->validationErrors = $response->validationErrors->item;
+            if (isset($response->validationErrors->item)) {
+                if (is_string($response->validationErrors->item)) {
+                    $e->validationErrors = [$response->validationErrors->item];
+                } elseif (is_array($response->validationErrors->item)) {
+                    $e->validationErrors = $response->validationErrors->item;
+                }
             }
             throw $e;
         }

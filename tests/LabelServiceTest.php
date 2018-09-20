@@ -101,13 +101,14 @@ class LabelServiceTest extends TestCase
         $response->result->payload = '';
 
         $soap = $this->soapClient();
-        $soap->expects($this->once())
+        $soap->expects($this->exactly(2))
             ->method('getLabel')
             ->willReturn($response);
 
         $labelService = new LabelService('uname', 'secret');
         $labelService->setSoapClient($soap);
 
+        // multiple errors
         $ex = null;
         try {
             $labelService->getLabel('<xml />', '1234', $labelService::FORMAT_ZPL);
@@ -116,6 +117,17 @@ class LabelServiceTest extends TestCase
         }
         $this->assertInstanceOf(GenerationException::class, $ex);
         $this->assertSame($errors, $ex->validationErrors);
+
+        // single error
+        $response->result->validationErrors->item = 'Error 1';
+        $ex = null;
+        try {
+            $labelService->getLabel('<xml />', '1234', $labelService::FORMAT_ZPL);
+        } catch (GenerationException $e) {
+            $ex = $e;
+        }
+        $this->assertInstanceOf(GenerationException::class, $ex);
+        $this->assertSame(['Error 1'], $ex->validationErrors);
     }
 
     private function soapClient(): MockObject
