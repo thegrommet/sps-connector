@@ -16,7 +16,6 @@ class ChargesAllowances implements ExportsXmlInterface
     const INDICATOR_ALLOWANCE  = 'A';
     const CODE_DISCOUNT        = 'C310';
     const CODE_FREIGHT         = 'D240';
-    const CODE_TAX             = 'H806';
     const HANDLING_CODE_VENDOR = '05';
     const HANDLING_CODE_BUYER  = '06';
 
