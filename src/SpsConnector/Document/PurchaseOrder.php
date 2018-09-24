@@ -28,29 +28,6 @@ class PurchaseOrder extends IncomingDocument implements DocumentInterface
      */
     protected $addresses;
 
-    protected $poTypes = [
-        '26' => 'Replace',
-        'BK' => 'Blanket Order',
-        'CF' => 'Confirmation',
-        'CN' => 'Consigned Order',
-        'DS' => 'Drop Ship',
-        'EO' => 'Emergency Order',
-        'IN' => 'Information Copy',
-        'KC' => 'Contract',
-        'KN' => 'Cross Dock',
-        'NS' => 'New Store Order',
-        'OS' => 'Special Order',
-        'PR' => 'Promotion Information',
-        'RE' => 'Reorder',
-        'RL' => 'Release or Delivery Order',
-        'RO' => 'Rush Order',
-        'SA' => 'Stand Alone',
-        'SD' => 'Direct to Store',
-        'SP' => 'Sample Order',
-        'SS' => 'Supply or Service Order',
-        'WH' => 'Warehouse',
-    ];
-
     protected $noteCodes = [
         'CCG' => 'Customization',
         'GEN' => 'General Note',
@@ -116,14 +93,14 @@ class PurchaseOrder extends IncomingDocument implements DocumentInterface
         return (string)$this->getXmlData('//Order/Header/OrderHeader/PrimaryPOTypeCode');
     }
 
-    public function poTypeDescription(): string
-    {
-        return $this->poTypes[$this->poType()] ?? '';
-    }
-
     public function poNumber(): string
     {
         return (string)$this->getXmlData('//Order/Header/OrderHeader/PurchaseOrderNumber');
+    }
+
+    public function poDate(): string
+    {
+        return (string)$this->getXmlData('//Order/Header/OrderHeader/PurchaseOrderDate');
     }
 
     public function tradingPartnerId(): string
@@ -284,9 +261,13 @@ class PurchaseOrder extends IncomingDocument implements DocumentInterface
     public function items(): array
     {
         $items = [];
+        $lsn = 1;
         foreach ($this->getXmlElements('//Order/LineItem') as $xmlItem) {
             $item = new OrderLineItem();
             $item->importFromXml($xmlItem);
+            if (!$item->sequenceNumber) {
+                $item->sequenceNumber = $lsn++;
+            }
             $items[] = $item;
         }
         return $items;

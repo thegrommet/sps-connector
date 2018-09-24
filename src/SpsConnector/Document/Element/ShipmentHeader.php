@@ -22,7 +22,7 @@ class ShipmentHeader implements ExportsXmlInterface
     public $shipNoticeDate;
     public $tsetPurposeCode;
     public $asnStructureCode;
-    public $billofLading;
+    public $billOfLading;
     public $carrierPro;
 
     public function __construct(
@@ -34,7 +34,7 @@ class ShipmentHeader implements ExportsXmlInterface
         $this->tradingPartnerId = $tradingPartnerId;
         $this->shipmentId = $shipmentId;
         $this->shipDate = $shipDate;
-        $this->billofLading = $trackingNumber;
+        $this->billOfLading = $trackingNumber;
         $this->carrierPro = $trackingNumber;
 
         // defaults
@@ -59,7 +59,7 @@ class ShipmentHeader implements ExportsXmlInterface
         $this->addChild($root, 'ShipNoticeDate', $this->formatDate($this->shipNoticeDate));
         $this->addChild($root, 'ShipNoticeTime', $this->formatTime($this->shipNoticeDate));
         $this->addChild($root, 'ASNStructureCode', $this->asnStructureCode);
-        $this->addChild($root, 'BillOfLadingNumber', $this->billofLading);
+        $this->addChild($root, 'BillOfLadingNumber', $this->billOfLading);
         $this->addChild($root, 'CarrierProNumber', $this->carrierPro);
         return $root;
     }

@@ -28,16 +28,16 @@ class PurchaseOrderTest extends TestCase
         $this->assertSame('NS', $document->poType());
     }
 
-    public function testPoTypeDescription(): void
-    {
-        $document = $this->document();
-        $this->assertSame('New Store Order', $document->poTypeDescription());
-    }
-
     public function testPoNumber(): void
     {
         $document = $this->document();
         $this->assertSame('PO584615-1', $document->poNumber());
+    }
+
+    public function testPoDate(): void
+    {
+        $document = $this->document();
+        $this->assertSame('2017-03-12', $document->poDate());
     }
 
     public function testTradingPartnerId(): void
@@ -165,6 +165,18 @@ class PurchaseOrderTest extends TestCase
         $item = current($items);
         $this->assertInstanceOf(OrderLineItem::class, $item);
         $this->assertSame(1, $item->sequenceNumber);
+    }
+
+    public function testItemsNoLSN(): void
+    {
+        $document = $this->document();
+        foreach ($document->getXmlElements('//Order/LineItem') as $xmlItem) {
+            $xmlItem->LineSequenceNumber = '';
+        }
+        $items = $document->items();
+        $item = current($items);
+        $this->assertSame(1, $item->sequenceNumber);
+        $this->assertSame(1, $item->sequenceNumberLength);
     }
 
     private function document(): PurchaseOrder

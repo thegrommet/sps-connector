@@ -27,7 +27,7 @@ $label = $labelDocument->addLabel();
 // add label specifics
 
 $service = new LabelService('username', 'password');
-$pdf = $service->getLabel($label->__toString(), '5311', $service::FORMAT_PDF);
+$pdf = $service->getLabel($labelDocument->__toString(), '5311', $service::FORMAT_PDF);
 file_put_contents('label.pdf', $pdf);
 ```
 
