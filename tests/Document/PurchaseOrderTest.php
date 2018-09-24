@@ -167,6 +167,18 @@ class PurchaseOrderTest extends TestCase
         $this->assertSame(1, $item->sequenceNumber);
     }
 
+    public function testItemsNoLSN(): void
+    {
+        $document = $this->document();
+        foreach ($document->getXmlElements('//Order/LineItem') as $xmlItem) {
+            $xmlItem->LineSequenceNumber = '';
+        }
+        $items = $document->items();
+        $item = current($items);
+        $this->assertSame(1, $item->sequenceNumber);
+        $this->assertSame(1, $item->sequenceNumberLength);
+    }
+
     private function document(): PurchaseOrder
     {
         $document = new PurchaseOrder();

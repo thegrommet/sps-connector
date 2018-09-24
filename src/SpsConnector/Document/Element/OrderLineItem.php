@@ -30,7 +30,7 @@ class OrderLineItem extends AbstractItem implements ImportsXmlInterface
         }
         $orderLine = $root->OrderLine;
         $this->sequenceNumber = (int)$orderLine->LineSequenceNumber;
-        $this->sequenceNumberLength = strlen((string)$orderLine->LineSequenceNumber);
+        $this->sequenceNumberLength = strlen((string)max($orderLine->LineSequenceNumber, 1));
         $this->buyerPartNumber = (string)$orderLine->BuyerPartNumber;
         $this->vendorPartNumber = (string)$orderLine->VendorPartNumber;
         $this->consumerPackageCode = (string)$orderLine->ConsumerPackageCode;

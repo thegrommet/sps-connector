@@ -34,7 +34,7 @@ class InvoiceLine extends AbstractItem implements ExportsXmlInterface
         }
         $root = $parent->addChild('InvoiceLine');
         $this->addChild($root, 'LineSequenceNumber', $this->formatSequenceNumber());
-        $this->addChild($root, 'BuyerPartNumber', $this->buyerPartNumber);
+        $this->addChild($root, 'BuyerPartNumber', $this->buyerPartNumber, false);
         $this->addChild($root, 'VendorPartNumber', $this->vendorPartNumber);
         $this->addChild($root, 'ConsumerPackageCode', $this->consumerPackageCode);
         $this->addChild($root, 'InvoiceQty', (string)$this->invoiceQty, false);

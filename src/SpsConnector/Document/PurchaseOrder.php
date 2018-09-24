@@ -261,9 +261,13 @@ class PurchaseOrder extends IncomingDocument implements DocumentInterface
     public function items(): array
     {
         $items = [];
+        $lsn = 1;
         foreach ($this->getXmlElements('//Order/LineItem') as $xmlItem) {
             $item = new OrderLineItem();
             $item->importFromXml($xmlItem);
+            if (!$item->sequenceNumber) {
+                $item->sequenceNumber = $lsn++;
+            }
             $items[] = $item;
         }
         return $items;

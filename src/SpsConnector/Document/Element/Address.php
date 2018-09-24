@@ -16,6 +16,7 @@ class Address implements ExportsXmlInterface, ImportsXmlInterface
     const TYPE_SHIP_TO      = 'ST';
     const TYPE_SHIP_FROM    = 'SF';
     const TYPE_BUYING_PARTY = 'BY';
+    const TYPE_REMIT_TO     = 'RI';
 
     const LOCATION_QUALIFIER_BUYER = '92';
 
@@ -77,7 +78,13 @@ class Address implements ExportsXmlInterface, ImportsXmlInterface
      */
     public function exportToXml(SimpleXMLElement $parent): SimpleXMLElement
     {
-        $allowedTypes = [self::TYPE_SHIP_FROM, self::TYPE_SHIP_TO, self::TYPE_BUYING_PARTY, self::TYPE_BILL_TO];
+        $allowedTypes = [
+            self::TYPE_SHIP_FROM,
+            self::TYPE_SHIP_TO,
+            self::TYPE_BUYING_PARTY,
+            self::TYPE_BILL_TO,
+            self::TYPE_REMIT_TO
+        ];
         if ($this->xmlRootName == 'Address' && !in_array($this->typeCode, $allowedTypes)) {
             throw new ElementInvalid($this->xmlRootName . ': Invalid AddressTypeCode.');
         }

@@ -50,4 +50,19 @@ class OrderLineItemTest extends TestCase
         $this->assertSame('08', $line->productCode);
         $this->assertSame('GRMT SOAP BBNOAK BRL10OZ', $line->productDescription);
     }
+
+    public function testImportFromXmlNoLSN(): void
+    {
+        $xml = new SimpleXMLElement('<LineItem>
+            <OrderLine>
+                <BuyerPartNumber>9707209</BuyerPartNumber>
+                <VendorPartNumber>1691-H-103</VendorPartNumber>
+            </OrderLine>
+        </LineItem>');
+
+        $line = new OrderLineItem();
+        $line->importFromXml($xml);
+        $this->assertEmpty($line->sequenceNumber);
+        $this->assertSame(1, $line->sequenceNumberLength);
+    }
 }
