@@ -42,6 +42,7 @@ class InvoiceHeader implements ExportsXmlInterface
         'KC' => 'Contract',
         'KN' => 'Cross Dock',
         'NS' => 'New Store Order',
+        'NE' => 'New Store Order',
         'OS' => 'Special Order',
         'PR' => 'Promotion Information',
         'RE' => 'Reorder',
