@@ -40,7 +40,7 @@ abstract class IncomingDocument extends AbstractDocument
         if (!$this->sftp) {
             throw new Exception('SFTP client has not been set.');
         }
-        $result = $this->sftp->chdir($remoteDirectory);
+        $result = $this->sftp->chdir('/' . ltrim($remoteDirectory, '/'));
         if (!$result) {
             throw new CommandFailed('Could not change to remote directory.');
         }
