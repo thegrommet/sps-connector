@@ -109,7 +109,19 @@ class Address implements ExportsXmlInterface, ImportsXmlInterface
             throw new ElementNotSet(sprintf($this->xmlRootName . ': %s must be set.', $name));
         }
         if ($value) {
-            $parent->addChild($name, preg_replace('/[\x00-\x1F\x7F]/', '', $value));  // remove control characters
+            $parent->addChild($name, $this->prepareXmlValue($value));
         }
+    }
+
+    /**
+     * Format an XML value and strip it of illegal chars.
+     *
+     * @todo This formatting should happen for all XML element in this library - not just this class.
+     * @param mixed $value
+     * @return string
+     */
+    protected function prepareXmlValue($value): string
+    {
+        return htmlspecialchars(preg_replace('/[\x00-\x1F\x7F]/', '', $value));
     }
 }

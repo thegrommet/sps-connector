@@ -51,7 +51,7 @@ class AddressTest extends TestCase
         $address->exportToXml($xml);
         $this->assertSame(Address::TYPE_SHIP_FROM, (string)$xml->Address->AddressTypeCode);
         $this->assertSame('012', (string)$xml->Address->AddressLocationNumber);
-        $this->assertSame('Main Warehouse', (string)$xml->Address->AddressName);
+        $this->assertSame('Main & Warehouse', (string)$xml->Address->AddressName);
         $this->assertSame('123 Main', (string)$xml->Address->Address1);
         $this->assertSame('Suite B', (string)$xml->Address->Address2);
         $this->assertSame('Boulder', (string)$xml->Address->City);
@@ -67,7 +67,7 @@ class AddressTest extends TestCase
         $address->typeCode = '';  // not required for addresses with a different root
         $xml = new SimpleXMLElement('<address/>');
         $address->exportToXml($xml);
-        $this->assertSame('Main Warehouse', (string)$xml->ShipFromAddress->AddressName);
+        $this->assertSame('Main & Warehouse', (string)$xml->ShipFromAddress->AddressName);
     }
 
     public function testExportToXmlOmitted(): void
@@ -127,7 +127,7 @@ class AddressTest extends TestCase
         $address = new Address();
         $address->typeCode = Address::TYPE_SHIP_FROM;
         $address->locationNumber = '012';
-        $address->name = 'Main Warehouse';
+        $address->name = 'Main & Warehouse';
         $address->street1 = '123 Main';
         $address->street2 = 'Suite B';
         $address->city = 'Boulder';
