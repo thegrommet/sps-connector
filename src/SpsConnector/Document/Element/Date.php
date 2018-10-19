@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace SpsConnector\Document\Element;
 
+use DateTime;
 use SimpleXMLElement;
 use SpsConnector\Document\Exception\ElementInvalid;
 use SpsConnector\Document\Exception\ElementNotSet;
@@ -134,8 +135,18 @@ class Date implements ExportsXmlInterface, ImportsXmlInterface
         return $this->qualifiers[$qualifier] ?? '';
     }
 
+    /**
+     * Get a DateTime representation of this element's date.
+     *
+     * @return DateTime
+     */
+    public function asDateTime(): DateTime
+    {
+        return new DateTime($this->date ?: 'now');
+    }
+
     public function timestamp(): int
     {
-        return (int)$this->formatDate($this->date, 'U');
+        return $this->asDateTime()->getTimestamp();
     }
 }

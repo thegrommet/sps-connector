@@ -76,6 +76,13 @@ class DateTest extends TestCase
         $this->assertSame('', $date->qualifierLabel('BOGUS'));
     }
 
+    public function testAsDateTime(): void
+    {
+        $date = new Date('010', '2018-08-12');
+        $dt = $date->asDateTime();
+        $this->assertInstanceOf(\DateTime::class, $dt);
+    }
+
     public function testTimestamp(): void
     {
         $date = new Date('010', '2018-08-12');

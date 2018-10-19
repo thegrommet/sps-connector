@@ -246,11 +246,26 @@ class PurchaseOrder extends IncomingDocument implements DocumentInterface
         return null;
     }
 
-    public function requestedShipDate(): ?string
+    /**
+     * Get the requested ship date. Offset allows to deduct a given number of days from the date.
+     *
+     * @param int $offset
+     * @return null|string
+     */
+    public function requestedShipDate(int $offset = 0): ?string
     {
-        $date = $this->dateByQualifier(Date::QUALIFIER_REQUESTED_SHIP);
-        if ($date && $date->timestamp() > time()) {
-            return $date->date;
+        $dateElement = $this->dateByQualifier(Date::QUALIFIER_REQUESTED_SHIP);
+        if (!$dateElement) {
+            return null;
+        }
+        $date = $dateElement->asDateTime();
+        if ($offset > 0) {
+            $date->sub(new \DateInterval('P' . (string)$offset . 'D'));
+        } elseif ($offset < 0) {
+            $date->add(new \DateInterval('P' . (string)abs($offset) . 'D'));
+        }
+        if ($date->getTimestamp() > time()) {
+            return $date->format(self::DATE_FORMAT);
         }
         return null;
     }
