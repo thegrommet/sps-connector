@@ -16,41 +16,50 @@ class Pack implements ExportsXmlInterface
     const TYPE_PALLET  = 'T';
 
     public $type;
+    public $sscc;
     public $gs1CompanyPrefix;
     public $serialReference;
     public $extensionDigit;
     public $carrierPackageId;
 
-    public function __construct(
-        string $type,
-        string $gs1CompanyPrefix,
-        string $serialReference,
-        string $extensionDigit = '0',
-        string $carrierPackageId = null
-    ) {
+    public function __construct(string $type = null)
+    {
         $this->type = $type;
-        $this->gs1CompanyPrefix = $gs1CompanyPrefix;
-        $this->serialReference = $serialReference;
-        $this->extensionDigit = $extensionDigit;
-        $this->carrierPackageId = $carrierPackageId;
     }
 
+    /**
+     * Attributes sscc or (gs1CompanyPrefix and serialReference) must be set. If the latter two are set, an SSCC will be
+     * generated.
+     *
+     * @param SimpleXMLElement $parent
+     * @return SimpleXMLElement
+     */
     public function exportToXml(SimpleXMLElement $parent): SimpleXMLElement
     {
         if ($this->type != self::TYPE_PACKAGE && $this->type != self::TYPE_PALLET) {
             throw new ElementInvalid('Pack: Invalid PackLevelType.');
         }
-        if (!$this->gs1CompanyPrefix || !$this->serialReference) {
-            throw new ElementInvalid('Pack: GS1 Company Prefix and Serial Reference must be set for SSCC generation.');
+        if (!$this->sscc && (!$this->gs1CompanyPrefix || !$this->serialReference)) {
+            throw new ElementInvalid('Pack: SSCC is not set and cannot be generated.');
         }
-        try {
-            $sscc = self::generateSSCC($this->gs1CompanyPrefix, $this->serialReference, $this->extensionDigit);
-        } catch (Exception $e) {
-            throw new ElementInvalid('Pack: ' . $e->getMessage());
+        if ($this->sscc) {
+            if (!self::validateSSCC($this->sscc)) {
+                throw new ElementInvalid('Pack: SSCC is invalid.');
+            }
+        } else {
+            try {
+                $this->sscc = self::generateSSCC(
+                    $this->gs1CompanyPrefix,
+                    $this->serialReference,
+                    $this->extensionDigit
+                );
+            } catch (Exception $e) {
+                throw new ElementInvalid('Pack: ' . $e->getMessage());
+            }
         }
         $root = $parent->addChild('Pack');
         $root->addChild('PackLevelType', $this->type);
-        $root->addChild('ShippingSerialID', $sscc);
+        $root->addChild('ShippingSerialID', $this->sscc);
         if ($this->carrierPackageId) {
             $root->addChild('CarrierPackageID', $this->carrierPackageId);
         }
@@ -93,5 +102,16 @@ class Pack implements ExportsXmlInterface
             $check = 0;
         }
         return '00' . implode('', $digits) . (string)$check;
+    }
+
+    /**
+     * Simple string validation for an SSCC.
+     *
+     * @param string $sscc
+     * @return bool
+     */
+    public static function validateSSCC(string $sscc): bool
+    {
+        return is_numeric($sscc) && strlen($sscc) == 20 && substr($sscc, 0, 2) == '00';
     }
 }
