@@ -247,7 +247,7 @@ class PurchaseOrder extends IncomingDocument implements DocumentInterface
     }
 
     /**
-     * Get the requested ship date. Offset allows to deduct a given number of days from the date.
+     * Get the requested ship date. Offset allows to add/deduct a given number of days from the date.
      *
      * @param int $offset
      * @return null|string
@@ -260,9 +260,9 @@ class PurchaseOrder extends IncomingDocument implements DocumentInterface
         }
         $date = $dateElement->asDateTime();
         if ($offset > 0) {
-            $date->sub(new \DateInterval('P' . (string)$offset . 'D'));
+            $date->add(new \DateInterval('P' . (string)$offset . 'D'));
         } elseif ($offset < 0) {
-            $date->add(new \DateInterval('P' . (string)abs($offset) . 'D'));
+            $date->sub(new \DateInterval('P' . (string)abs($offset) . 'D'));
         }
         if ($date->getTimestamp() > time()) {
             return $date->format(self::DATE_FORMAT);

@@ -160,7 +160,7 @@ class PurchaseOrderTest extends TestCase
     public function testRequestedShipDateOffset(): void
     {
         $document = $this->document();
-        $this->assertSame('2022-05-25', $document->requestedShipDate(2));
+        $this->assertSame('2022-05-25', $document->requestedShipDate(-2));
 
         $document->setXml('<Order>
             <Header>
@@ -170,7 +170,7 @@ class PurchaseOrderTest extends TestCase
                 </Dates>
             </Header>
         </Order>');
-        $this->assertSame('2022-05-28', $document->requestedShipDate(-1));
+        $this->assertSame('2022-05-28', $document->requestedShipDate(1));
     }
 
     public function testItems(): void
