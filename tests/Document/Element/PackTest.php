@@ -28,8 +28,7 @@ class PackTest extends TestCase
         $this->assertSame('7123456', (string)$xml->Pack->CarrierPackageID);
 
         // provided SSCC
-        $pack = new Pack('P');
-        $pack->sscc = '00000000001000000014';
+        $pack = new Pack('P', '00000000001000000014');
         $xml = new SimpleXMLElement('<root/>');
         $pack->exportToXml($xml);
         $this->assertSame('P', (string)$xml->Pack->PackLevelType);

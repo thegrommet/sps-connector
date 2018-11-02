@@ -22,9 +22,10 @@ class Pack implements ExportsXmlInterface
     public $extensionDigit;
     public $carrierPackageId;
 
-    public function __construct(string $type = null)
+    public function __construct(string $type = null, string $sscc = null)
     {
         $this->type = $type;
+        $this->sscc = $sscc;
     }
 
     /**
