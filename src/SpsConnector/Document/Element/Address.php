@@ -10,7 +10,7 @@ use SpsConnector\Document\Exception\ElementNotSet;
 /**
  * Address element
  */
-class Address implements ExportsXmlInterface, ImportsXmlInterface
+class Address extends AbstractElement implements ExportsXmlInterface, ImportsXmlInterface
 {
     const TYPE_BILL_TO      = 'BT';
     const TYPE_SHIP_TO      = 'ST';
@@ -116,12 +116,12 @@ class Address implements ExportsXmlInterface, ImportsXmlInterface
     /**
      * Format an XML value and strip it of illegal chars.
      *
-     * @todo This formatting should happen for all XML element in this library - not just this class.
+     * @todo This formatting should happen for all XML elements in this library - not just this class.
      * @param mixed $value
      * @return string
      */
     protected function prepareXmlValue($value): string
     {
-        return htmlspecialchars(preg_replace('/[\x00-\x1F\x7F]/', '', $value));
+        return htmlspecialchars($this->filterForEdi($value));
     }
 }
