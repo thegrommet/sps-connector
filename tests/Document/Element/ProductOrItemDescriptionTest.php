@@ -25,7 +25,7 @@ class ProductOrItemDescriptionTest extends TestCase
         $item = new ProductOrItemDescription("My & test* +product\r");
         $xml = new SimpleXMLElement('<address/>');
         $item->exportToXml($xml);
-        $this->assertSame('My & test product', (string)$xml->ProductOrItemDescription->ProductDescription);
+        $this->assertSame('My & test +product', (string)$xml->ProductOrItemDescription->ProductDescription);
     }
 
     public function testExportToXmlLongDescription(): void
@@ -36,7 +36,7 @@ class ProductOrItemDescriptionTest extends TestCase
         $xml = new SimpleXMLElement('<address/>');
         $item->exportToXml($xml);
         $this->assertSame(
-            'F\'lint: Retractable Lint Roller Metallic Set - Case of 42  18 Refills With Displ',
+            'F\'lint: Retractable Lint Roller Metallic Set - Case of 42 + 18 Refills With Disp',
             (string)$xml->ProductOrItemDescription->ProductDescription
         );
     }

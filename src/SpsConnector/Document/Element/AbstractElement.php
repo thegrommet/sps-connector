@@ -7,7 +7,7 @@ namespace SpsConnector\Document\Element;
  */
 abstract class AbstractElement
 {
-    const EDI_ALLOW_REGEX = '/[^a-z0-9 \-_:\.,!\'"&#\$]/i';
+    const EDI_ALLOW_REGEX = '/[^a-z0-9 \-_:\.,!\'"&#\$+]/i';
 
     /**
      * Removes characters not allowed in EDI transmission.
