@@ -22,10 +22,14 @@ class ProductOrItemDescriptionTest extends TestCase
 
     public function testExportToXmlBadCharStrip(): void
     {
-        $item = new ProductOrItemDescription("My & test* +product\r");
+        $item = new ProductOrItemDescription("Test*(){}[]?|\r");
         $xml = new SimpleXMLElement('<address/>');
         $item->exportToXml($xml);
-        $this->assertSame('My & test +product', (string)$xml->ProductOrItemDescription->ProductDescription);
+        $this->assertSame('Test', (string)$xml->ProductOrItemDescription->ProductDescription);
+        $item->description = 'Test 123245-_:,.!\'"&#$+"';
+        $xml = new SimpleXMLElement('<address/>');
+        $item->exportToXml($xml);
+        $this->assertSame($item->description, (string)$xml->ProductOrItemDescription->ProductDescription);
     }
 
     public function testExportToXmlLongDescription(): void
