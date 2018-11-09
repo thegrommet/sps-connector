@@ -52,7 +52,7 @@ class InvoiceLine extends AbstractItem implements ExportsXmlInterface
         if ($required && ($value === '' || $value === null)) {
             throw new ElementNotSet(sprintf('InvoiceLine: %s must be set.', $name));
         }
-        if ($value) {
+        if ($value !== '' && $value !== null) {
             $parent->addChild($name, $value);
         }
     }
