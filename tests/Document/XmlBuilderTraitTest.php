@@ -68,6 +68,32 @@ class XmlBuilderTraitTest extends TestCase
         $this->assertCount(2, $b[0]->children());
     }
 
+    public function testRemoveElements(): void
+    {
+        $document = new XmlBuilderTraitImpl();
+        $toString = function () use ($document) {
+            return str_replace("\n", '', $document->__toString());
+        };
+        $document->addElement('A/B/C');
+        $document->removeElements('//A/B/C');
+        $this->assertSame(
+            '<?xml version="1.0"?><Test><A><B/></A></Test>',
+            $toString()
+        );
+        $document->removeElements('A/B');
+        $this->assertSame(
+            '<?xml version="1.0"?><Test><A/></Test>',
+            $toString()
+        );
+        $document = new XmlBuilderTraitImpl();
+        $document->addElement('A/B/C');
+        $document->removeElements('A/B');  // remove element with children
+        $this->assertSame(
+            '<?xml version="1.0"?><Test><A/></Test>',
+            $toString()
+        );
+    }
+
     public function testHasNode(): void
     {
         $document = new XmlBuilderTraitImpl();

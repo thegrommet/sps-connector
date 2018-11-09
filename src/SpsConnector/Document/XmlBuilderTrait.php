@@ -82,6 +82,19 @@ trait XmlBuilderTrait
         return [];
     }
 
+    /**
+     * Remove elements from the document.
+     *
+     * @param string $xpath
+     */
+    public function removeElements(string $xpath): void
+    {
+        $elements = $this->getXmlElements($xpath);
+        foreach ($elements as $index => $element) {
+            unset($element[$index]);
+        }
+    }
+
     public function __toString(): string
     {
         return $this->xml->asXML();

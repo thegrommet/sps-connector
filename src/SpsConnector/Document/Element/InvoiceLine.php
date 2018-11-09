@@ -49,7 +49,7 @@ class InvoiceLine extends AbstractItem implements ExportsXmlInterface
 
     protected function addChild(SimpleXMLElement $parent, string $name, ?string $value, bool $required = true): void
     {
-        if ($required && !$value) {
+        if ($required && ($value === '' || $value === null)) {
             throw new ElementNotSet(sprintf('InvoiceLine: %s must be set.', $name));
         }
         if ($value) {
