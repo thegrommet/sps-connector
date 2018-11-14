@@ -23,7 +23,7 @@ class InvoiceLineTest extends TestCase
         $this->assertSame('01', (string)$xml->InvoiceLine->LineSequenceNumber);
         $this->assertSame('buy123', (string)$xml->InvoiceLine->BuyerPartNumber);
         $this->assertSame('ven123', (string)$xml->InvoiceLine->VendorPartNumber);
-        $this->assertSame('con123', (string)$xml->InvoiceLine->ConsumerPackageCode);
+        $this->assertSame('123456789012', (string)$xml->InvoiceLine->ConsumerPackageCode);
         $this->assertSame(40, (int)$xml->InvoiceLine->InvoiceQty);
         $this->assertSame('EA', (string)$xml->InvoiceLine->InvoiceQtyUOM);
         $this->assertSame(13.99, (float)$xml->InvoiceLine->PurchasePrice);
@@ -58,6 +58,30 @@ class InvoiceLineTest extends TestCase
         $line->exportToXml($xml);
     }
 
+    /**
+     * @dataProvider invalidCPCProvider
+     * @param string $cpc
+     */
+    public function testExportToXmlInvalidCPC(string $cpc): void
+    {
+        $line = new InvoiceLine();
+        $line->consumerPackageCode = $cpc;
+        $xml = new SimpleXMLElement('<root/>');
+        $this->expectException(ElementInvalid::class);
+        $this->expectExceptionMessage('InvoiceLine: ConsumerPackageCode must be between 12 and 14 numeric characters.');
+        $line->exportToXml($xml);
+    }
+
+    public function invalidCPCProvider(): array
+    {
+        return [
+            ['non-numeric'],
+            ['12345678901x'],
+            ['12345'],  // too short
+            ['1234567890123456789'],  // too long
+        ];
+    }
+
     private function invoiceLine(): InvoiceLine
     {
         $line = new InvoiceLine();
@@ -65,7 +89,7 @@ class InvoiceLineTest extends TestCase
         $line->sequenceNumberLength = 2;
         $line->buyerPartNumber = 'buy123';
         $line->vendorPartNumber = 'ven123';
-        $line->consumerPackageCode = 'con123';
+        $line->consumerPackageCode = '123456789012';
         $line->invoiceQty = 40;
         $line->invoiceQtyUOM = 'EA';
         $line->purchasePrice = 13.99;

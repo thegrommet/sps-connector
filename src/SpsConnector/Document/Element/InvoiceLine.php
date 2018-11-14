@@ -32,6 +32,10 @@ class InvoiceLine extends AbstractItem implements ExportsXmlInterface
         if ($this->invoiceQtyUOM != self::UOM_EACH || $this->shipQtyUOM != self::UOM_EACH) {
             throw new ElementInvalid('InvoiceLine: UOM attributes must be in EA.');
         }
+        if (empty($this->consumerPackageCode) || !is_numeric($this->consumerPackageCode)
+            || strlen($this->consumerPackageCode) < 12 || strlen($this->consumerPackageCode) > 14) {
+            throw new ElementInvalid('InvoiceLine: ConsumerPackageCode must be between 12 and 14 numeric characters.');
+        }
         $root = $parent->addChild('InvoiceLine');
         $this->addChild($root, 'LineSequenceNumber', $this->formatSequenceNumber());
         $this->addChild($root, 'BuyerPartNumber', $this->buyerPartNumber, false);
