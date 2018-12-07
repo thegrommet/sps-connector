@@ -15,7 +15,9 @@ class ChargesAllowances implements ExportsXmlInterface
     const INDICATOR_CHARGE     = 'C';
     const INDICATOR_ALLOWANCE  = 'A';
     const CODE_DISCOUNT        = 'C310';
+    const CODE_DISCOUNT_ADDL   = 'C300';
     const CODE_FREIGHT         = 'D240';
+    const CODE_CREDIT          = 'B800';
     const HANDLING_CODE_VENDOR = '05';
     const HANDLING_CODE_BUYER  = '06';
 
@@ -24,19 +26,22 @@ class ChargesAllowances implements ExportsXmlInterface
     public $amount;
     public $handlingCode;
     public $handlingDescription;
+    public $agencyCode;
 
     public function __construct(
         string $indicator,
         string $code,
         float $amount,
         string $handlingCode = null,
-        string $handlingDescription = null
+        string $handlingDescription = null,
+        string $agencyCode = null
     ) {
         $this->indicator = $indicator;
         $this->code = $code;
         $this->amount = $amount;
         $this->handlingCode = $handlingCode;
         $this->handlingDescription = $handlingDescription;
+        $this->agencyCode = $agencyCode;
     }
 
     public function exportToXml(SimpleXMLElement $parent): SimpleXMLElement
@@ -50,6 +55,7 @@ class ChargesAllowances implements ExportsXmlInterface
         $this->addChild($root, 'AllowChrgAmt', (string)round($this->amount, 2));
         $this->addChild($root, 'AllowChrgHandlingCode', $this->handlingCode, false);
         $this->addChild($root, 'AllowChrgHandlingDescription', $this->handlingDescription, false);
+        $this->addChild($root, 'AllowChrgAgencyCode', $this->agencyCode, false);
 
         return $root;
     }

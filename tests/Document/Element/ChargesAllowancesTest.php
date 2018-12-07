@@ -15,7 +15,7 @@ class ChargesAllowancesTest extends TestCase
 {
     public function testExportToXml(): void
     {
-        $pd = new ChargesAllowances('C', 'D240', 20, '05', 'Freight');
+        $pd = new ChargesAllowances('C', 'D240', 20, '05', 'Freight', 'ZZ');
         $xml = new SimpleXMLElement('<root/>');
         $pd->exportToXml($xml);
         $this->assertSame('C', (string)$xml->ChargesAllowances->AllowChrgIndicator);
@@ -23,6 +23,7 @@ class ChargesAllowancesTest extends TestCase
         $this->assertSame('20', (string)$xml->ChargesAllowances->AllowChrgAmt);
         $this->assertSame('05', (string)$xml->ChargesAllowances->AllowChrgHandlingCode);
         $this->assertSame('Freight', (string)$xml->ChargesAllowances->AllowChrgHandlingDescription);
+        $this->assertSame('ZZ', (string)$xml->ChargesAllowances->AllowChrgAgencyCode);
     }
 
     public function testExportToXmlInvalidIndicator(): void
