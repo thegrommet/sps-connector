@@ -6,21 +6,11 @@ version: 2
 jobs:
   build:
     docker:
-      # specify the version you desire here
-      - image: circleci/php:7.1-cli-node-browsers
-
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
-      # - image: circleci/mysql:9.4
+      - image: dailygrommet/php-cli-base
 
     working_directory: ~/repo
 
     steps:
-      - run:
-          name: Install PHP Extensions
-          command: sudo apt-get update && sudo apt-get install -y libxml2-dev && sudo docker-php-ext-install soap
-
       - checkout
 
       # Download and cache dependencies
@@ -41,8 +31,8 @@ jobs:
 
       - run:
           name: CodeSniff
-          command: ./vendor/bin/phpcs --standard=PSR12 ./src
+          command: composer cs
 
       - run:
           name: PHPUnit
-          command: ./vendor/bin/phpunit
+          command: composer test
