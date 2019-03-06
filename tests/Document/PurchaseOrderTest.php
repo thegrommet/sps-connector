@@ -32,6 +32,29 @@ class PurchaseOrderTest extends TestCase
     {
         $document = $this->document();
         $this->assertSame('PO584615-1', $document->poNumber());
+
+        $document->setXml('<Order>
+            <Header>
+                <OrderHeader>
+                    <TradingPartnerId>525GROMM</TradingPartnerId>
+                    <PurchaseOrderNumber>PO584615_1</PurchaseOrderNumber>
+                </OrderHeader>
+            </Header>
+        </Order>');
+
+        $this->assertSame('PO584615', $document->poNumber());
+
+        $document->setXml('<Order>
+            <Header>
+                <OrderHeader>
+                    <TradingPartnerId>525GROMM</TradingPartnerId>
+                    <PurchaseOrderNumber>PO584615_ASDF_ASDF</PurchaseOrderNumber>
+                </OrderHeader>
+            </Header>
+        </Order>');
+
+        $this->assertSame('PO584615', $document->poNumber());
+
     }
 
     public function testPoDate(): void
@@ -44,6 +67,32 @@ class PurchaseOrderTest extends TestCase
     {
         $document = $this->document();
         $this->assertSame('525GROMM', $document->tradingPartnerId());
+    }
+
+    public function testIsMultiStore(): void
+    {
+        $document = $this->document();
+        $this->assertFalse($document->isMultiStore());
+
+        $document->setXml('<Order>
+            <Header>
+                <OrderHeader>
+                    <TradingPartnerId>525GROMM</TradingPartnerId>
+                    <PurchaseOrderNumber>PO584615_1</PurchaseOrderNumber>
+                </OrderHeader>
+            </Header>
+        </Order>');
+        $this->assertTrue($document->isMultiStore());
+
+        $document->setXml('<Order>
+            <Header>
+                <OrderHeader>
+                    <TradingPartnerId>525GROMM</TradingPartnerId>
+                    <PurchaseOrderNumber>PO584615_ASDF_ASDF</PurchaseOrderNumber>
+                </OrderHeader>
+            </Header>
+        </Order>');
+        $this->assertTrue($document->isMultiStore());
     }
 
     public function testContactByType(): void

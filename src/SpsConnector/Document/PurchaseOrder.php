@@ -95,7 +95,11 @@ class PurchaseOrder extends IncomingDocument implements DocumentInterface
 
     public function poNumber(): string
     {
-        return (string)$this->getXmlData('//Order/Header/OrderHeader/PurchaseOrderNumber');
+        $po = (string)$this->getXmlData('//Order/Header/OrderHeader/PurchaseOrderNumber');
+        if (strpos($po, '_') !== false) {
+            return current(explode('_', $po));
+        }
+        return $po;
     }
 
     public function poDate(): string
@@ -106,6 +110,16 @@ class PurchaseOrder extends IncomingDocument implements DocumentInterface
     public function tradingPartnerId(): string
     {
         return (string)$this->getXmlData('//Order/Header/OrderHeader/TradingPartnerId');
+    }
+
+    /**
+     * Multi-store orders have a consistent PO prefix separated with an underscore.
+     *
+     * @return bool
+     */
+    public function isMultiStore(): bool
+    {
+        return strpos((string)$this->getXmlData('//Order/Header/OrderHeader/PurchaseOrderNumber'), '_') !== false;
     }
 
     /**
